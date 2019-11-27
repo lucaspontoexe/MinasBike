@@ -10,6 +10,10 @@ Follow these steps to install and start the app:
 ```
 docker run --name database  -e POSTGRES_PASSWORD=minasbike -p 5433:5432 -d postgres:11
 ```
+
+You must create a database manually (you can use postbird).
+
+You must run the command ```yarn sequelize db:migrate```
 OBS: the container will point the database to the port 5433 of your machine.
 
 
