@@ -1,0 +1,10 @@
+import React from 'react'
+
+export default function Login({ history }) {
+    return (
+        <div>
+            Login
+            <button onClick={() => history.push('/lista')}>botão</button>
+        </div>
+    )
+}
