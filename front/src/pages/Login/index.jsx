@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default function Login({ history }) {
     return (
@@ -6,5 +6,5 @@ export default function Login({ history }) {
             Login
             <button onClick={() => history.push('/lista')}>botão</button>
         </div>
-    )
+    );
 }

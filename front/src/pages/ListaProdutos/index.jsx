@@ -1,14 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-export default function ListaProdutos() {
+export default function ListaProdutos({ history }) {
     return (
         <div>
             uma lista de produtos aparece aqui
-
-            <button>botão 1</button>
+            <button onClick={() => history.push('/novo')}>Cadastrar produto</button>
             <button>botão 2</button>
-
-
             <div className="table">
                 <tr>
                     <th>Cabeçalho A</th>
@@ -27,5 +24,5 @@ export default function ListaProdutos() {
                 </tr>
             </div>
         </div>
-    )
+    );
 }
