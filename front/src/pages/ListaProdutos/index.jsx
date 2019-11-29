@@ -1,11 +1,12 @@
 import React from 'react';
+import Button from '../../components/Button';
 
 export default function ListaProdutos({ history }) {
     return (
         <div>
             uma lista de produtos aparece aqui
-            <button onClick={() => history.push('/novo')}>Cadastrar produto</button>
-            <button>botão 2</button>
+            <Button color="#aabb00" onClick={() => history.push('/novo')}>Cadastrar produto</Button>
+            <Button>botão 2</Button>
             <div className="table">
                 <tr>
                     <th>Cabeçalho A</th>
