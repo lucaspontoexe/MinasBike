@@ -1,9 +1,11 @@
-import React from 'react'
-import 'style.css'
+import React from 'react';
+import './style.css';
 
-export default function Button({children, color, textColor, onClick}) {
+export default function Button(props) {
+    const { children, color, textColor } = props;
     return (
-
-    <button style={{backgroundColor: color, color: textColor}} onClick={onClick}>{children}</button>
-    )
+        <button {...props} style={{ backgroundColor: color, color: textColor }}>
+            {children}
+        </button>
+    );
 }
