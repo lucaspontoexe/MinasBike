@@ -4,7 +4,7 @@ export default class CadastroProdutos extends Component {
     render() {
         return (
             <div>
-                cadastrando esteja
+                Tela de Cadastro
             </div>
         )
     }
