@@ -6,10 +6,10 @@ export default function ListaProdutos({ history }) {
     return (
         <div>
             uma lista de produtos aparece aqui
-            <Button color="#aabb00" onClick={() => history.push('/novo')}>
+            <Button onClick={() => history.push('/novo')}>
                 Cadastrar produto
             </Button>
-            <Button onDoubleClick={() => alert('eh')}>botão 2</Button>
+            <Button>botão 2</Button>
             <table className="table">
                 <thead>
                     <tr>
