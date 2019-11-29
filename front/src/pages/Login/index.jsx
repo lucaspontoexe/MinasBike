@@ -4,9 +4,13 @@ import Button from '../../components/Button';
 import TextBox from '../../components/TextBox';
 
 export default function Login({ history }) {
+    function handleSubmit() {
+        history.push('/lista');
+    }
+
     return (
         <div>
-            <form action="">
+            <form onSubmit={handleSubmit}>
                 <TextBox
                     name="user"
                     type="email"
