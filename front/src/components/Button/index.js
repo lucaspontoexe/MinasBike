@@ -1,4 +1,3 @@
-// styled-components foi um teste. dá pra usar só CSS tranquilamente.
 import styled from 'styled-components';
 
 const Button = styled.button`
