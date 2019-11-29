@@ -9,7 +9,7 @@ export default function Login({ history }) {
     }
 
     return (
-        <div>
+        <div class="login-screen">
             <form onSubmit={handleSubmit}>
                 <TextBox
                     name="user"
