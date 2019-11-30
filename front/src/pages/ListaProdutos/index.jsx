@@ -9,7 +9,7 @@ export default function ListaProdutos({ history }) {
             <Button onClick={() => history.push('/novo')}>
                 Cadastrar produto
             </Button>
-            <Button>botão 2</Button>
+            <Button>Gerar Relatório</Button>
             <table className="table">
                 <thead>
                     <tr>
