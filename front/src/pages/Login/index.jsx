@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import Button from '../../components/Button';
 import TextBox from '../../components/TextBox';
 import './styles.css';
@@ -28,7 +29,9 @@ export default function Login({ history }) {
                 />
 
                 <Button type="submit" color="#8ee88c">Entrar</Button>
+
             </form>
+                <Link to="/recuperar">Esqueci minha senha</Link>
         </div>
     );
 }
