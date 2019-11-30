@@ -1,1 +1,27 @@
+table {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-spacing: 0;
+    font-size: 18px;
+}
 
+table thead > tr {
+    background: crimson;
+    color: white;
+}
+
+table tbody tr:nth-child(even) {
+    background: whitesmoke;
+}
+
+table tbody tr:nth-child(even) {
+    background: #cccccc;
+}
+
+tr {
+    height: 48px;
+}
+
+th, td {
+    padding: 20px;
+}
