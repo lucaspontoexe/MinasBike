@@ -1,7 +1,7 @@
 import React from 'react';
-import './styles.css';
 import Button from '../../components/Button';
 import TextBox from '../../components/TextBox';
+import './styles.css';
 
 export default function Login({ history }) {
     function handleSubmit() {

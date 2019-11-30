@@ -1,6 +1,6 @@
 import React from 'react';
-import './styles.css';
 import Button from '../../components/Button';
+import './styles.css';
 
 export default function ListaProdutos({ history }) {
     return (
