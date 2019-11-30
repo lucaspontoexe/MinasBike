@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../../components/Button';
 import TextBox from '../../components/TextBox';
+
+import api from '../../services/api';
 import './styles.css';
 
 export default function Login({ history }) {
-    function handleSubmit() {
+    // dá-lhe hooks
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        // dá pra usar try/catch ou then/catch
+        const response = await api.post('/sessions', {
+            email,
+            password,
+        });
+
+        console.log(response.data);
+        const { token } = response.data;
+        localStorage.setItem('token', token);
         history.push('/lista');
     }
 
     return (
-        <div class="login-screen">
+        <div className="login-screen">
             <form onSubmit={handleSubmit}>
                 <TextBox
                     name="user"
@@ -18,6 +35,9 @@ export default function Login({ history }) {
                     placeholder="user@example.com"
                     required
                     autoFocus
+                    // saudades do 2-way binding Daquele framework
+                    value={email}
+                    onChange={event => setEmail(event.target.value)}
                 />
 
                 <TextBox
@@ -25,9 +45,13 @@ export default function Login({ history }) {
                     type="password"
                     label="Senha"
                     required
+                    value={password}
+                    onChange={event => setPassword(event.target.value)}
                 />
 
-                <Button type="submit" color="#8ee88c">Entrar</Button>
+                <Button type="submit" color="#8ee88c">
+                    Entrar
+                </Button>
             </form>
         </div>
     );
