@@ -10,19 +10,21 @@ export default function Login({ history }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    async function handleSubmit(event) {
+    function handleSubmit(event) {
         event.preventDefault();
 
-        // dá pra usar try/catch ou then/catch
-        const response = await api.post('/sessions', {
+        // dá pra usar try/catch (com async/await) ou só then/catch
+        api.post('/sessions', {
             email,
             password,
-        });
+        })
 
-        console.log(response.data);
-        const { token } = response.data;
-        localStorage.setItem('token', token);
-        history.push('/lista');
+            .then(response => {
+                localStorage.setItem('token', response.data.token);
+                history.push('/lista');
+            })
+
+            .catch(error => console.log(error.response));
     }
 
     return (
