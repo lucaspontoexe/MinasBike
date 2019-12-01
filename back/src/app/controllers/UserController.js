@@ -3,12 +3,9 @@ import User from '../models/User';
 
 class UserController {
   async index(req, res) {
-    try {
-      const users = await User.findAll();
-      return res.json(users);
-    } catch (error) {
-      return res.status(400).json({ error: 'no users' });
-    }
+    const users = await User.findAll();
+
+    return res.json(users);
   }
 
   async store(req, res) {
