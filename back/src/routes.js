@@ -7,8 +7,8 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
-routes.get('/users', (req, res) => {
-  res.json({ messsage: 'It is working' })
+routes.get('/', (req, res) => {
+  res.json({ messsage: 'It is working' });
 });
 
 routes.get('/users', UserController.index);
