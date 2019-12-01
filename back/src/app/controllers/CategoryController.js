@@ -65,6 +65,10 @@ class CategoryController {
   async delete(req, res) {
     const category = await Category.findByPk(req.params.id);
 
+    if (!category) {
+      res.status(400).json({ error: 'category do not exists' });
+    }
+
     await category.destroy();
 
     return res.json({ message: 'category deleted' });
