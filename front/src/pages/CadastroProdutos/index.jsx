@@ -6,10 +6,29 @@ export default class CadastroProdutos extends Component {
         return (
             <div>
                 Tela de Cadastro
+                <TextBox label="Nome do Produto" type="text" />
                 <TextBox
-                    label="hmm"
-                    list="teste"
-                    options={['Carro', 'Moto', 'Bicicleta', 'Qualquer Coisa']}
+                    label="Categoria"
+                    type="text"
+                    list="categorias"
+                    options={['Categoria A', 'Categoria B', 'Peças']}
+                />
+                <TextBox
+                    label="Fornecedor"
+                    type="text"
+                    list="fornecedores"
+                    options={["Fulano's Bikes", "Fulano's Peças"]}
+                />
+                <TextBox type="number" label="Código de Barras" />
+                <TextBox
+                    label="Marca"
+                    type="text"
+                    list="marcas"
+                    options={[
+                        'Shimano',
+                        'Outra coisa',
+                        'Mais marcas de Bicicleta',
+                    ]}
                 />
             </div>
         );
