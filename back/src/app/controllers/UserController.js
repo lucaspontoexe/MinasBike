@@ -14,7 +14,7 @@ class UserController {
   async store(req, res) {
     // check all the fields requirements
     const schema = Yup.object().shape({
-      nome: Yup.string().required(),
+      name: Yup.string().required(),
       email: Yup.string()
         .email()
         .required(),
@@ -45,7 +45,7 @@ class UserController {
   async update(req, res) {
     // check all the fields requirements
     const schema = Yup.object().shape({
-      nome: Yup.string(),
+      name: Yup.string(),
       email: Yup.string().email(),
       old_password: Yup.string(),
       password: Yup.string()
@@ -87,11 +87,11 @@ class UserController {
       return res.status(400).json({ error: 'missing fields' });
     }
 
-    const { id, nome } = await user.update(req.body);
+    const { id, name } = await user.update(req.body);
 
     return res.json({
       id,
-      nome,
+      name,
       email,
     });
   }
