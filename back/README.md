@@ -42,4 +42,4 @@ yarn dev:debug
 
 ### Testing routes
 
-The routes for tests are in the following file: Insomnia_2019-11-25.json
+The routes for tests are in the following file: Insomnia_xxxx-xx-xx.json
