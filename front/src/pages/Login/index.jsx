@@ -32,7 +32,7 @@ export default function Login({ history }) {
                     Entrar
                 </Button>
             </form>
-            <Link to="/recuperar">Esqueci minha senha</Link>
+            <Link to="/cadastrar">Criar conta</Link>
         </div>
     );
 }
