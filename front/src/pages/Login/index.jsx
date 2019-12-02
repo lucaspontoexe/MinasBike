@@ -6,14 +6,12 @@ import api from '../../services/api';
 import './styles.css';
 
 export default function Login({ history }) {
-    // dá-lhe hooks
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     function handleSubmit(event) {
         event.preventDefault();
 
-        // dá pra usar try/catch (com async/await) ou só then/catch
         api.post('/sessions', {
             email,
             password,
@@ -37,7 +35,6 @@ export default function Login({ history }) {
                     placeholder="user@example.com"
                     required
                     autoFocus
-                    // saudades do 2-way binding Daquele framework
                     value={email}
                     onChange={event => setEmail(event.target.value)}
                 />
