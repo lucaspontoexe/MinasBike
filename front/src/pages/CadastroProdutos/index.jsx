@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TextBox from '../../components/TextBox';
+import Button from '../../components/Button';
 
 export default class CadastroProdutos extends Component {
     render() {
@@ -30,6 +31,20 @@ export default class CadastroProdutos extends Component {
                         'Mais marcas de Bicicleta',
                     ]}
                 />
+                
+                <div className="item">
+                <TextBox label="Quantidade por item" type="number" />
+                <TextBox label="Unidade de medida" type="text" />
+                </div>
+                
+                <TextBox label="Preço" type="number" />
+                
+                <div className="infos">
+                    informações adicionais
+                </div>
+
+                <Button type="submit" color="#8EE88C">Cadastrar</Button>
+
             </div>
         );
     }
