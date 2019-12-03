@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import api from '../../services/api'
 import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
 
@@ -8,12 +9,13 @@ export default class CadastroProdutos extends Component {
         this.state = {
             name: '',
             brand: '',
-            price: undefined,
-            code: undefined,
-            quantity_per_unity: undefined,
+            price: null,
+            code: null,
+            quantity_per_unity: null,
             unity: 'unid.',
             id_category: 1,
             id_provider: 2,
+            categoryData: {},
         };
     }
 
@@ -23,9 +25,14 @@ export default class CadastroProdutos extends Component {
         this.setState({
             [target.name]: isNumber ? parseFloat(target.value) : target.value,
         });
-
-        // console.log(this.state);
+        console.log(this.state)
     };
+
+
+    componentDidMount() {
+        api.get('/products')
+        .then( response =>  console.log(response.data))
+    }
 
     render() {
         return (
