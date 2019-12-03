@@ -7,20 +7,19 @@ export default class CadastroProdutos extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            formData: {
-                name: '',
-                brand: '',
-                price: null,
-                code: null,
-                quantity_per_unity: null,
-                unity: 'unid.',
-                id_category: 1,
-                id_provider: 2,
-            },
-            categoryData: {},
-            providersData: {},
+            name: '',
+            brand: '',
+            price: null,
+            code: null,
+            quantity_per_unity: null,
+            unity: '',
+            id_category: 1,
+            id_provider: 2,
         };
     }
+
+    categoryData = {};
+    providersData = {};
 
     handleChange = ({ target }) => {
         const isNumber = target.type === 'number';
@@ -28,62 +27,56 @@ export default class CadastroProdutos extends Component {
         // if is an ID field, change according state and return
 
         this.setState({
-            formData: {
-                [target.name]: isNumber
-                    ? parseFloat(target.value)
-                    : target.value,
-            },
+            [target.name]: isNumber ? parseFloat(target.value) : target.value,
         });
-        console.log(this.state);
     };
 
-    testChangeArray() {
-        const algo = [
-            {
-                id: 1,
-                name: 'nomeDoFornecedor',
-                contact_name: 'nomeDoContato',
-                phone: 1231231232,
-                price: 4999,
-                createdAt: '2019-12-02T22:35:41.916Z',
-                updatedAt: '2019-12-02T22:35:41.916Z',
-                id_location: 1,
-            },
-            {
-                id: 2,
-                name: "Fulano's Peças",
-                contact_name: 'Fulano',
-                phone: 40028922,
-                price: 5000,
-                createdAt: '2019-12-02T22:36:24.481Z',
-                updatedAt: '2019-12-02T22:36:24.481Z',
-                id_location: 2,
-            },
-        ];
+    handleSubmit = event => {
+        event.preventDefault();
 
-        let algo2 = []
+        const submitObject = {
+            ...this.state,
+            provider: undefined,
+            category: undefined,
+        };
 
-        for (let entry of algo) {
-            algo2.push({[entry.name]: entry.id})
+        // maybe use delete?
+
+        console.log('ohlord');
+        console.log(submitObject);
+    };
+
+    makeIDTable(objects) {
+        let finalArray = [];
+
+        for (let entry of objects) {
+            finalArray.push({ [entry.name]: entry.id });
         }
-        console.log(algo2)
+        return finalArray;
     }
 
     componentDidMount() {
-        api.get('/products').then(response => console.log(response.data));
+        // api.get('/products').then(response => console.log(response.data));
 
-        api.get('/providers').then(response =>
-            this.setState({ providersData: response.data })
-        );
-        this.testChangeArray();
+        // TODO: maybe use async/await?
+        api.get('/providers').then(response => {
+            this.providersData = this.makeIDTable(response.data);
+            console.log(this.providersData);
+        });
+
+        api.get('/categories').then(response => {
+            this.categoryData = this.makeIDTable(response.data);
+            console.log(this.categoryData);
+        });
     }
 
     render() {
         return (
-            <div
+            <form
                 className="cadastro-produtos"
                 // usando capture no div inteiro. pode-se usar o handleChange em cada campo.
                 onChangeCapture={event => this.handleChange(event)}
+                onSubmit={this.handleSubmit}
             >
                 Tela de Cadastro
                 <TextBox label="Nome do Produto" type="text" name="name" />
@@ -130,7 +123,7 @@ export default class CadastroProdutos extends Component {
                 <Button type="submit" color="#8EE88C">
                     Cadastrar
                 </Button>
-            </div>
+            </form>
         );
     }
 }
