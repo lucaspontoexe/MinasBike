@@ -15,9 +15,12 @@ export default class CadastroProdutos extends Component {
             unity: '',
             id_category: 1,
             id_provider: 2,
+            categories: [],
+            providers: [],
         };
     }
 
+    // ID tables
     categoryData = {};
     providersData = {};
 
@@ -47,27 +50,29 @@ export default class CadastroProdutos extends Component {
     };
 
     makeIDTable(objects) {
-        let finalArray = [];
+        let finalObj = {};
 
         for (let entry of objects) {
-            finalArray.push({ [entry.name]: entry.id });
+            finalObj[entry.name] = entry.id;
         }
-        return finalArray;
+        return finalObj;
     }
 
     componentDidMount() {
-        // api.get('/products').then(response => console.log(response.data));
-
         // TODO: maybe use async/await?
         api.get('/providers').then(response => {
             this.providersData = this.makeIDTable(response.data);
-            console.log(this.providersData);
+            this.setState({providers: Object.keys(this.providersData)})
+            console.log(this.state.providers);
         });
 
         api.get('/categories').then(response => {
             this.categoryData = this.makeIDTable(response.data);
-            console.log(this.categoryData);
+            this.setState({categories: Object.keys(this.categoryData)})
+            console.log(this.state.categories);
         });
+
+
     }
 
     render() {
@@ -85,14 +90,14 @@ export default class CadastroProdutos extends Component {
                     label="Categoria"
                     type="text"
                     list="categorias"
-                    options={['Categoria A', 'Categoria B', 'Peças']}
+                    options={this.state.categories}
                 />
                 <TextBox
                     name="provider"
                     label="Fornecedor"
                     type="text"
                     list="providers"
-                    options={["Fulano's Bikes", "Fulano's Peças"]}
+                    options={this.state.providers}
                 />
                 <TextBox name="code" type="number" label="Código de Barras" />
                 <TextBox
