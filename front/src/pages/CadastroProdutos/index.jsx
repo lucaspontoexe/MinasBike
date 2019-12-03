@@ -13,8 +13,6 @@ export default class CadastroProdutos extends Component {
             code: null,
             quantity_per_unity: null,
             unity: '',
-            id_category: 1,
-            id_provider: 2,
             categories: [],
             providers: [],
         };
@@ -34,19 +32,29 @@ export default class CadastroProdutos extends Component {
         });
     };
 
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault();
 
         const submitObject = {
             ...this.state,
-            provider: undefined,
+            // i'd add ID to state if textbox returned a number
+            categories: undefined,
+            providers: undefined,
             category: undefined,
+            provider: undefined,
+
+            id_provider: this.providersData[this.state.provider],
+            id_category: this.categoryData[this.state.category],
         };
 
-        // maybe use delete?
-
-        console.log('ohlord');
+        console.log('ohlord. posting: ');
         console.log(submitObject);
+        const response = await api.post('/products', submitObject, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+        console.log(response);
     };
 
     makeIDTable(objects) {
@@ -62,17 +70,15 @@ export default class CadastroProdutos extends Component {
         // TODO: maybe use async/await?
         api.get('/providers').then(response => {
             this.providersData = this.makeIDTable(response.data);
-            this.setState({providers: Object.keys(this.providersData)})
+            this.setState({ providers: Object.keys(this.providersData) });
             console.log(this.state.providers);
         });
 
         api.get('/categories').then(response => {
             this.categoryData = this.makeIDTable(response.data);
-            this.setState({categories: Object.keys(this.categoryData)})
+            this.setState({ categories: Object.keys(this.categoryData) });
             console.log(this.state.categories);
         });
-
-
     }
 
     render() {
