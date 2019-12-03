@@ -47,8 +47,7 @@ export default class CadastroProdutos extends Component {
             id_category: this.categoryData[this.state.category],
         };
 
-        console.log('ohlord. posting: ');
-        console.log(submitObject);
+        console.log('posting: ', submitObject);
         const response = await api.post('/products', submitObject, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
