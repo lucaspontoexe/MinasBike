@@ -5,19 +5,31 @@ import './styles.css';
 export default function ListaProdutos({ history }) {
     const teste = [
         {
-            heading_1: 'Teste 1',
-            heading_2: 'Isso vai ser gerado por código',
-            heading_3: 'object.keys neles',
+            header_1: 'Teste 1',
+            header_2: 'Isso vai ser gerado por código',
+            header_3: 'object.keys neles',
+            header_4: 'chaves',
+            header_5: 'chaves',
+            header_6: 'valores',
+            header_7: 'todos atentos',
         },
         {
-            heading_1: 'Teste 2',
-            heading_2: 'Isso tá sendo gerado por código',
-            heading_3: 'object.entries neles',
+            header_1: 'Teste 2',
+            header_2: 'Isso tá sendo gerado por código',
+            header_3: 'object.entries neles',
+            header_4: 'chaves',
+            header_5: 'chaves',
+            header_6: 'valores',
+            header_7: 'todos atentos',
         },
         {
-            heading_1: 'Teste 3',
-            heading_2: 'Isso foi gerado por código',
-            heading_3: 'último item',
+            header_1: 'Teste 3',
+            header_2: 'Isso foi gerado por código',
+            header_3: 'último item',
+            header_4: 'keys',
+            header_5: 'keys',
+            header_6: 'values',
+            header_7: 'everybody paying attention',
         },
     ];
 
@@ -33,17 +45,25 @@ export default function ListaProdutos({ history }) {
                 <table className="table">
                     <thead>
                         <tr>
-                            {Object.keys(teste[0]).map(key => (
+                            {/* {Object.keys(teste[0]).map(key => (
                                 <th>{key}</th>
-                            ))}
+                            ))} */}
+
+                            <th>Nome</th>
+                            <th>Marca</th>
+                            <th>Preço</th>
+                            <th>Código</th>
+                            <th>Quantidade por unidade</th>
+                            <th>Fornecedor</th>
+                            <th>Categoria</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {teste.map(row => (
-                            <tr>
-                                {Object.entries(row).map(entry => (
-                                    <td>{entry[1]}</td>
+                        {teste.map((row, index) => (
+                            <tr key={index}>
+                                {Object.entries(row).map((entry, index) => (
+                                    <td key={index}>{entry[1]}</td>
                                 ))}
                             </tr>
                         ))}

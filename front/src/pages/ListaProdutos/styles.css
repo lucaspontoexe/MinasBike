@@ -23,6 +23,11 @@ table thead > tr {
     color: white;
 }
 
+table tbody {
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
 table tbody tr:nth-child(even) {
     background: whitesmoke;
 }
@@ -43,10 +48,7 @@ td {
     border-right: 1px solid #333;
 }
 
-td:first-child {
-    border-left: 1px solid #ccc;
+td:last-child {
+    border: none;
 }
 
-td:last-child {
-    border-right: 1px solid #ccc;
-}
