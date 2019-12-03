@@ -12,8 +12,8 @@ export default function TextBox(props) {
 
             {list && (
                 <datalist id={list}>
-                    {options.map(option => (
-                        <option value={option} />
+                    {options.map((option, index) => (
+                        <option key={index} value={option} />
                     ))}
                 </datalist>
             )}
