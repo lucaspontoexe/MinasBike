@@ -26,11 +26,9 @@ export default function Login({ history }) {
             })
 
             .catch(err => {
-                setError(err.response.request.response);
-                console.log(err.response.request.response);
+                setError(err.response.data.error);
             });
     }
-
 
     return (
         <>
