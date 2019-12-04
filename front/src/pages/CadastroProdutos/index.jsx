@@ -54,6 +54,7 @@ export default class CadastroProdutos extends Component {
             },
         });
         console.log(response);
+        this.props.history.replace('/lista');
     };
 
     makeIDTable(objects) {

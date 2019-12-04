@@ -1,37 +1,21 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import api from '../../services/api'
 import Button from '../../components/Button';
 import './styles.css';
 
 export default function ListaProdutos({ history }) {
-    const teste = [
-        {
-            header_1: 'Teste 1',
-            header_2: 'Isso vai ser gerado por código',
-            header_3: 'object.keys neles',
-            header_4: 'chaves',
-            header_5: 'chaves',
-            header_6: 'valores',
-            header_7: 'todos atentos',
-        },
-        {
-            header_1: 'Teste 2',
-            header_2: 'Isso tá sendo gerado por código',
-            header_3: 'object.entries neles',
-            header_4: 'chaves',
-            header_5: 'chaves',
-            header_6: 'valores',
-            header_7: 'todos atentos',
-        },
-        {
-            header_1: 'Teste 3',
-            header_2: 'Isso foi gerado por código',
-            header_3: 'último item',
-            header_4: 'keys',
-            header_5: 'keys',
-            header_6: 'values',
-            header_7: 'everybody paying attention',
-        },
-    ];
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        mounted()
+    }, [])
+
+    async function mounted() {
+        const response = await api.get('/products')
+        setProducts(response.data)
+        console.log('mounted');
+    }
 
     return (
         <div>
@@ -60,11 +44,22 @@ export default function ListaProdutos({ history }) {
                     </thead>
 
                     <tbody>
-                        {teste.map((row, index) => (
+
+                        {products.map((row, index) => (
+                            // <tr key={index}>
+                            //     {Object.entries(row).map((entry, index) => (
+                            //         <td key={index}>{entry[1]}</td>
+                            //     ))}
+                            // </tr>
                             <tr key={index}>
-                                {Object.entries(row).map((entry, index) => (
-                                    <td key={index}>{entry[1]}</td>
-                                ))}
+                                <td>{row.name}</td>
+                                <td>{row.brand}</td>
+                                <td>{row.price}</td>
+                                <td>{row.code}</td>
+                                <td>{`${row.quantity_per_unity} ${row.unity}`}</td>
+                                {/* todo: format IDs */}
+                                <td>{row.id_provider}</td>
+                                <td>{row.id_category}</td>
                             </tr>
                         ))}
                     </tbody>
