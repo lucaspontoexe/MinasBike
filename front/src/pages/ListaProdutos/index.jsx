@@ -1,31 +1,30 @@
-import React, {useState, useEffect} from 'react';
-import api from '../../services/api'
+import React, { useState, useEffect } from 'react';
+import api from '../../services/api';
 import Button from '../../components/Button';
 import './styles.css';
 
 export default function ListaProdutos({ history }) {
-
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        mounted()
-    }, [])
+        mounted();
+    }, []);
 
     async function mounted() {
-        const response = await api.get('/products')
-        setProducts(response.data)
+        const response = await api.get('/products');
+        setProducts(response.data);
         console.log('mounted');
     }
 
     return (
-        <div>
-            uma lista de produtos aparece aqui
-            <Button onClick={() => history.push('/novo')}>
-                Cadastrar produto
-            </Button>
-            <Button>Gerar Relatório</Button>
+        <div className="lista-produtos">
             <div className="table-wrapper">
-                <header> {/* espaço para possível título */} </header>
+                <div className="buttons">
+                    <Button onClick={() => history.push('/novo')}>
+                        Cadastrar produto
+                    </Button>
+                    <Button>Gerar Relatório</Button>
+                </div>
                 <table className="table">
                     <thead>
                         <tr>
@@ -37,14 +36,13 @@ export default function ListaProdutos({ history }) {
                             <th>Marca</th>
                             <th>Preço</th>
                             <th>Código</th>
-                            <th>Quantidade por unidade</th>
+                            <th>Quantidade</th>
                             <th>Fornecedor</th>
                             <th>Categoria</th>
                         </tr>
                     </thead>
 
                     <tbody>
-
                         {products.map((row, index) => (
                             // <tr key={index}>
                             //     {Object.entries(row).map((entry, index) => (
@@ -54,7 +52,8 @@ export default function ListaProdutos({ history }) {
                             <tr key={index}>
                                 <td>{row.name}</td>
                                 <td>{row.brand}</td>
-                                <td>{row.price}</td>
+                                {/* todo: ver como fazer isso na hora de cadastrar */}
+                                <td>{`R$ ${row.price / 100}`}</td>
                                 <td>{row.code}</td>
                                 <td>{`${row.quantity_per_unity} ${row.unity}`}</td>
                                 {/* todo: format IDs */}
