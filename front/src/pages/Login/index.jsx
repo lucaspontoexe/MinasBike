@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Button from '../../components/Button';
 import TextBox from '../../components/TextBox';
 
@@ -52,6 +53,7 @@ export default function Login({ history }) {
                     Entrar
                 </Button>
             </form>
+            <Link to="/cadastrar">Criar conta</Link>
         </div>
     );
 }
