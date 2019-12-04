@@ -50,16 +50,16 @@ export default function Login({ history }) {
                     <TextBox
                         name="password"
                         type="password"
-                        label="Senha"
+                        label="Password"
                         required
                         value={password}
                         onChange={event => setPassword(event.target.value)}
                     />
                     <Button type="submit" color="#8ee88c">
-                        Entrar
+                        Log in
                     </Button>
                 </form>
-                <Link to="/cadastrar">Criar conta</Link>
+                <Link to="/cadastrar">Sign in </Link>
             </div>
         </>
     );
