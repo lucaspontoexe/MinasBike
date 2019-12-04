@@ -1,37 +1,70 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import api from '../../services/api'
 import Button from '../../components/Button';
 import './styles.css';
 
 export default function ListaProdutos({ history }) {
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        mounted()
+    }, [])
+
+    async function mounted() {
+        const response = await api.get('/products')
+        setProducts(response.data)
+        console.log('mounted');
+    }
+
     return (
         <div>
             uma lista de produtos aparece aqui
             <Button onClick={() => history.push('/novo')}>
                 Cadastrar produto
             </Button>
-            <Button>botão 2</Button>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Cabeçalho A</th>
-                        <th>Cabeçalho B</th>
-                        <th>Heading C</th>
-                    </tr>
-                </thead>
+            <Button>Gerar Relatório</Button>
+            <div className="table-wrapper">
+                <header> {/* espaço para possível título */} </header>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            {/* {Object.keys(teste[0]).map(key => (
+                                <th>{key}</th>
+                            ))} */}
 
-                <tbody>
-                    <tr>
-                        <td>Teste 1</td>
-                        <td>Isso vai ser gerado por código</td>
-                        <td>object.keys possivelmente</td>
-                    </tr>
-                    <tr>
-                        <td>Teste 2</td>
-                        <td>Isso vai ser gerado por código</td>
-                        <td>map() neles</td>
-                    </tr>
-                </tbody>
-            </table>
+                            <th>Nome</th>
+                            <th>Marca</th>
+                            <th>Preço</th>
+                            <th>Código</th>
+                            <th>Quantidade por unidade</th>
+                            <th>Fornecedor</th>
+                            <th>Categoria</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {products.map((row, index) => (
+                            // <tr key={index}>
+                            //     {Object.entries(row).map((entry, index) => (
+                            //         <td key={index}>{entry[1]}</td>
+                            //     ))}
+                            // </tr>
+                            <tr key={index}>
+                                <td>{row.name}</td>
+                                <td>{row.brand}</td>
+                                <td>{row.price}</td>
+                                <td>{row.code}</td>
+                                <td>{`${row.quantity_per_unity} ${row.unity}`}</td>
+                                {/* todo: format IDs */}
+                                <td>{row.id_provider}</td>
+                                <td>{row.id_category}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

@@ -7,3 +7,7 @@
     align-items: center;
     justify-content: center;
 }
+
+.login-screen a {
+    color: #444444;
+}

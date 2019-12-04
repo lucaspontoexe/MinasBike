@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Button from '../../components/Button';
 import TextBox from '../../components/TextBox';
 import Error from '../../components/Error';
@@ -26,6 +27,7 @@ export default function Login({ history }) {
 
             .catch(err => {
                 setError(err.response.request.response);
+                console.log(err.response.request.response);
             });
     }
 
@@ -59,6 +61,7 @@ export default function Login({ history }) {
                         Entrar
                     </Button>
                 </form>
+                <Link to="/cadastrar">Criar conta</Link>
             </div>
         </>
     );
