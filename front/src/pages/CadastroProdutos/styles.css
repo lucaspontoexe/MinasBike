@@ -1,0 +1,16 @@
+.cadastro-produtos {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.cadastro-produtos .item {
+    display: inline-flex;
+}
+
+.cadastro-produtos .item input {
+    margin-right: 5px;
+    width: 120px;
+}

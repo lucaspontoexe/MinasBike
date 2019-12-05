@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import api from '../../services/api';
 import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
+import './styles.css';
 
 export default class CadastroProdutos extends Component {
     constructor(props) {
@@ -77,82 +78,88 @@ export default class CadastroProdutos extends Component {
 
     render() {
         return (
-            <form className="cadastro-produtos" onSubmit={this.handleSubmit}>
-                Tela de Cadastro
-                <TextBox
-                    label="Nome do Produto"
-                    type="text"
-                    name="name"
-                    onChange={this.handleChange}
-                />
-                <TextBox
-                    name="category"
-                    label="Categoria"
-                    type="text"
-                    list="categorias"
-                    options={this.state.categories}
-                    onChange={event =>
-                        this.setState({
-                            id_category: this.categoryData[event.target.value],
-                        })
-                    }
-                />
-                <TextBox
-                    name="provider"
-                    label="Fornecedor"
-                    type="text"
-                    list="providers"
-                    options={this.state.providers}
-                    onChange={event =>
-                        this.setState({
-                            id_provider: this.providersData[event.target.value],
-                        })
-                    }
-                />
-                <TextBox
-                    name="code"
-                    type="number"
-                    label="Código de Barras"
-                    onChange={this.handleChange}
-                />
-                <TextBox
-                    name="brand"
-                    label="Marca"
-                    type="text"
-                    list="marcas"
-                    options={[
-                        'Shimano',
-                        'Outra coisa',
-                        'Mais marcas de Bicicleta',
-                    ]}
-                    onChange={this.handleChange}
-                />
-                <div className="item">
+            <div className="cadastro-produtos">
+                <form onSubmit={this.handleSubmit}>
+                    Tela de Cadastro
                     <TextBox
-                        name="quantity_per_unity"
-                        label="Quantidade por item"
-                        type="number"
-                        onChange={this.handleChange}
-                    />
-                    <TextBox
-                        name="unity"
-                        label="Unidade de medida"
+                        label="Nome do Produto"
                         type="text"
+                        name="name"
                         onChange={this.handleChange}
                     />
-                </div>
-                <TextBox
-                    name="price"
-                    label="Preço"
-                    type="number"
-                    step="0.01"
-                    onChange={this.handleChange}
-                />
-                <div className="infos">informações adicionais</div>
-                <Button type="submit" color="#8EE88C">
-                    Cadastrar
-                </Button>
-            </form>
+                    <TextBox
+                        name="category"
+                        label="Categoria"
+                        type="text"
+                        list="categorias"
+                        options={this.state.categories}
+                        onChange={event =>
+                            this.setState({
+                                id_category: this.categoryData[
+                                    event.target.value
+                                ],
+                            })
+                        }
+                    />
+                    <TextBox
+                        name="provider"
+                        label="Fornecedor"
+                        type="text"
+                        list="providers"
+                        options={this.state.providers}
+                        onChange={event =>
+                            this.setState({
+                                id_provider: this.providersData[
+                                    event.target.value
+                                ],
+                            })
+                        }
+                    />
+                    <TextBox
+                        name="code"
+                        type="number"
+                        label="Código de Barras"
+                        onChange={this.handleChange}
+                    />
+                    <TextBox
+                        name="brand"
+                        label="Marca"
+                        type="text"
+                        list="marcas"
+                        options={[
+                            'Shimano',
+                            'Outra coisa',
+                            'Mais marcas de Bicicleta',
+                        ]}
+                        onChange={this.handleChange}
+                    />
+                    <div className="item">
+                        <TextBox
+                            name="quantity_per_unity"
+                            label="Quantidade por item"
+                            type="number"
+                            onChange={this.handleChange}
+                        />
+                        <TextBox
+                            name="unity"
+                            label="Unidade de medida"
+                            type="text"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <TextBox
+                        name="price"
+                        label="Preço"
+                        type="number"
+                        step="0.01"
+                        onChange={this.handleChange}
+                    />
+                    <div className="infos">informações adicionais</div>
+                    <Button type="submit" color="#8EE88C">
+                        Cadastrar
+                    </Button>
+                </form>
+            </div>
         );
     }
 }
