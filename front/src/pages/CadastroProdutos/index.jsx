@@ -9,12 +9,14 @@ export default class CadastroProdutos extends Component {
         this.state = {
             name: '',
             brand: '',
-            price: null,
-            code: null,
-            quantity_per_unity: null,
+            price: undefined,
+            code: undefined,
+            quantity_per_unity: undefined,
             unity: '',
             categories: [],
             providers: [],
+            id_category: 0,
+            id_provider: 0,
         };
     }
 
@@ -24,8 +26,6 @@ export default class CadastroProdutos extends Component {
 
     handleChange = ({ target }) => {
         const isNumber = target.type === 'number';
-
-        // if is an ID field, change according state and return
 
         this.setState({
             [target.name]: isNumber ? parseFloat(target.value) : target.value,
@@ -37,14 +37,8 @@ export default class CadastroProdutos extends Component {
 
         const submitObject = {
             ...this.state,
-            // i'd add ID to state if textbox returned a number
             categories: undefined,
             providers: undefined,
-            category: undefined,
-            provider: undefined,
-
-            id_provider: this.providersData[this.state.provider],
-            id_category: this.categoryData[this.state.category],
         };
 
         console.log('posting: ', submitObject);
@@ -83,20 +77,25 @@ export default class CadastroProdutos extends Component {
 
     render() {
         return (
-            <form
-                className="cadastro-produtos"
-                // usando capture no div inteiro. pode-se usar o handleChange em cada campo.
-                onChangeCapture={event => this.handleChange(event)}
-                onSubmit={this.handleSubmit}
-            >
+            <form className="cadastro-produtos" onSubmit={this.handleSubmit}>
                 Tela de Cadastro
-                <TextBox label="Nome do Produto" type="text" name="name" />
+                <TextBox
+                    label="Nome do Produto"
+                    type="text"
+                    name="name"
+                    onChange={this.handleChange}
+                />
                 <TextBox
                     name="category"
                     label="Categoria"
                     type="text"
                     list="categorias"
                     options={this.state.categories}
+                    onChange={event =>
+                        this.setState({
+                            id_category: this.categoryData[event.target.value],
+                        })
+                    }
                 />
                 <TextBox
                     name="provider"
@@ -104,8 +103,18 @@ export default class CadastroProdutos extends Component {
                     type="text"
                     list="providers"
                     options={this.state.providers}
+                    onChange={event =>
+                        this.setState({
+                            id_provider: this.providersData[event.target.value],
+                        })
+                    }
                 />
-                <TextBox name="code" type="number" label="Código de Barras" />
+                <TextBox
+                    name="code"
+                    type="number"
+                    label="Código de Barras"
+                    onChange={this.handleChange}
+                />
                 <TextBox
                     name="brand"
                     label="Marca"
@@ -116,20 +125,29 @@ export default class CadastroProdutos extends Component {
                         'Outra coisa',
                         'Mais marcas de Bicicleta',
                     ]}
+                    onChange={this.handleChange}
                 />
                 <div className="item">
                     <TextBox
                         name="quantity_per_unity"
                         label="Quantidade por item"
                         type="number"
+                        onChange={this.handleChange}
                     />
                     <TextBox
                         name="unity"
                         label="Unidade de medida"
                         type="text"
+                        onChange={this.handleChange}
                     />
                 </div>
-                <TextBox name="price" label="Preço" type="number" step="0.01" />
+                <TextBox
+                    name="price"
+                    label="Preço"
+                    type="number"
+                    step="0.01"
+                    onChange={this.handleChange}
+                />
                 <div className="infos">informações adicionais</div>
                 <Button type="submit" color="#8EE88C">
                     Cadastrar
