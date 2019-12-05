@@ -53,7 +53,7 @@ export default function ListaProdutos({ history }) {
                                 <td>{row.name}</td>
                                 <td>{row.brand}</td>
                                 {/* todo: ver como fazer isso na hora de cadastrar */}
-                                <td>{`R$ ${row.price / 100}`}</td>
+                                <td>R$ {row.price / 100}</td>
                                 <td>{row.code}</td>
                                 <td>{`${row.quantity_per_unity} ${row.unity}`}</td>
                                 {/* todo: format IDs */}
