@@ -5,15 +5,18 @@ import './styles.css';
 
 export default function ListaProdutos({ history }) {
     const [products, setProducts] = useState([]);
+    const [providers, setProviders] = useState([{}]);
+    const [categories, setCategories] = useState([{}]);
+    // TODO: USAR UM STATE GLOBAL PRA NÃO TER QUE CARREGAR REQUESTS VÁRIAS VEZES
 
     useEffect(() => {
-        mounted();
+        api.get('/providers').then(response => setProviders(response.data));
+        api.get('/categories').then(response => setCategories(response.data));
+        api.get('/products').then(response => setProducts(response.data));
     }, []);
 
-    async function mounted() {
-        const response = await api.get('/products');
-        setProducts(response.data);
-        console.log('mounted');
+    function getName(objects, id) {
+        return objects.filter(obj => obj.id === id)[0].name;
     }
 
     return (
@@ -52,13 +55,11 @@ export default function ListaProdutos({ history }) {
                             <tr key={index}>
                                 <td>{row.name}</td>
                                 <td>{row.brand}</td>
-                                {/* todo: ver como fazer isso na hora de cadastrar */}
                                 <td>R$ {row.price / 100}</td>
                                 <td>{row.code}</td>
                                 <td>{`${row.quantity_per_unity} ${row.unity}`}</td>
-                                {/* todo: format IDs */}
-                                <td>{row.id_provider}</td>
-                                <td>{row.id_category}</td>
+                                <td>{getName(providers, row.id_provider)}</td>
+                                <td>{getName(categories, row.id_category)}</td>
                             </tr>
                         ))}
                     </tbody>
