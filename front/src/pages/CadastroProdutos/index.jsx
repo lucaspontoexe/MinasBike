@@ -14,16 +14,14 @@ export default class CadastroProdutos extends Component {
             code: undefined,
             quantity_per_unity: undefined,
             unity: '',
-            categories: [],
-            providers: [],
             id_category: 0,
             id_provider: 0,
         };
     }
 
-    // ID tables
-    categoryData = {};
-    providersData = {};
+    // response data
+    categoryData = [];
+    providersData = [];
 
     handleChange = ({ target }) => {
         const isNumber = target.type === 'number';
@@ -52,27 +50,18 @@ export default class CadastroProdutos extends Component {
         this.props.history.replace('/lista');
     };
 
-    makeIDTable(objects) {
-        let finalObj = {};
-
-        for (let entry of objects) {
-            finalObj[entry.name] = entry.id;
-        }
-        return finalObj;
+    getID(array, name) {
+        return array.filter(obj => obj.name === name)[0].id;
     }
 
     componentDidMount() {
         // TODO: maybe use async/await?
         api.get('/providers').then(response => {
-            this.providersData = this.makeIDTable(response.data);
-            this.setState({ providers: Object.keys(this.providersData) });
-            console.log(this.state.providers);
+            this.providersData = response.data;
         });
 
         api.get('/categories').then(response => {
-            this.categoryData = this.makeIDTable(response.data);
-            this.setState({ categories: Object.keys(this.categoryData) });
-            console.log(this.state.categories);
+            this.categoryData = response.data;
         });
     }
 
@@ -92,12 +81,13 @@ export default class CadastroProdutos extends Component {
                         label="Categoria"
                         type="text"
                         list="categorias"
-                        options={this.state.categories}
+                        options={this.categoryData.map(obj => obj.name)}
                         onChange={event =>
                             this.setState({
-                                id_category: this.categoryData[
+                                id_category: this.getID(
+                                    this.categoryData,
                                     event.target.value
-                                ],
+                                ),
                             })
                         }
                     />
@@ -106,12 +96,13 @@ export default class CadastroProdutos extends Component {
                         label="Fornecedor"
                         type="text"
                         list="providers"
-                        options={this.state.providers}
+                        options={this.providersData.map(obj => obj.name)}
                         onChange={event =>
                             this.setState({
-                                id_provider: this.providersData[
+                                id_provider: this.getID(
+                                    this.providersData,
                                     event.target.value
-                                ],
+                                ),
                             })
                         }
                     />
