@@ -45,7 +45,9 @@ export default class CadastroProdutos extends Component {
     };
 
     getID(array, name) {
-        return array.filter(obj => obj.name === name)[0].id;
+        const matches = array.filter(obj => obj.name === name);
+        if (matches.length === 0) return undefined;
+        return matches[0].id;
     }
 
     componentDidMount() {

@@ -10,10 +10,18 @@ export default function ListaProdutos({ history }) {
     // TODO: USAR UM STATE GLOBAL PRA NÃO TER QUE CARREGAR REQUESTS VÁRIAS VEZES
 
     useEffect(() => {
-        api.get('/providers').then(response => setProviders(response.data));
-        api.get('/categories').then(response => setCategories(response.data));
-        api.get('/products').then(response => setProducts(response.data));
+        fetchData();
     }, []);
+
+    async function fetchData() {
+        await api
+            .get('/providers')
+            .then(response => setProviders(response.data));
+        await api
+            .get('/categories')
+            .then(response => setCategories(response.data));
+        await api.get('/products').then(response => setProducts(response.data));
+    }
 
     function getName(objects, id) {
         return objects.filter(obj => obj.id === id)[0].name;
