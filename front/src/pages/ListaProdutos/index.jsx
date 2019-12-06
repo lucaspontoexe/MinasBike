@@ -5,8 +5,8 @@ import './styles.css';
 
 export default function ListaProdutos({ history }) {
     const [products, setProducts] = useState([]);
-    const [providers, setProviders] = useState([{}]);
-    const [categories, setCategories] = useState([{}]);
+    const [providers, setProviders] = useState([]);
+    const [categories, setCategories] = useState([]);
     // TODO: USAR UM STATE GLOBAL PRA NÃO TER QUE CARREGAR REQUESTS VÁRIAS VEZES
 
     useEffect(() => {
@@ -31,10 +31,6 @@ export default function ListaProdutos({ history }) {
                 <table className="table">
                     <thead>
                         <tr>
-                            {/* {Object.keys(teste[0]).map(key => (
-                                <th>{key}</th>
-                            ))} */}
-
                             <th>Nome</th>
                             <th>Marca</th>
                             <th>Preço</th>
@@ -47,11 +43,6 @@ export default function ListaProdutos({ history }) {
 
                     <tbody>
                         {products.map((row, index) => (
-                            // <tr key={index}>
-                            //     {Object.entries(row).map((entry, index) => (
-                            //         <td key={index}>{entry[1]}</td>
-                            //     ))}
-                            // </tr>
                             <tr key={index}>
                                 <td>{row.name}</td>
                                 <td>{row.brand}</td>
