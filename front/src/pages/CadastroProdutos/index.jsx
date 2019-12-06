@@ -34,14 +34,8 @@ export default class CadastroProdutos extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        const submitObject = {
-            ...this.state,
-            categories: undefined,
-            providers: undefined,
-        };
-
-        console.log('posting: ', submitObject);
-        const response = await api.post('/products', submitObject, {
+        console.log('posting: ', this.state);
+        const response = await api.post('/products', this.state, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
