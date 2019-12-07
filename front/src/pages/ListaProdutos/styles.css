@@ -1,20 +1,17 @@
 .table-wrapper {
     width: 100%;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.table-wrapper header {
-    width: 80%;
-    height: 5px;
-    background: crimson;
-    border-radius: 5px 5px 0px 0px;
-}
-
 table {
     width: 80%;
+    margin-top: 24px;
     border-collapse: collapse;
+    border-radius: 5px 5px 0px 0px;
+    overflow: hidden;
     font-size: 18px;
 }
 
@@ -40,7 +37,8 @@ tr {
     height: 48px;
 }
 
-th, td {
+th,
+td {
     padding: 20px;
 }
 
@@ -51,4 +49,3 @@ td {
 td:last-child {
     border: none;
 }
-

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import api from '../../services/api';
 import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
+import './styles.css';
 
 export default class CadastroProdutos extends Component {
     constructor(props) {
@@ -9,23 +10,21 @@ export default class CadastroProdutos extends Component {
         this.state = {
             name: '',
             brand: '',
-            price: null,
-            code: null,
-            quantity_per_unity: null,
+            price: undefined,
+            code: undefined,
+            quantity_per_unity: undefined,
             unity: '',
-            categories: [],
-            providers: [],
+            id_category: 0,
+            id_provider: 0,
         };
     }
 
-    // ID tables
-    categoryData = {};
-    providersData = {};
+    // response data
+    categoryData = [];
+    providersData = [];
 
     handleChange = ({ target }) => {
         const isNumber = target.type === 'number';
-
-        // if is an ID field, change according state and return
 
         this.setState({
             [target.name]: isNumber ? parseFloat(target.value) : target.value,
@@ -35,20 +34,8 @@ export default class CadastroProdutos extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        const submitObject = {
-            ...this.state,
-            // i'd add ID to state if textbox returned a number
-            categories: undefined,
-            providers: undefined,
-            category: undefined,
-            provider: undefined,
-
-            id_provider: this.providersData[this.state.provider],
-            id_category: this.categoryData[this.state.category],
-        };
-
-        console.log('posting: ', submitObject);
-        const response = await api.post('/products', submitObject, {
+        console.log('posting: ', this.state);
+        const response = await api.post('/products', this.state, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
@@ -57,84 +44,109 @@ export default class CadastroProdutos extends Component {
         this.props.history.replace('/lista');
     };
 
-    makeIDTable(objects) {
-        let finalObj = {};
-
-        for (let entry of objects) {
-            finalObj[entry.name] = entry.id;
-        }
-        return finalObj;
+    getID(array, name) {
+        const matches = array.filter(obj => obj.name === name);
+        if (matches.length === 0) return undefined;
+        return matches[0].id;
     }
 
     componentDidMount() {
         // TODO: maybe use async/await?
         api.get('/providers').then(response => {
-            this.providersData = this.makeIDTable(response.data);
-            this.setState({ providers: Object.keys(this.providersData) });
-            console.log(this.state.providers);
+            this.providersData = response.data;
         });
 
         api.get('/categories').then(response => {
-            this.categoryData = this.makeIDTable(response.data);
-            this.setState({ categories: Object.keys(this.categoryData) });
-            console.log(this.state.categories);
+            this.categoryData = response.data;
         });
     }
 
     render() {
         return (
-            <form
-                className="cadastro-produtos"
-                // usando capture no div inteiro. pode-se usar o handleChange em cada campo.
-                onChangeCapture={event => this.handleChange(event)}
-                onSubmit={this.handleSubmit}
-            >
-                Tela de Cadastro
-                <TextBox label="Nome do Produto" type="text" name="name" />
-                <TextBox
-                    name="category"
-                    label="Categoria"
-                    type="text"
-                    list="categorias"
-                    options={this.state.categories}
-                />
-                <TextBox
-                    name="provider"
-                    label="Fornecedor"
-                    type="text"
-                    list="providers"
-                    options={this.state.providers}
-                />
-                <TextBox name="code" type="number" label="Código de Barras" />
-                <TextBox
-                    name="brand"
-                    label="Marca"
-                    type="text"
-                    list="marcas"
-                    options={[
-                        'Shimano',
-                        'Outra coisa',
-                        'Mais marcas de Bicicleta',
-                    ]}
-                />
-                <div className="item">
+            <div className="cadastro-produtos">
+                <form onSubmit={this.handleSubmit}>
+                    Tela de Cadastro
                     <TextBox
-                        name="quantity_per_unity"
-                        label="Quantidade por item"
-                        type="number"
-                    />
-                    <TextBox
-                        name="unity"
-                        label="Unidade de medida"
+                        label="Nome do Produto"
                         type="text"
+                        name="name"
+                        onChange={this.handleChange}
                     />
-                </div>
-                <TextBox name="price" label="Preço" type="number" step="0.01" />
-                <div className="infos">informações adicionais</div>
-                <Button type="submit" color="#8EE88C">
-                    Cadastrar
-                </Button>
-            </form>
+                    <TextBox
+                        name="category"
+                        label="Categoria"
+                        type="text"
+                        list="categorias"
+                        options={this.categoryData.map(obj => obj.name)}
+                        onChange={event =>
+                            this.setState({
+                                id_category: this.getID(
+                                    this.categoryData,
+                                    event.target.value
+                                ),
+                            })
+                        }
+                    />
+                    <TextBox
+                        name="provider"
+                        label="Fornecedor"
+                        type="text"
+                        list="providers"
+                        options={this.providersData.map(obj => obj.name)}
+                        onChange={event =>
+                            this.setState({
+                                id_provider: this.getID(
+                                    this.providersData,
+                                    event.target.value
+                                ),
+                            })
+                        }
+                    />
+                    <TextBox
+                        name="code"
+                        type="number"
+                        label="Código de Barras"
+                        onChange={this.handleChange}
+                    />
+                    <TextBox
+                        name="brand"
+                        label="Marca"
+                        type="text"
+                        list="marcas"
+                        options={[
+                            'Shimano',
+                            'Outra coisa',
+                            'Mais marcas de Bicicleta',
+                        ]}
+                        onChange={this.handleChange}
+                    />
+                    <div className="item">
+                        <TextBox
+                            name="quantity_per_unity"
+                            label="Quantidade por item"
+                            type="number"
+                            onChange={this.handleChange}
+                        />
+                        <TextBox
+                            name="unity"
+                            label="Unidade de medida"
+                            type="text"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <TextBox
+                        name="price"
+                        label="Preço"
+                        type="number"
+                        step="0.01"
+                        onChange={this.handleChange}
+                    />
+                    <div className="infos">informações adicionais</div>
+                    <Button type="submit" color="#8EE88C">
+                        Cadastrar
+                    </Button>
+                </form>
+            </div>
         );
     }
 }
