@@ -6,10 +6,6 @@ API structured to supply the front-end of a management software
 
 Follow these steps to install and start the backend:
 * Install docker CE and docker-compose.
-* Run this command to build the application:
-```
-docker-compose build
-```
 
 ### Setup database
 
