@@ -18,3 +18,14 @@ services:
       - "3001:3001"
     volumes:
       - .:/usr/app
+
+  frontend:
+    build: ./front
+    depends_on:
+      - backend
+    links:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/app
