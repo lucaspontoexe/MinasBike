@@ -1,6 +1,6 @@
-# ControleEstoque - Backend
+# ControleEstoque
 
-API structured to supply the front-end of a management software
+Store management application built in react and a nodejs API.
 
 ### Start running the application
 
@@ -13,12 +13,13 @@ Run these commands:
 ```
 docker-compose up
 ```
+Well done, now your application is running!
+
 * If the database was not created yet, you can create and migrate running:
 ```
 docker-compose run backend yarn sequelize db:create
 docker-compose run backend yarn sequelize db:migrate
 ```
-Well done, now your application is running!
 
 ### Stopping the application and reseting database
 
