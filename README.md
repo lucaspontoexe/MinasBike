@@ -2,53 +2,41 @@
 
 API structured to supply the front-end of a management software
 
-### Installation
+### Start running the application
 
 Follow these steps to install and start the backend:
 * Install docker CE and docker-compose.
 
-### Setup database
+Run these commands:
 
-Database commands:
-
-*To drop the database:
-```
-docker-compose run backend yarn sequelize db:drop
-```
-OBS: the db:drop should return a error sometimes depending if your table exists or not, but that is fine, this is an expected error.
-
-*To create the database:
-```
-docker-compose run backend yarn sequelize db:create
-```
-
-*To migrate the database:
-```
-docker-compose run backend yarn sequelize db:migrate
-```
-
-### Start and stop running the backend
-
-*To start the backend:
+* To start the app containers:
 ```
 docker-compose up
 ```
+* If the database was not created yet, you can create and migrate running:
+```
+docker-compose run backend yarn sequelize db:create
+docker-compose run backend yarn sequelize db:migrate
+```
+Well done, now your application is running!
 
-*To stop the backend:
+### Stopping the application and reseting database
+
+* To stop running the application, run:
 ```
 docker-compose down
 ```
-
-
-The API will point to [http://localhost:3001](http://localhost:3001).
-
-### Debug
-
-To debug this application using the VS code debugger by running:
+* To drop the database and recreate, run:
 ```
-docker-compose run backend yarn dev:debug
+docker-compose run backend yarn sequelize db:drop
+docker-compose run backend yarn sequelize db:create
+docker-compose run backend yarn sequelize db:migrate
 ```
 
-### Testing routes
+The Backend will point to [http://localhost:3001](http://localhost:3001).
+The Frontend will point to [http://localhost:3000](http://localhost:3000).
 
-The details about routes for tests are in the following file: Insomnia_xxxx-xx-xx.json
+### Testing routes using insomnia
+
+The details about routes for tests are in the following file on backend folder:
+* Insomnia_xxxx-xx-xx.json
