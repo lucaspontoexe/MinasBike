@@ -63,7 +63,7 @@ export default class CadastroProdutos extends Component {
 
     render() {
         return (
-            <div className="cadastro-produtos">
+            <div className="tela cadastro-produtos">
                 <form onSubmit={this.handleSubmit}>
                     <TextBox
                         label="Nome do Produto"

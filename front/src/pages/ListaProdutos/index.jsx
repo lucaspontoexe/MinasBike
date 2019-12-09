@@ -28,7 +28,7 @@ export default function ListaProdutos({ history }) {
     }
 
     return (
-        <div className="lista-produtos">
+        <div className="tela lista-produtos">
             <div className="table-wrapper">
                 <div className="buttons">
                     <Button onClick={() => history.push('/novo')}>
