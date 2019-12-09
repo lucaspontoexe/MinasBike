@@ -1,6 +1,6 @@
 FROM node
 
-EXPOSE 3001
+EXPOSE 3000
 
 WORKDIR /usr/app/front
 
