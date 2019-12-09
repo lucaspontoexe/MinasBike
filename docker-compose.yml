@@ -1,0 +1,33 @@
+# docker-compose.yml
+version: "3"
+services:
+  db:
+    image: postgres:11
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: minasbike
+    volumes:
+      - .:/usr/app
+
+  backend:
+    build: ./back
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/usr/app
+
+  frontend:
+    build: ./front
+    depends_on:
+      - backend
+    links:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/app

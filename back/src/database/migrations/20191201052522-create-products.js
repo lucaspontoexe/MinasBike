@@ -20,7 +20,7 @@ module.exports = {
         allowNull: false,
       },
       code: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         allowNull: false,
       },
       quantity_per_unity: {
