@@ -18,10 +18,10 @@ function Menu(props) {
                                 <Link to="/novo">Fornecedores</Link>
                             </li>
                             <li>
-                                <a href="#">Estoque</a>
+                                <Link to="/lista">Estoque</Link>
                             </li>
                             <li>
-                                <a href="#">Vendas</a>
+                                <Link to="/lista">Vendas</Link>
                             </li>
                         </ul>
                     </nav>
