@@ -26,6 +26,6 @@
     margin-left: 20px;
 }
 
-.main-menu li a.selected {
+.main-menu li.selected {
     background: #cccccc;
 }
