@@ -65,7 +65,6 @@ export default class CadastroProdutos extends Component {
         return (
             <div className="cadastro-produtos">
                 <form onSubmit={this.handleSubmit}>
-                    Tela de Cadastro
                     <TextBox
                         label="Nome do Produto"
                         type="text"
@@ -141,7 +140,12 @@ export default class CadastroProdutos extends Component {
                         step="0.01"
                         onChange={this.handleChange}
                     />
-                    <div className="infos">informações adicionais</div>
+                    <div className="infos">
+                        informações adicionais
+                        <p>um</p>
+                        <p>dois</p>
+                        <p>três</p>
+                    </div>
                     <Button type="submit" color="#8EE88C">
                         Cadastrar
                     </Button>
