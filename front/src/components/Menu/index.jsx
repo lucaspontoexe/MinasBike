@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './styles.css';
 
+import logo from '../../assets/images/logo.png';
+
 function Menu(props) {
     const { pathname } = props.history.location;
 
@@ -9,6 +11,10 @@ function Menu(props) {
         <>
             {pathname !== '/' && (
                 <div className="main-menu">
+                    <div className="logo">
+                        <img src={logo} alt="Minas Bike Logo" />
+                    </div>
+
                     <nav>
                         <ul>
                             <li className="selected">
