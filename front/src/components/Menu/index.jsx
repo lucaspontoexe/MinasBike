@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import './styles.scss';
+import './styles.css';
 
 function Menu(props) {
     const { pathname } = props.history.location;
