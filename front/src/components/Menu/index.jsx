@@ -1,22 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './styles.scss';
 
-export default function Menu() {
-    // console.log(history.location)
+function Menu(props) {
+    const { pathname } = props.history.location;
 
     return (
-        <div className="main-menu">
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/lista">Lista</Link>
-                    </li>
-                    <li>
-                        <Link to="/novo">Outro Link</Link>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <>
+            {pathname !== '/' && (
+                <div className="main-menu">
+                    <nav>
+                        <ul>
+                            <li>
+                                <Link to="/lista">Produtos</Link>
+                            </li>
+                            <li>
+                                <Link to="/novo">Fornecedores</Link>
+                            </li>
+                            <li>
+                                <a href="#">Estoque</a>
+                            </li>
+                            <li>
+                                <a href="#">Vendas</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            )}
+        </>
     );
 }
+export default withRouter(Menu);
