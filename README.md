@@ -7,31 +7,26 @@ Store management application built in react and a nodejs API.
 Follow these steps to install and start the backend:
 * Install docker CE and docker-compose.
 
-Run these commands:
+Run these commands to setup the application and start:
 
-* To start the app containers:
 ```
 docker-compose up
-```
-Well done, now your application is running!
-
-* If the database was not created yet, you can create and migrate running:
-```
 docker-compose run backend yarn sequelize db:create
 docker-compose run backend yarn sequelize db:migrate
 ```
+OBS: the "up" command will lock your terminal, the other commands must be executed in another tab.
 
 ### Stopping the application and reseting database
 
-* To stop running the application, run:
+* To stop running the application, and start again, run:
+```
+docker-compose stop
+docker-compose up
+```
+
+* To stop running the application RESETING ALL DATA, run:
 ```
 docker-compose down
-```
-* To drop the database and recreate, run:
-```
-docker-compose run backend yarn sequelize db:drop
-docker-compose run backend yarn sequelize db:create
-docker-compose run backend yarn sequelize db:migrate
 ```
 
 The Backend will point to [http://localhost:3001](http://localhost:3001).
