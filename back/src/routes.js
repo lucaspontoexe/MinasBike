@@ -19,7 +19,6 @@ routes.get('/', (req, res) => {
 // sessions
 routes.post('/sessions', SessionController.store);
 // users
-routes.get('/users', UserController.index);
 routes.post('/users', UserController.store);
 // categories
 routes.get('/categories', CategoryController.index);
@@ -35,6 +34,7 @@ routes.get('/stocks', StockController.index);
 // authenticated routes
 routes.use(authMiddleware);
 // users
+routes.get('/users', UserController.index);
 routes.put('/users', UserController.update);
 // categories
 routes.post('/categories', CategoryController.store);
