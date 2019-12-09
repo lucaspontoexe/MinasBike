@@ -11,7 +11,7 @@ function Menu(props) {
                 <div className="main-menu">
                     <nav>
                         <ul>
-                            <li>
+                            <li className="selected">
                                 <Link to="/lista">Produtos</Link>
                             </li>
                             <li>
