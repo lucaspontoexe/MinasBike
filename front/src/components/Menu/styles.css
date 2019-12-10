@@ -24,6 +24,10 @@
     border-radius: 0px 24px 24px 0px;
     background-color: #dcdcdc;
 
+    font-family: Poppins, Roboto, sans-serif;
+    font-weight: bold;
+    color: #090909;
+
     display: flex;
     align-items: center;
 }
