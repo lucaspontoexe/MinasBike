@@ -10,23 +10,28 @@ Follow these steps to install and start the backend:
 Run these commands to setup the application and start:
 
 ```
-docker-compose up
+docker-compose run frontend yarn
+docker-compose run backend yarn
 docker-compose run backend yarn sequelize db:create
 docker-compose run backend yarn sequelize db:migrate
+docker-compose up
 ```
-OBS: the "up" command will lock your terminal, the other commands must be executed in another tab.
 
 ### Stopping the application and reseting database
 
-* To stop running the application, and start again, run:
+* To stop running the application, you can use ctrl+c on the running terminal, or run on the application directory:
 ```
 docker-compose stop
-docker-compose up
 ```
 
 * To stop running the application RESETING ALL DATA, run:
 ```
 docker-compose down
+```
+
+* To start running the application again, run:
+```
+docker-compose up
 ```
 
 The Backend will point to [http://localhost:3001](http://localhost:3001).
