@@ -1,0 +1,51 @@
+.table-wrapper {
+    width: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+table {
+    width: 80%;
+    margin-top: 24px;
+    border-collapse: collapse;
+    border-radius: 5px 5px 0px 0px;
+    overflow: hidden;
+    font-size: 18px;
+}
+
+table thead > tr {
+    background: crimson;
+    color: white;
+}
+
+table tbody {
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+table tbody tr:nth-child(even) {
+    background: whitesmoke;
+}
+
+table tbody tr:nth-child(even) {
+    background: #cccccc;
+}
+
+tr {
+    height: 48px;
+}
+
+th,
+td {
+    padding: 20px;
+}
+
+td {
+    border-right: 1px solid #333;
+}
+
+td:last-child {
+    border: none;
+}
