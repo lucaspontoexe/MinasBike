@@ -46,6 +46,12 @@ td {
     border-right: 1px solid #333;
 }
 
+td a {
+    color: black;
+    /* font-weight: bold; */
+    /* text-decoration: none; */
+}
+
 td:last-child {
     border: none;
 }
