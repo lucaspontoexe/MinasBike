@@ -67,12 +67,14 @@ export default class CadastroProdutos extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="page">
                         <TextBox
+                            required
                             label="Nome do Produto"
                             type="text"
                             name="name"
                             onChange={this.handleChange}
                         />
                         <TextBox
+                            required
                             name="category"
                             label="Categoria"
                             type="text"
@@ -88,6 +90,7 @@ export default class CadastroProdutos extends Component {
                             }
                         />
                         <TextBox
+                            required
                             name="provider"
                             label="Fornecedor"
                             type="text"
@@ -103,6 +106,7 @@ export default class CadastroProdutos extends Component {
                             }
                         />
                         <TextBox
+                            required
                             name="code"
                             type="number"
                             label="Código de Barras"
@@ -112,6 +116,7 @@ export default class CadastroProdutos extends Component {
 
                     <div className="page">
                         <TextBox
+                            required
                             name="brand"
                             label="Marca"
                             type="text"
@@ -125,12 +130,16 @@ export default class CadastroProdutos extends Component {
                         />
                         <div className="item">
                             <TextBox
+                                required
                                 name="quantity_per_unity"
                                 label="Quantidade por item"
                                 type="number"
+                                min={1}
+                                max={999}
                                 onChange={this.handleChange}
                             />
                             <TextBox
+                                required
                                 name="unity"
                                 label="Unidade de medida"
                                 type="text"
@@ -138,15 +147,28 @@ export default class CadastroProdutos extends Component {
                             />
                         </div>
                         <TextBox
+                            required
                             name="price"
                             label="Preço"
                             type="number"
                             step="0.01"
-                            onChange={this.handleChange}
+                            min="0.05"
+                            onChange={event =>
+                                this.setState({
+                                    price: event.target.value * 100,
+                                })
+                            }
                         />
 
                         <div className="item">
-                            <Button color="#DC2438" onClick={() => this.props.history.replace('/lista')}>Cancelar</Button>
+                            <Button
+                                color="#DC2438"
+                                onClick={() =>
+                                    this.props.history.replace('/lista')
+                                }
+                            >
+                                Cancelar
+                            </Button>
                             <Button type="submit" color="#8EE88C">
                                 Cadastrar
                             </Button>
