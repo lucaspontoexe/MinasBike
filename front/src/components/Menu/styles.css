@@ -22,11 +22,12 @@
     margin: 10px 0px;
     padding-left: 24px;
     border-radius: 0px 24px 24px 0px;
-    background-color: #cee0dc;
+    background-color: #dcdcdc;
 
     display: flex;
     align-items: center;
 }
+
 .main-menu li img {
     width: 30px;
 }
@@ -47,4 +48,17 @@
 
 .main-menu li.selected a {
     color: white;
+}
+
+.main-menu button {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    margin: 0px;
+    width: 80%;
+
+    border-radius: 5px;
+    box-shadow: none;    
 }
