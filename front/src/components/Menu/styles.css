@@ -46,6 +46,10 @@
     width: 95%;
 }
 
+.main-menu li.selected img {
+    filter: brightness(10);
+}
+
 .main-menu li.selected a {
     color: white;
 }
@@ -55,10 +59,10 @@
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    
+
     margin: 0px;
     width: 80%;
 
     border-radius: 5px;
-    box-shadow: none;    
+    box-shadow: none;
 }
