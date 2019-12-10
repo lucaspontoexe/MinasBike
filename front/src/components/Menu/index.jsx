@@ -8,11 +8,13 @@ function Menu(props) {
     const { pathname } = props.history.location;
 
     const listItems = [
-        { name: 'Produtos', path: '/produtos'/*, icon: produto*/ },
-        { name: 'Fornecedores', path: '/' },
-        { name: 'Estoque', path: '/' },
-        { name: 'Vendas', path: '/' },
+        { name: 'Produtos', path: '/produtos' /*, icon: produto*/ },
+        { name: 'Fornecedores', path: '/fornecedores' },
+        { name: 'Estoque', path: '/estoque' },
+        { name: 'Vendas', path: '/vendas' },
     ];
+
+    const matchesLink = item => pathname.includes(item);
 
     return (
         <>
@@ -25,11 +27,7 @@ function Menu(props) {
                     <nav>
                         <ul>
                             {listItems.map(item => (
-                                <li
-                                    className={
-                                        pathname === item.path && 'selected'
-                                    }
-                                >
+                                <li className={ matchesLink(item.path) && 'selected' }>
                                     {/* <img src={item.icon} alt={item.name}> */}
                                     <Link to={item.path}>{item.name}</Link>
                                 </li>
