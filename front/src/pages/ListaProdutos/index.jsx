@@ -32,7 +32,7 @@ export default function ListaProdutos({ history }) {
         <div className="tela lista-produtos">
             <div className="table-wrapper">
                 <div className="buttons">
-                    <Button onClick={() => history.push('/novo')}>
+                    <Button onClick={() => history.push('/produtos/novo')}>
                         Cadastrar produto
                     </Button>
                     <Button>Gerar Relatório</Button>
