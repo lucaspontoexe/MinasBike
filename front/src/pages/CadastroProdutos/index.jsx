@@ -146,7 +146,7 @@ export default class CadastroProdutos extends Component {
                         />
 
                         <div className="item">
-                            <Button color="#DC2438">Cancelar</Button>
+                            <Button color="#DC2438" onClick={() => this.props.history.replace('/lista')}>Cancelar</Button>
                             <Button type="submit" color="#8EE88C">
                                 Cadastrar
                             </Button>
