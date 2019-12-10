@@ -1,4 +1,4 @@
-# ControleEstoque
+# Minas Bike 
 
 Store management application built in react and a nodejs API.
 
