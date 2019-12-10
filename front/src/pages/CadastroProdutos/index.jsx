@@ -55,7 +55,6 @@ export default class CadastroProdutos extends Component {
     }
 
     componentDidMount() {
-        // TODO: maybe use async/await?
         api.get('/providers').then(response => {
             this.providersData = response.data;
         });
