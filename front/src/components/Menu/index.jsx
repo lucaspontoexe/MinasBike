@@ -17,16 +17,16 @@ function Menu(props) {
 
                     <nav>
                         <ul>
-                            <li className="selected">
+                            <li className={pathname === '/lista' && 'selected'}>
                                 <Link to="/lista">Produtos</Link>
                             </li>
-                            <li>
+                            <li className={pathname === '/novo' && 'selected'}>
                                 <Link to="/novo">Fornecedores</Link>
                             </li>
-                            <li>
+                            <li className={pathname === '/estoque' && 'selected'}>
                                 <Link to="/lista">Estoque</Link>
                             </li>
-                            <li>
+                            <li className={pathname === '/vendas' && 'selected'}>
                                 <Link to="/lista">Vendas</Link>
                             </li>
                         </ul>
