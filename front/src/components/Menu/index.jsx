@@ -7,6 +7,13 @@ import logo from '../../assets/images/logo.png';
 function Menu(props) {
     const { pathname } = props.history.location;
 
+    const listItems = [
+        { name: 'Produtos', path: '/lista'/*, icon: produto*/ },
+        { name: 'Fornecedores', path: '/novo' },
+        { name: 'Estoque', path: '/novo' },
+        { name: 'Vendas', path: '/novo' },
+    ];
+
     return (
         <>
             {pathname !== '/' && (
@@ -17,18 +24,16 @@ function Menu(props) {
 
                     <nav>
                         <ul>
-                            <li className={pathname === '/lista' && 'selected'}>
-                                <Link to="/lista">Produtos</Link>
-                            </li>
-                            <li className={pathname === '/novo' && 'selected'}>
-                                <Link to="/novo">Fornecedores</Link>
-                            </li>
-                            <li className={pathname === '/estoque' && 'selected'}>
-                                <Link to="/lista">Estoque</Link>
-                            </li>
-                            <li className={pathname === '/vendas' && 'selected'}>
-                                <Link to="/lista">Vendas</Link>
-                            </li>
+                            {listItems.map(item => (
+                                <li
+                                    className={
+                                        pathname === item.path && 'selected'
+                                    }
+                                >
+                                    {/* <img src={item.icon} alt={item.name}> */}
+                                    <Link to={item.path}>{item.name}</Link>
+                                </li>
+                            ))}
                         </ul>
                     </nav>
                 </div>
