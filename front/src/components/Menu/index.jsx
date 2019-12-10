@@ -14,8 +14,6 @@ function Menu(props) {
         { name: 'Vendas', path: '/vendas' },
     ];
 
-    const matchesLink = item => pathname.includes(item);
-
     return (
         <>
             {pathname !== '/' && (
@@ -27,7 +25,13 @@ function Menu(props) {
                     <nav>
                         <ul>
                             {listItems.map(item => (
-                                <li className={ matchesLink(item.path) && 'selected' }>
+                                <li
+                                    className={
+                                        pathname.includes(item.path)
+                                            ? 'selected'
+                                            : undefined
+                                    }
+                                >
                                     {/* <img src={item.icon} alt={item.name}> */}
                                     <Link to={item.path}>{item.name}</Link>
                                 </li>
