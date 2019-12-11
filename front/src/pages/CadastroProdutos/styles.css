@@ -17,7 +17,3 @@
 .cadastro-produtos .item {
     display: inline-flex;
 }
-
-.cadastro-produtos .item .text-box {
-    margin: 0px 10px;
-}
