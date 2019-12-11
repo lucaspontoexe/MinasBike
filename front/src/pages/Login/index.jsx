@@ -22,7 +22,7 @@ export default function Login({ history }) {
 
             .then(response => {
                 localStorage.setItem('token', response.data.token);
-                history.push('/lista');
+                history.push('/produtos');
             })
 
             .catch(err => {

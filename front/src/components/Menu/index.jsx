@@ -33,7 +33,7 @@ function Menu(props) {
                                 <li
                                     key={item.name}
                                     className={
-                                        pathname === item.path
+                                        pathname.includes(item.path)
                                             ? 'selected'
                                             : undefined
                                     }

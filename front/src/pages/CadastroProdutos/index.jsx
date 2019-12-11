@@ -43,7 +43,7 @@ export default class CadastroProdutos extends Component {
                 },
             });
             console.log(response);
-            this.props.history.replace('/lista');
+            this.props.history.replace('/produtos');
         } catch (error) {
             console.log(error.response.data);
         }
@@ -202,7 +202,7 @@ export default class CadastroProdutos extends Component {
                             <Button
                                 color="#DC2438"
                                 onClick={() =>
-                                    this.props.history.replace('/lista')
+                                    this.props.history.replace('/produtos')
                                 }
                             >
                                 Cancelar
