@@ -13,10 +13,10 @@ function Menu(props) {
     const { pathname } = props.history.location;
 
     const listItems = [
-        { name: 'Produtos', path: '/lista', icon: produto },
-        { name: 'Fornecedores', path: '/novo', icon: fornecedor },
-        { name: 'Estoque', path: '/novo', icon: estoque },
-        { name: 'Vendas', path: '/novo', icon: vendas },
+        { name: 'Produtos', path: '/produtos', icon: produto },
+        { name: 'Fornecedores', path: '/fornecedores', icon: fornecedor },
+        { name: 'Estoque', path: '/estoque', icon: estoque },
+        { name: 'Vendas', path: '/vendas', icon: vendas },
     ];
 
     return (
