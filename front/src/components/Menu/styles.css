@@ -51,7 +51,7 @@
 }
 
 .main-menu li.selected img {
-    filter: brightness(10);
+    filter: invert(1);
 }
 
 .main-menu li.selected a {

@@ -38,13 +38,13 @@ function Menu(props) {
                                             : undefined
                                     }
                                 >
-                                    {/* <img src={item.icon} alt={item.name}> */}
+                                    <img src={item.icon} alt={item.name} />
                                     <Link to={item.path}>{item.name}</Link>
                                 </li>
                             ))}
                         </ul>
                     </nav>
-                    <button onClick={console.log('logout')}>Sair</button>
+                    <button onClick={() => console.log('logout')}>Sair</button>
                 </div>
             )}
         </>
