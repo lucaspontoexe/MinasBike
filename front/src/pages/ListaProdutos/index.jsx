@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
+import Header from '../../components/Header';
 import Button from '../../components/Button';
 import './styles.css';
 
@@ -29,9 +31,10 @@ export default function ListaProdutos({ history }) {
 
     return (
         <div className="tela lista-produtos">
+            <Header>Produtos</Header>
             <div className="table-wrapper">
                 <div className="buttons">
-                    <Button onClick={() => history.push('/novo')}>
+                    <Button onClick={() => history.push('/produtos/novo')}>
                         Cadastrar produto
                     </Button>
                     <Button>Gerar Relatório</Button>
@@ -39,10 +42,10 @@ export default function ListaProdutos({ history }) {
                 <table className="table">
                     <thead>
                         <tr>
+                            <th>Código</th>
                             <th>Nome</th>
                             <th>Marca</th>
                             <th>Preço</th>
-                            <th>Código</th>
                             <th>Quantidade</th>
                             <th>Fornecedor</th>
                             <th>Categoria</th>
@@ -52,10 +55,12 @@ export default function ListaProdutos({ history }) {
                     <tbody>
                         {products.map((row, index) => (
                             <tr key={index}>
+                                <td>
+                                    <Link to={`/produtos/${row.code}`}>{row.code}</Link>
+                                </td>
                                 <td>{row.name}</td>
                                 <td>{row.brand}</td>
                                 <td>R$ {row.price / 100}</td>
-                                <td>{row.code}</td>
                                 <td>{`${row.quantity_per_unity} ${row.unity}`}</td>
                                 <td>{getName(providers, row.id_provider)}</td>
                                 <td>{getName(categories, row.id_category)}</td>
