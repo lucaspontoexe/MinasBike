@@ -10,7 +10,7 @@ export default class CadastroProdutos extends Component {
         this.state = {
             name: '',
             brand: '',
-            price: undefined,
+            price: 5,
             code: undefined,
             quantity_per_unity: undefined,
             unity: '',
@@ -149,19 +149,52 @@ export default class CadastroProdutos extends Component {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        <TextBox
-                            required
-                            name="price"
-                            label="Preço"
-                            type="number"
-                            step="0.01"
-                            min="0.05"
-                            onChange={event =>
-                                this.setState({
-                                    price: event.target.value * 100,
-                                })
-                            }
-                        />
+
+                        <div className="item">
+                            <TextBox
+                                required
+                                name="price"
+                                label="Preço"
+                                type="number"
+                                step="0.01"
+                                min="0.05"
+                                onChange={event =>
+                                    this.setState({
+                                        price: event.target.value * 100,
+                                    })
+                                }
+                            />
+                            <TextBox
+                                name="qty_current"
+                                label="Quantidade atual no estoque"
+                                disabled
+                            />
+                        </div>
+                        <div className="item">
+                            <TextBox
+                                name="qty_min"
+                                label="Quantidade mínima no estoque"
+                                disabled
+                            />
+                            <TextBox
+                                name="qty_max"
+                                label="Quantidade máxima no estoque"
+                                disabled
+                            />
+                        </div>
+
+                        <div className="item">
+                            <TextBox
+                                name="change_by"
+                                label="Alterado por"
+                                disabled
+                            />
+                            <TextBox
+                                name="incl_by"
+                                label="Incluído por"
+                                disabled
+                            />
+                        </div>
 
                         <div className="item">
                             <Button
