@@ -16,7 +16,7 @@
 }
 
 .main-menu li {
-    width: 80%;
+    width: 85%;
     height: 48px;
 
     margin: 10px 0px;
@@ -51,7 +51,7 @@
 }
 
 .main-menu li.selected img {
-    filter: invert(1);
+    filter: invert(1) brightness(1);
 }
 
 .main-menu li.selected a {
