@@ -115,9 +115,6 @@ export default class CadastroProdutos extends Component {
                             label="Código de Barras"
                             onChange={this.handleChange}
                         />
-                    </div>
-
-                    <div className="page">
                         <TextBox
                             required
                             name="brand"
@@ -131,6 +128,9 @@ export default class CadastroProdutos extends Component {
                             ]}
                             onChange={this.handleChange}
                         />
+                    </div>
+
+                    <div className="page">
                         <div className="item">
                             <TextBox
                                 required
