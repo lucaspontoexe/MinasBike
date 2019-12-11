@@ -8,7 +8,7 @@ function Menu(props) {
     const { pathname } = props.history.location;
 
     const listItems = [
-        { name: 'Produtos', path: '/lista'/*, icon: produto*/ },
+        { name: 'Produtos', path: '/lista' /*, icon: produto*/ },
         { name: 'Fornecedores', path: '/novo' },
         { name: 'Estoque', path: '/novo' },
         { name: 'Vendas', path: '/novo' },
@@ -26,8 +26,11 @@ function Menu(props) {
                         <ul>
                             {listItems.map(item => (
                                 <li
+                                    key={item.name}
                                     className={
-                                        pathname === item.path && 'selected'
+                                        pathname === item.path
+                                            ? 'selected'
+                                            : undefined
                                     }
                                 >
                                     {/* <img src={item.icon} alt={item.name}> */}
