@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import api from '../../services/api';
 import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
+import Header from '../../components/Header';
 import './styles.css';
 
 export default class CadastroProdutos extends Component {
@@ -67,6 +68,7 @@ export default class CadastroProdutos extends Component {
     render() {
         return (
             <div className="tela cadastro-produtos">
+                <Header>Novo Produto</Header>
                 <form onSubmit={this.handleSubmit}>
                     <div className="page">
                         <TextBox

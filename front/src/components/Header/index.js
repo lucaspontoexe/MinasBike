@@ -1,9 +1,12 @@
 import React from 'react';
 
-import "./styles.css";
+import './styles.css';
 
-const Header = () => (
-    <header id="main-header">Bem Vindos</header>
+const Header = props => (
+    <header>
+        <div className="bar"/>
+        <span>{props.children}</span>
+    </header>
 );
 
 export default Header;
