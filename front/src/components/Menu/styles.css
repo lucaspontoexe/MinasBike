@@ -5,7 +5,7 @@
     padding-top: 40px;
     position: fixed;
     z-index: 1;
-    background: #FFF;
+    background: #fff;
 }
 
 .main-menu .logo {
@@ -16,12 +16,24 @@
 }
 
 .main-menu li {
-    width: 100%;
+    width: 80%;
     height: 48px;
-    background-color: #eee;
+
+    margin: 10px 0px;
+    padding-left: 24px;
+    border-radius: 0px 24px 24px 0px;
+    background-color: #dcdcdc;
+
+    font-family: Poppins, Roboto, sans-serif;
+    font-weight: bold;
+    color: #090909;
 
     display: flex;
     align-items: center;
+}
+
+.main-menu li img {
+    width: 30px;
 }
 
 .main-menu li a {
@@ -34,5 +46,27 @@
 }
 
 .main-menu li.selected {
-    background: #cccccc;
+    background: #dc2438;
+    width: 95%;
+}
+
+.main-menu li.selected img {
+    filter: brightness(10);
+}
+
+.main-menu li.selected a {
+    color: white;
+}
+
+.main-menu button {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    margin: 0px;
+    width: 80%;
+
+    border-radius: 5px;
+    box-shadow: none;
 }

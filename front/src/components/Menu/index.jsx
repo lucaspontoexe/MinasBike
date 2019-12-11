@@ -4,14 +4,19 @@ import './styles.css';
 
 import logo from '../../assets/images/logo.png';
 
+import produto from '../../assets/icons/produto.svg';
+import fornecedor from '../../assets/icons/fornecedor.svg';
+import estoque from '../../assets/icons/estoque.svg';
+import vendas from '../../assets/icons/payment.svg';
+
 function Menu(props) {
     const { pathname } = props.history.location;
 
     const listItems = [
-        { name: 'Produtos', path: '/lista' /*, icon: produto*/ },
-        { name: 'Fornecedores', path: '/novo' },
-        { name: 'Estoque', path: '/novo' },
-        { name: 'Vendas', path: '/novo' },
+        { name: 'Produtos', path: '/lista', icon: produto },
+        { name: 'Fornecedores', path: '/novo', icon: fornecedor },
+        { name: 'Estoque', path: '/novo', icon: estoque },
+        { name: 'Vendas', path: '/novo', icon: vendas },
     ];
 
     return (
@@ -39,6 +44,7 @@ function Menu(props) {
                             ))}
                         </ul>
                     </nav>
+                    <button onClick={console.log('logout')}>Sair</button>
                 </div>
             )}
         </>
