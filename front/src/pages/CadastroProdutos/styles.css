@@ -5,7 +5,7 @@
 
 .cadastro-produtos form {
     margin: 48px;
-    width: 80%;
+    width: 100%;
     display: flex;
 }
 
@@ -16,8 +16,4 @@
 
 .cadastro-produtos .item {
     display: inline-flex;
-}
-
-.cadastro-produtos .item .text-box {
-    margin: 0px 10px;
 }
