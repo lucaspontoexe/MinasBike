@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import CadastroProdutos from './pages/CadastroProdutos';
 import NovaConta from './pages/NovaConta';
 import Menu from './components/Menu';
+import DetalhesProduto from './pages/DetalhesProduto';
 
 export default function Routes() {
     return (
@@ -13,8 +14,9 @@ export default function Routes() {
             <Menu />
             <Switch>
                 <Route path="/" exact component={Login} />
-                <Route path="/lista" component={ListaProdutos} />
-                <Route path="/novo" component={CadastroProdutos} />
+                <Route path="/produtos" exact component={ListaProdutos} />
+                <Route path="/produtos/novo" component={CadastroProdutos} />
+                <Route path="/produtos/:id" component={DetalhesProduto} />
                 <Route path="/cadastrar" component={NovaConta} />
             </Switch>
         </BrowserRouter>
