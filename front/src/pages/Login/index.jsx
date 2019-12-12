@@ -5,6 +5,7 @@ import TextBox from '../../components/TextBox';
 import Error from '../../components/Error';
 
 import api from '../../services/api';
+import logo from '../../assets/images/logo-white.png';
 import './styles.css';
 
 export default function Login({ history }) {
@@ -33,14 +34,18 @@ export default function Login({ history }) {
     return (
         <>
             {error && <Error>{error}</Error>}
-            <br />
+
             <div className="login-screen">
-                <form onSubmit={handleSubmit}>
+                <form className="login-container" onSubmit={handleSubmit}>
+                    <div className="logo-container">
+                        <img src={logo} alt="Minas Bike logo" />
+                    </div>
+
                     <TextBox
                         name="user"
                         type="email"
-                        label="Login"
-                        placeholder="user@example.com"
+                        // label="Login"
+                        placeholder="E-mail"
                         required
                         autoFocus
                         value={email}
@@ -50,16 +55,18 @@ export default function Login({ history }) {
                     <TextBox
                         name="password"
                         type="password"
-                        label="Password"
+                        // label="Password"
+                        placeholder="Senha"
                         required
                         value={password}
                         onChange={event => setPassword(event.target.value)}
                     />
+
                     <Button type="submit" color="#8ee88c">
                         Log in
                     </Button>
+                    <Link to="/cadastrar">Sign in </Link>
                 </form>
-                <Link to="/cadastrar">Sign in </Link>
             </div>
         </>
     );
