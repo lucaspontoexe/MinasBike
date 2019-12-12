@@ -149,6 +149,7 @@ export default class CadastroProdutos extends Component {
                                 label="Unidade de medida"
                                 type="text"
                                 onChange={this.handleChange}
+                                // placeholder="unidade, kg, metros..."
                             />
                         </div>
 
