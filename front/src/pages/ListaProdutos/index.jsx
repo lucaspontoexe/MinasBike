@@ -34,10 +34,10 @@ export default function ListaProdutos({ history }) {
             <Header>Produtos</Header>
             <div className="table-wrapper">
                 <div className="buttons">
-                    <Button onClick={() => history.push('/produtos/novo')}>
+                    <Button color="#30CC57" onClick={() => history.push('/produtos/novo')}>
                         Cadastrar produto
                     </Button>
-                    <Button>Gerar Relatório</Button>
+                    <Button color="#DC2438">Gerar Relatório</Button>
                 </div>
                 <table className="table">
                     <thead>

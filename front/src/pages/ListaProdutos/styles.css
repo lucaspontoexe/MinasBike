@@ -45,3 +45,9 @@ td a {
     /* font-weight: bold; */
     /* text-decoration: none; */
 }
+
+.buttons {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
