@@ -19,9 +19,11 @@ function Menu(props) {
         { name: 'Vendas', path: '/vendas', icon: vendas },
     ];
 
+    const hiddenMenuPages = ['/', '/cadastrar'];
+
     return (
         <>
-            {pathname !== '/' && (
+            {!hiddenMenuPages.includes(pathname) && (
                 <div className="main-menu">
                     <div className="logo">
                         <img src={logo} alt="Minas Bike Logo" />
