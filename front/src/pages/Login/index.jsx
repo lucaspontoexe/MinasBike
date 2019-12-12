@@ -62,10 +62,14 @@ export default function Login({ history }) {
                         onChange={event => setPassword(event.target.value)}
                     />
 
-                    <Button type="submit" color="#8ee88c">
-                        Log in
+                    <Button type="submit" color="#DC2438">
+                        Acessar
                     </Button>
-                    <Link to="/cadastrar">Sign in </Link>
+
+                    <span>
+                        Ainda não tem conta?{' '}
+                        <Link to="/cadastrar">Registre-se</Link>
+                    </span>
                 </form>
             </div>
         </>

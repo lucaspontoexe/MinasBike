@@ -50,14 +50,24 @@
 
 /* dark mode */
 
-.login-container a,
+
 .login-container span {
     color: #eeeeee;
+    font-weight: bold;
 }
 
+.login-container a {
+    color: #DC2438;
+    text-decoration: none;
+}
 .login-container input {
     background-color: #181818;
     color: whitesmoke;
     border: 2px #666 solid;
 }
 
+/* seria styled components uma boa ideia? */
+.login-container button {
+    height: 60px;
+    font-size: 18px;
+}
