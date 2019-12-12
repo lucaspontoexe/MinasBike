@@ -17,6 +17,7 @@ export default class CadastroProdutos extends Component {
             unity: '',
             id_category: 0,
             id_provider: 0,
+            qty_in_stock: 1,
         };
     }
 
@@ -170,7 +171,9 @@ export default class CadastroProdutos extends Component {
                             <TextBox
                                 name="qty_current"
                                 label="Quantidade atual no estoque"
-                                disabled
+                                type="number"
+                                value={this.qty_in_stock}
+                                onChange={this.handleChange}
                             />
                         </div>
                         <div className="item">
