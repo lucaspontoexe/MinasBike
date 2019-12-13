@@ -5,6 +5,11 @@ import Provider from '../models/Provider';
 
 class ProductController {
   async index(req, res) {
+    const { id } = req.params;
+    if (id) {
+      const product = await Product.findOne({ where: { id } });
+      return res.json(product);
+    }
     const products = await Product.findAll();
     return res.json(products);
   }
