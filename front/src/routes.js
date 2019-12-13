@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import ListaProdutos from './pages/ListaProdutos';
+import ListaEstoque from './pages/ListaEstoque';
 import Login from './pages/Login';
 import CadastroProdutos from './pages/CadastroProdutos';
 import NovaConta from './pages/NovaConta';
@@ -14,9 +15,12 @@ export default function Routes() {
             <Menu />
             <Switch>
                 <Route path="/" exact component={Login} />
+
                 <Route path="/produtos" exact component={ListaProdutos} />
                 <Route path="/produtos/novo" component={CadastroProdutos} />
                 <Route path="/produtos/:id" component={DetalhesProduto} />
+                
+                <Route path="/estoque" exact component={ListaEstoque} />
                 <Route path="/cadastrar" component={NovaConta} />
             </Switch>
         </BrowserRouter>
