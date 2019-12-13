@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: `http://minasbike.devsio.com.br:3001`,
+    baseURL: `http://201.46.39.22:3001/`,
     proxy: {
         host: 'backend',
         port: 3001,
