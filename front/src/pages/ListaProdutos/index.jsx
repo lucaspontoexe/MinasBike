@@ -37,7 +37,7 @@ export default function ListaProdutos({ history }) {
                     <Button color="#30CC57" onClick={() => history.push('/produtos/novo')}>
                         Cadastrar produto
                     </Button>
-                    <Button color="#DC2438" onClick={() => history.pop()}>Gerar Relatório</Button>
+                    <Button color="#DC2438" onClick={() => {}}>Gerar Relatório</Button>
                 </div>
                 <table className="table">
                     <thead>

@@ -5,6 +5,9 @@ import TextBox from '../../components/TextBox';
 import Error from '../../components/Error';
 
 import api from '../../services/api';
+import logo from '../../assets/images/logo-white.png';
+import emailIcon from '../../assets/icons/email.svg';
+import passwordIcon from '../../assets/icons/password.svg';
 import './styles.css';
 
 export default function Login({ history }) {
@@ -30,36 +33,55 @@ export default function Login({ history }) {
             });
     }
 
+    function useIcon(icon) {
+        return {
+            paddingLeft: 40,
+            backgroundImage: `url(${icon})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 10
+        }
+    }
+
     return (
         <>
             {error && <Error>{error}</Error>}
-            <br />
+
             <div className="login-screen">
-                <form onSubmit={handleSubmit}>
+                <form className="login-container" onSubmit={handleSubmit}>
+                    <div className="logo-container">
+                        <img src={logo} alt="Minas Bike logo" />
+                    </div>
+
                     <TextBox
                         name="user"
                         type="email"
-                        label="Login"
-                        placeholder="user@example.com"
+                        placeholder="E-mail"
                         required
                         autoFocus
                         value={email}
                         onChange={event => setEmail(event.target.value)}
+                        style={useIcon(emailIcon)}
                     />
 
                     <TextBox
                         name="password"
                         type="password"
-                        label="Password"
+                        placeholder="Senha"
                         required
                         value={password}
                         onChange={event => setPassword(event.target.value)}
+                        style={useIcon(passwordIcon)}
                     />
-                    <Button type="submit" color="#8ee88c">
-                        Log in
+
+                    <Button type="submit" color="#DC2438">
+                        Acessar
                     </Button>
+
+                    <span>
+                        Ainda não tem conta?{' '}
+                        <Link to="/cadastrar">Registre-se</Link>
+                    </span>
                 </form>
-                <Link to="/cadastrar">Sign in </Link>
             </div>
         </>
     );
