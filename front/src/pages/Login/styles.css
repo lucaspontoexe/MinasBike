@@ -59,10 +59,15 @@
     color: #dc2438;
     text-decoration: none;
 }
+
 .login-container input {
     background-color: #181818;
     color: whitesmoke;
     border: 2px #666 solid;
+}
+
+.login-container label {
+    color: #aaa;
 }
 
 /* seria styled components uma boa ideia? */

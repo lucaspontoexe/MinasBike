@@ -36,13 +36,12 @@ export default function NovaConta({ history }) {
     return (
         <>
             {error && <Error>{error}</Error>}
-            <br />
             <div className="login-screen">
-                <form onSubmit={handleSubmit}>
+                <form className="login-container" onSubmit={handleSubmit}>
                     <TextBox
                         name="name"
                         type="text"
-                        label="Name"
+                        label="Nome"
                         required
                         autoFocus
                         value={name}
@@ -52,7 +51,7 @@ export default function NovaConta({ history }) {
                     <TextBox
                         name="user"
                         type="email"
-                        label="Login"
+                        label="E-mail"
                         placeholder="user@example.com"
                         required
                         value={email}
@@ -62,7 +61,7 @@ export default function NovaConta({ history }) {
                     <TextBox
                         name="password"
                         type="password"
-                        label="Password"
+                        label="Senha"
                         required
                         value={password}
                         onChange={event => setPassword(event.target.value)}
@@ -70,13 +69,15 @@ export default function NovaConta({ history }) {
                     <TextBox
                         name="confirmPassword"
                         type="password"
-                        label="Confirm Password"
+                        label="Confirmar Senha"
                         required
                         value={password_confirmation}
-                        onChange={event => setConfirmPassword(event.target.value)}
+                        onChange={event =>
+                            setConfirmPassword(event.target.value)
+                        }
                     />
-                    <Button type="submit" color="#8ee88c">
-                        Sign in
+                    <Button type="submit" color="#DC2438">
+                        Registrar
                     </Button>
                 </form>
             </div>
