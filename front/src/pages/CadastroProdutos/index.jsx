@@ -3,6 +3,7 @@ import api from '../../services/api';
 import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import Error from '../../components/Error';
 import './styles.css';
 
 export default class CadastroProdutos extends Component {
@@ -18,6 +19,7 @@ export default class CadastroProdutos extends Component {
             id_category: 0,
             id_provider: 0,
             qty_in_stock: 1,
+            error: '',
         };
     }
 
@@ -35,10 +37,16 @@ export default class CadastroProdutos extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
-        console.log('posting: ', this.state);
+
+        const submitObject = {
+            ...this.state,
+            error: undefined,
+        };
+
+        console.log('posting: ', submitObject);
 
         try {
-            const response = await api.post('/products', this.state, {
+            const response = await api.post('/products', submitObject, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -46,6 +54,7 @@ export default class CadastroProdutos extends Component {
             console.log(response);
             this.props.history.replace('/produtos');
         } catch (error) {
+            this.setState({ error: error.response.data });
             console.log(error.response.data);
         }
     };
@@ -69,6 +78,7 @@ export default class CadastroProdutos extends Component {
     render() {
         return (
             <div className="tela cadastro-produtos">
+                {this.state.error !== '' && <Error>{this.state.error}</Error>}
                 <Header>Novo Produto</Header>
                 <form onSubmit={this.handleSubmit}>
                     <div className="page">

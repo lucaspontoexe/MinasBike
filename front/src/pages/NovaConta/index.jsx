@@ -35,7 +35,7 @@ export default function NovaConta({ history }) {
 
     return (
         <>
-            {error && <Error>{error}</Error>}
+            {error !== '' && <Error>{error}</Error>}
             <div className="login-screen">
                 <form className="login-container" onSubmit={handleSubmit}>
                     <TextBox
