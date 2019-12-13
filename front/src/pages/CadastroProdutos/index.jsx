@@ -123,12 +123,6 @@ export default class CadastroProdutos extends Component {
                             name="brand"
                             label="Marca"
                             type="text"
-                            list="marcas"
-                            options={[
-                                'Shimano',
-                                'Outra coisa',
-                                'Mais marcas de Bicicleta',
-                            ]}
                             onChange={this.handleChange}
                         />
                     </div>
