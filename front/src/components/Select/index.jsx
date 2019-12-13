@@ -8,20 +8,15 @@ export default function Select(props) {
     const grabfromAPI = typeof options === 'string';
 
     useEffect(() => {
-        fetchData();
-    }, []);
-
-    // 🐎🐎🐎🐎🐎🐎🐎
-    async function fetchData() {
-        const response = await api.get(options);
-        setLoadedOptions(response.data);
-    }
+        api.get(options).then(response => setLoadedOptions(response.data));
+    }, [options]);
 
     return (
         <div className="select-wrapper">
             {/* renderiza label se existir */}
             {label && <label htmlFor={name}>{label}</label>}
             <select {...props}>
+                {/* 🐎🐎🐎🐎🐎🐎🐎 */}
                 {grabfromAPI
                     ? loadedOptions.map(item => (
                           <option key={item.id} value={item.id}>
