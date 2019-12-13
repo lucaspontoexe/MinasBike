@@ -143,6 +143,7 @@ export default class CadastroProdutos extends Component {
                                 required
                                 name="quantity_per_unity"
                                 label="Quantidade por item"
+                                title="Quantas unidades são vendidas por item"
                                 type="number"
                                 min={1}
                                 max={999}
