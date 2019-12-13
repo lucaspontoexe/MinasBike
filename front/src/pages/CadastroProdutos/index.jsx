@@ -3,7 +3,7 @@ import api from '../../services/api';
 import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
-import Select from '../../components/Select';
+import SelectWithLabel from '../../components/Select';
 
 import './styles.css';
 
@@ -26,7 +26,7 @@ export default class CadastroProdutos extends Component {
     }
 
     handleChange = ({ target }) => {
-        const isNumber = target.type === 'number'; //todo select
+        const isNumber = target.type === 'number';
 
         this.setState({
             [target.name]: isNumber ? parseFloat(target.value) : target.value,
@@ -42,6 +42,8 @@ export default class CadastroProdutos extends Component {
             ...this.state,
             providers: undefined,
             categories: undefined,
+            id_provider: this.state.id_provider.value,
+            id_category: this.state.id_category.value,
         };
 
         try {
@@ -57,22 +59,14 @@ export default class CadastroProdutos extends Component {
         }
     };
 
-    getID(array, name) {
-        // deprecated soon
-        const matches = array.filter(obj => obj.name === name);
-        if (matches.length === 0) return undefined;
-        return matches[0].id;
-    }
-
     componentDidMount() {
-        // api.get('/providers').then(response => {
-        //     this.setState({ providers: response.data });
-        // });
-        // api.get('/categories').then(response => {
-        //     this.setState({ categories: response.data });
-        // });
+        api.get('/providers').then(response => {
+            this.setState({ providers: response.data });
+        });
+        api.get('/categories').then(response => {
+            this.setState({ categories: response.data });
+        });
     }
-
     render() {
         return (
             <div className="tela cadastro-produtos">
@@ -87,22 +81,30 @@ export default class CadastroProdutos extends Component {
                             onChange={this.handleChange}
                         />
 
-                        <Select
+                        <SelectWithLabel
                             required
                             name="category"
                             label="Categoria"
-                            // value={this.state.id_category}
-                            options="/categories"
-                            onChange={event => this.setState({id_category: parseInt(event.target.value)})}
+                            options={this.state.categories.map(item => {
+                                return { value: item.id, label: item.name };
+                            })}
+                            value={this.state.id_category}
+                            onChange={selectedOption => {
+                                this.setState({ id_category: selectedOption });
+                            }}
                         />
 
-                        <Select
+                        <SelectWithLabel
                             required
                             name="provider"
                             label="Fornecedor"
-                            // value={this.state.id_provider}
-                            options="/providers"
-                            onChange={event => this.setState({id_provider: parseInt(event.target.value)})}
+                            options={this.state.providers.map(item => {
+                                return { value: item.id, label: item.name };
+                            })}
+                            value={this.state.id_provider}
+                            onChange={selectedOption => {
+                                this.setState({ id_provider: selectedOption });
+                            }}
                         />
 
                         <TextBox
@@ -117,12 +119,6 @@ export default class CadastroProdutos extends Component {
                             name="brand"
                             label="Marca"
                             type="text"
-                            // list="marcas"
-                            // options={[
-                            //     'Shimano',
-                            //     'Outra coisa',
-                            //     'Mais marcas de Bicicleta',
-                            // ]}
                             onChange={this.handleChange}
                         />
                     </div>
