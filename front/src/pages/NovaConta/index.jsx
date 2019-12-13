@@ -36,7 +36,6 @@ export default function NovaConta({ history }) {
     return (
         <>
             {error && <Error>{error}</Error>}
-            <br />
             <div className="login-screen">
                 <form className="login-container" onSubmit={handleSubmit}>
                     <TextBox
@@ -73,7 +72,9 @@ export default function NovaConta({ history }) {
                         label="Confirmar Senha"
                         required
                         value={password_confirmation}
-                        onChange={event => setConfirmPassword(event.target.value)}
+                        onChange={event =>
+                            setConfirmPassword(event.target.value)
+                        }
                     />
                     <Button type="submit" color="#DC2438">
                         Registrar
