@@ -7,6 +7,7 @@ class Product extends Model {
         name: Sequelize.STRING,
         brand: Sequelize.STRING,
         price: Sequelize.INTEGER,
+        price_cost: Sequelize.INTEGER,
         code: Sequelize.BIGINT,
         quantity_per_unity: Sequelize.INTEGER,
         unity: Sequelize.STRING,
