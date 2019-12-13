@@ -34,10 +34,15 @@ export default function ListaProdutos({ history }) {
             <Header>Produtos</Header>
             <div className="table-wrapper">
                 <div className="buttons">
-                    <Button color="#30CC57" onClick={() => history.push('/produtos/novo')}>
+                    <Button
+                        color="#30CC57"
+                        onClick={() => history.push('/produtos/novo')}
+                    >
                         Cadastrar produto
                     </Button>
-                    <Button color="#DC2438" onClick={() => {}}>Gerar Relatório</Button>
+                    <Button color="#DC2438" onClick={() => {}}>
+                        Gerar Relatório
+                    </Button>
                 </div>
                 <table className="table">
                     <thead>
@@ -56,7 +61,9 @@ export default function ListaProdutos({ history }) {
                         {products.map((row, index) => (
                             <tr key={index}>
                                 <td>
-                                    <Link to={`/produtos/${row.code}`}>{row.code}</Link>
+                                    <Link to={`/produtos/${row.code}`}>
+                                        {row.code}
+                                    </Link>
                                 </td>
                                 <td>{row.name}</td>
                                 <td>{row.brand}</td>
