@@ -38,16 +38,20 @@ export default function Login({ history }) {
             paddingLeft: 40,
             backgroundImage: `url(${icon})`,
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: 10
-        }
+            backgroundPosition: 10,
+        };
     }
 
     return (
         <>
-            {error && <Error>{error}</Error>}
+            {error !== '' && <Error>{error}</Error>}
 
             <div className="login-screen">
-                <form className="login-container" onSubmit={handleSubmit}>
+                <form
+                    className="login-container"
+                    onSubmit={handleSubmit}
+                    onChangeCapture={() => setError('')}
+                >
                     <div className="logo-container">
                         <img src={logo} alt="Minas Bike logo" />
                     </div>
