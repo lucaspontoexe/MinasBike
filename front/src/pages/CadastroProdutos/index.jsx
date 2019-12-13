@@ -3,6 +3,8 @@ import api from '../../services/api';
 import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import Select from '../../components/Select';
+
 import './styles.css';
 
 export default class CadastroProdutos extends Component {
@@ -15,18 +17,16 @@ export default class CadastroProdutos extends Component {
             code: undefined,
             quantity_per_unity: undefined,
             unity: '',
-            id_category: 0,
-            id_provider: 0,
+            id_category: 1,
+            id_provider: 1,
             qty_in_stock: 1,
+            categories: [],
+            providers: [],
         };
     }
 
-    // response data
-    categoryData = [];
-    providersData = [];
-
     handleChange = ({ target }) => {
-        const isNumber = target.type === 'number';
+        const isNumber = target.type === 'number'; //todo select
 
         this.setState({
             [target.name]: isNumber ? parseFloat(target.value) : target.value,
@@ -37,8 +37,15 @@ export default class CadastroProdutos extends Component {
         event.preventDefault();
         console.log('posting: ', this.state);
 
+        //TODO: state independente
+        const submitObject = {
+            ...this.state,
+            providers: undefined,
+            categories: undefined,
+        };
+
         try {
-            const response = await api.post('/products', this.state, {
+            const response = await api.post('/products', submitObject, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -51,6 +58,7 @@ export default class CadastroProdutos extends Component {
     };
 
     getID(array, name) {
+        // deprecated soon
         const matches = array.filter(obj => obj.name === name);
         if (matches.length === 0) return undefined;
         return matches[0].id;
@@ -58,11 +66,11 @@ export default class CadastroProdutos extends Component {
 
     componentDidMount() {
         api.get('/providers').then(response => {
-            this.providersData = response.data;
+            this.setState({ providers: response.data });
         });
 
         api.get('/categories').then(response => {
-            this.categoryData = response.data;
+            this.setState({ categories: response.data });
         });
     }
 
@@ -79,38 +87,27 @@ export default class CadastroProdutos extends Component {
                             name="name"
                             onChange={this.handleChange}
                         />
-                        <TextBox
+
+                        <Select
                             required
                             name="category"
                             label="Categoria"
-                            type="text"
-                            list="categorias"
-                            options={this.categoryData.map(obj => obj.name)}
-                            onChange={event =>
-                                this.setState({
-                                    id_category: this.getID(
-                                        this.categoryData,
-                                        event.target.value
-                                    ),
-                                })
-                            }
+                            value={this.state.id_category}
+                            options={this.state.categories}
+                            onChange={this.handleChange}
+                            type="number"
                         />
-                        <TextBox
+
+                        <Select
                             required
                             name="provider"
                             label="Fornecedor"
-                            type="text"
-                            list="providers"
-                            options={this.providersData.map(obj => obj.name)}
-                            onChange={event =>
-                                this.setState({
-                                    id_provider: this.getID(
-                                        this.providersData,
-                                        event.target.value
-                                    ),
-                                })
-                            }
+                            value={this.state.id_provider}
+                            options={this.state.providers}
+                            onChange={this.handleChange}
+                            type="number"
                         />
+
                         <TextBox
                             required
                             name="code"
@@ -123,12 +120,12 @@ export default class CadastroProdutos extends Component {
                             name="brand"
                             label="Marca"
                             type="text"
-                            list="marcas"
-                            options={[
-                                'Shimano',
-                                'Outra coisa',
-                                'Mais marcas de Bicicleta',
-                            ]}
+                            // list="marcas"
+                            // options={[
+                            //     'Shimano',
+                            //     'Outra coisa',
+                            //     'Mais marcas de Bicicleta',
+                            // ]}
                             onChange={this.handleChange}
                         />
                     </div>
