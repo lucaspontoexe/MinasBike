@@ -6,11 +6,17 @@ import './styles.css';
 
 export default function DetalhesProduto(props) {
     const { id } = props.match.params;
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log(event);
+    }
+
     return (
         <div className="tela detalhes-produto">
             <Header>Detalhes do Produto {id}</Header>
 
-            <form action="">
+            <form onSubmit={handleSubmit}>
                 <div className="column">
                     <TextBox name="preco_custo" label="Preço de custo" />
                     <TextBox name="preco_venda" label="Preço de venda" />
