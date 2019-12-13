@@ -1,4 +1,4 @@
-# Minas Bike 
+# Minas Bike Management application
 
 Store management application built in react and a nodejs API.
 

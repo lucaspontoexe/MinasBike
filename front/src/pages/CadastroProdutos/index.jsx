@@ -172,8 +172,8 @@ export default class CadastroProdutos extends Component {
                                 name="qty_current"
                                 label="Quantidade atual no estoque"
                                 type="number"
-                                value={this.qty_in_stock}
                                 onChange={this.handleChange}
+                                min="1"
                             />
                         </div>
                         <div className="item">
@@ -202,7 +202,7 @@ export default class CadastroProdutos extends Component {
                             />
                         </div>
 
-                        <div className="item">
+                        <div className="buttons">
                             <Button
                                 color="#DC2438"
                                 onClick={() =>
@@ -211,7 +211,7 @@ export default class CadastroProdutos extends Component {
                             >
                                 Cancelar
                             </Button>
-                            <Button type="submit" color="#8EE88C">
+                            <Button type="submit" color="#30CC57">
                                 Cadastrar
                             </Button>
                         </div>
