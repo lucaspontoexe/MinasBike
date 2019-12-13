@@ -6,8 +6,8 @@ class Provider extends Model {
       {
         name: Sequelize.STRING,
         contact_name: Sequelize.STRING,
+        email: Sequelize.STRING,
         phone: Sequelize.INTEGER,
-        price: Sequelize.INTEGER,
       },
       {
         sequelize,
