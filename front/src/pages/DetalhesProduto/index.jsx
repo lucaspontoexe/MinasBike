@@ -18,8 +18,8 @@ export default function DetalhesProduto(props) {
 
             <form onSubmit={handleSubmit}>
                 <div className="column">
-                    <TextBox name="preco_custo" label="Preço de custo" />
-                    <TextBox name="preco_venda" label="Preço de venda" />
+                    <TextBox name="preco_custo" label="Preço de custo" type="number"/>
+                    <TextBox name="preco_venda" label="Preço de venda" type="number"/>
                     <TextBox name="name" label="Nome do Produto" />
                     <TextBox name="provider" label="Fornecedor" />
                 </div>
@@ -27,7 +27,7 @@ export default function DetalhesProduto(props) {
                 <div className="column">
                     <TextBox name="category" label="Categoria" />
                     <TextBox name="sold" label="Quantidade Vendida" />
-                    <TextBox name="code" label="Código de Barras" />
+                    <TextBox name="code" label="Código de Barras" type="number"/>
                 </div>
             </form>
 
