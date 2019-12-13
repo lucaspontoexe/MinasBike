@@ -65,13 +65,12 @@ export default class CadastroProdutos extends Component {
     }
 
     componentDidMount() {
-        api.get('/providers').then(response => {
-            this.setState({ providers: response.data });
-        });
-
-        api.get('/categories').then(response => {
-            this.setState({ categories: response.data });
-        });
+        // api.get('/providers').then(response => {
+        //     this.setState({ providers: response.data });
+        // });
+        // api.get('/categories').then(response => {
+        //     this.setState({ categories: response.data });
+        // });
     }
 
     render() {
@@ -92,20 +91,18 @@ export default class CadastroProdutos extends Component {
                             required
                             name="category"
                             label="Categoria"
-                            value={this.state.id_category}
-                            options={this.state.categories}
-                            onChange={this.handleChange}
-                            type="number"
+                            // value={this.state.id_category}
+                            options="/categories"
+                            onChange={event => this.setState({id_category: parseInt(event.target.value)})}
                         />
 
                         <Select
                             required
                             name="provider"
                             label="Fornecedor"
-                            value={this.state.id_provider}
-                            options={this.state.providers}
-                            onChange={this.handleChange}
-                            type="number"
+                            // value={this.state.id_provider}
+                            options="/providers"
+                            onChange={event => this.setState({id_provider: parseInt(event.target.value)})}
                         />
 
                         <TextBox
