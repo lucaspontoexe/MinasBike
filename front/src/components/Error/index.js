@@ -4,8 +4,12 @@ import './style.css';
 export default function Error(props) {
     const { children, color, textColor } = props;
     return (
-        <error {...props} style={{ backgroundColor: color, color: textColor }}>
+        <div
+            className="error"
+            {...props}
+            style={{ backgroundColor: color, color: textColor }}
+        >
             {children}
-        </error>
+        </div>
     );
 }

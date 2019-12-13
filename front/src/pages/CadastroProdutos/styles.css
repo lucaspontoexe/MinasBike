@@ -1,23 +1,24 @@
 .cadastro-produtos {
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .cadastro-produtos form {
-    column-count: 2;
     margin: 48px;
-    width: 100%;
+    display: flex;
+}
+
+.cadastro-produtos .page {
+    flex: 1;
+    margin: 0px 20px;
 }
 
 .cadastro-produtos .item {
     display: inline-flex;
+    width: 95%;
+    justify-content: space-between;
 }
 
-.cadastro-produtos .item input {
-    margin-right: 5px;
-    width: 120px;
+.cadastro-produtos input[type='number'] {
+    appearance: textfield;
 }
