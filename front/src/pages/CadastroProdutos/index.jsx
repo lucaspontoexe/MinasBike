@@ -3,7 +3,7 @@ import api from '../../services/api';
 import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
-import SelectWithLabel from '../../components/Select';
+import SelectWithLabel from '../../components/SelectWithLabel';
 
 import './styles.css';
 
@@ -85,6 +85,7 @@ export default class CadastroProdutos extends Component {
                             required
                             name="category"
                             label="Categoria"
+                            placeholder="Escolha uma categoria..."
                             options={this.state.categories.map(item => {
                                 return { value: item.id, label: item.name };
                             })}
@@ -98,6 +99,7 @@ export default class CadastroProdutos extends Component {
                             required
                             name="provider"
                             label="Fornecedor"
+                            placeholder="Escolha um fornecedor..."
                             options={this.state.providers.map(item => {
                                 return { value: item.id, label: item.name };
                             })}

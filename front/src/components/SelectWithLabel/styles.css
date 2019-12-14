@@ -1,6 +1,5 @@
-.select-wrapper select {
-    height: 48px;
-    width: 100%;
+.select-wrapper {
+    margin: 10px 0px;
 }
 
 .select-wrapper label {
