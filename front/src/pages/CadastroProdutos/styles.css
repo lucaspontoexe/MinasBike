@@ -4,10 +4,6 @@
     top:0px;
 }
 
-.nameInput{
-    flex-direction: row
-}
-
 .cadastro-produtos form {
     margin-left: 40px;
     display: flex;
