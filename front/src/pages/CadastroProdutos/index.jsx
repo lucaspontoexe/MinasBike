@@ -4,6 +4,7 @@ import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Error from '../../components/Error';
+import Approved from '../../components/Approved';
 import './styles.css';
 
 export default class CadastroProdutos extends Component {
@@ -77,9 +78,13 @@ export default class CadastroProdutos extends Component {
 
     render() {
         return (
+            <>
+            <Approved>Produto cadastrado</Approved>
             <div className="tela cadastro-produtos">
+                
                 {this.state.error !== '' && <Error>{this.state.error}</Error>}
                 <Header>Novo Produto</Header>
+                
                 <form onSubmit={this.handleSubmit}>
                     <div className="page">
                         <TextBox
@@ -223,6 +228,7 @@ export default class CadastroProdutos extends Component {
                     </div>
                 </form>
             </div>
+            </>
         );
     }
 }

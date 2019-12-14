@@ -1,6 +1,7 @@
 .cadastro-produtos {
     height: 100%;
     width: 100%;
+    top:0px;
 }
 
 .cadastro-produtos form {
