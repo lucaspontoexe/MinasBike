@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import multer from 'multer';
+import multerConfig from './config/multer';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -9,8 +11,10 @@ import LocationController from './app/controllers/LocationController';
 import ProductController from './app/controllers/ProductController';
 import ProviderController from './app/controllers/ProviderController';
 import StockController from './app/controllers/StockController';
+import FileController from './app/controllers/FileController';
 
 const routes = new Router();
+const upload = multer(multerConfig);
 
 // root
 routes.get('/', (req, res) => {
@@ -25,6 +29,7 @@ routes.get('/categories', CategoryController.index);
 // locations
 routes.get('/locations', LocationController.index);
 // products
+routes.get('/products/:id', ProductController.index);
 routes.get('/products', ProductController.index);
 // providers
 routes.get('/providers', ProviderController.index);
@@ -56,5 +61,7 @@ routes.delete('/providers/:id', ProviderController.delete);
 routes.post('/stocks', StockController.store);
 routes.put('/stocks/:id', StockController.update);
 routes.delete('/stocks/:id', StockController.delete);
+// files
+routes.post('/files', upload.single('file'), FileController.store);
 
 export default routes;

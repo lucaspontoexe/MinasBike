@@ -13,8 +13,8 @@ class ProviderController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       contact_name: Yup.string().required(),
+      email: Yup.string().required(),
       phone: Yup.number().required(),
-      price: Yup.number().required(),
       id_location: Yup.number().required(),
     });
 
@@ -44,8 +44,8 @@ class ProviderController {
     const schema = Yup.object().shape({
       name: Yup.string(),
       contact_name: Yup.string(),
+      email: Yup.string(),
       phone: Yup.number(),
-      price: Yup.number(),
       id_location: Yup.number(),
     });
 
@@ -54,7 +54,7 @@ class ProviderController {
     }
 
     // check if the new Provider already exists
-    const { name, contact_name, phone, price, id_location } = req.body;
+    const { name, contact_name, email, phone, id_location } = req.body;
 
     if (name) {
       const providerAlreadyExists = await Provider.findOne({
@@ -79,8 +79,8 @@ class ProviderController {
       id,
       name,
       contact_name,
+      email,
       phone,
-      price,
       id_location,
     });
   }

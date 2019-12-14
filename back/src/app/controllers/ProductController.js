@@ -5,6 +5,11 @@ import Provider from '../models/Provider';
 
 class ProductController {
   async index(req, res) {
+    const { id } = req.params;
+    if (id) {
+      const product = await Product.findOne({ where: { id } });
+      return res.json(product);
+    }
     const products = await Product.findAll();
     return res.json(products);
   }
@@ -15,6 +20,7 @@ class ProductController {
       name: Yup.string().required(),
       brand: Yup.string().required(),
       price: Yup.number().required(),
+      price_cost: Yup.number().required(),
       code: Yup.number().required(),
       quantity_per_unity: Yup.number().required(),
       unity: Yup.string().required(),
@@ -57,6 +63,7 @@ class ProductController {
       name: Yup.string(),
       brand: Yup.string(),
       price: Yup.number(),
+      price_cost: Yup.number(),
       code: Yup.number(),
       quantity_per_unity: Yup.number(),
       unity: Yup.string(),
@@ -103,6 +110,7 @@ class ProductController {
       name,
       brand,
       price,
+      price_cost,
       code,
       quantity_per_unity,
       unity,
@@ -113,6 +121,7 @@ class ProductController {
       name,
       brand,
       price,
+      price_cost,
       code,
       quantity_per_unity,
       unity,

@@ -19,6 +19,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      price_cost: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       code: {
         type: Sequelize.BIGINT,
         allowNull: false,

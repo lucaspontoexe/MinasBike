@@ -15,11 +15,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      phone: {
-        type: Sequelize.INTEGER,
+      email: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
-      price: {
+      phone: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
