@@ -4,6 +4,8 @@ import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Error from '../../components/Error';
+import SelectWithLabel from '../../components/SelectWithLabel';
+
 import './styles.css';
 
 export default class CadastroProdutos extends Component {
@@ -16,16 +18,14 @@ export default class CadastroProdutos extends Component {
             code: undefined,
             quantity_per_unity: undefined,
             unity: '',
-            id_category: 0,
-            id_provider: 0,
+            id_category: 1,
+            id_provider: 1,
             qty_in_stock: 1,
             error: '',
+            categories: [],
+            providers: [],
         };
     }
-
-    // response data
-    categoryData = [];
-    providersData = [];
 
     handleChange = ({ target }) => {
         const isNumber = target.type === 'number';
@@ -38,11 +38,16 @@ export default class CadastroProdutos extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
+        //TODO: state independente
         const submitObject = {
             ...this.state,
+            providers: undefined,
+            categories: undefined,
+            id_provider: this.state.id_provider.value,
+            id_category: this.state.id_category.value,
             error: undefined,
         };
-
+        
         console.log('posting: ', submitObject);
 
         try {
@@ -59,22 +64,14 @@ export default class CadastroProdutos extends Component {
         }
     };
 
-    getID(array, name) {
-        const matches = array.filter(obj => obj.name === name);
-        if (matches.length === 0) return undefined;
-        return matches[0].id;
-    }
-
     componentDidMount() {
         api.get('/providers').then(response => {
-            this.providersData = response.data;
+            this.setState({ providers: response.data });
         });
-
         api.get('/categories').then(response => {
-            this.categoryData = response.data;
+            this.setState({ categories: response.data });
         });
     }
-
     render() {
         return (
             <div className="tela cadastro-produtos">
@@ -89,38 +86,35 @@ export default class CadastroProdutos extends Component {
                             name="name"
                             onChange={this.handleChange}
                         />
-                        <TextBox
+
+                        <SelectWithLabel
                             required
                             name="category"
                             label="Categoria"
-                            type="text"
-                            list="categorias"
-                            options={this.categoryData.map(obj => obj.name)}
-                            onChange={event =>
-                                this.setState({
-                                    id_category: this.getID(
-                                        this.categoryData,
-                                        event.target.value
-                                    ),
-                                })
-                            }
+                            placeholder="Escolha uma categoria..."
+                            options={this.state.categories.map(item => {
+                                return { value: item.id, label: item.name };
+                            })}
+                            value={this.state.id_category}
+                            onChange={selectedOption => {
+                                this.setState({ id_category: selectedOption });
+                            }}
                         />
-                        <TextBox
+
+                        <SelectWithLabel
                             required
                             name="provider"
                             label="Fornecedor"
-                            type="text"
-                            list="providers"
-                            options={this.providersData.map(obj => obj.name)}
-                            onChange={event =>
-                                this.setState({
-                                    id_provider: this.getID(
-                                        this.providersData,
-                                        event.target.value
-                                    ),
-                                })
-                            }
+                            placeholder="Escolha um fornecedor..."
+                            options={this.state.providers.map(item => {
+                                return { value: item.id, label: item.name };
+                            })}
+                            value={this.state.id_provider}
+                            onChange={selectedOption => {
+                                this.setState({ id_provider: selectedOption });
+                            }}
                         />
+
                         <TextBox
                             required
                             name="code"
