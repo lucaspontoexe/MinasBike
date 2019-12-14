@@ -79,7 +79,7 @@ export default class CadastroProdutos extends Component {
     render() {
         return (
             <>
-            <Approved>Produto cadastrado</Approved>
+            
             <div className="tela cadastro-produtos">
                 
                 {this.state.error !== '' && <Error>{this.state.error}</Error>}
@@ -179,8 +179,9 @@ export default class CadastroProdutos extends Component {
                                 }
                             />
                             <TextBox
+                                required
                                 name="qty_current"
-                                label="Quantidade atual no estoque"
+                                label="QTD. atual no estoque"
                                 type="number"
                                 onChange={this.handleChange}
                                 min="1"
@@ -188,27 +189,31 @@ export default class CadastroProdutos extends Component {
                         </div>
                         <div className="item">
                             <TextBox
+                                required
                                 name="qty_min"
-                                label="Quantidade mínima no estoque"
-                                disabled
+                                label="QTD. mínima no estoque"
+                                
                             />
                             <TextBox
+                                required
                                 name="qty_max"
-                                label="Quantidade máxima no estoque"
-                                disabled
+                                label="QTD. máxima no estoque"
+                               
                             />
                         </div>
 
                         <div className="item">
                             <TextBox
+                                required
                                 name="change_by"
                                 label="Alterado por"
-                                disabled
+                                
                             />
                             <TextBox
+                                required
                                 name="incl_by"
                                 label="Incluído por"
-                                disabled
+                                
                             />
                         </div>
 

@@ -4,8 +4,12 @@
     top:0px;
 }
 
+.nameInput{
+    flex-direction: row
+}
+
 .cadastro-produtos form {
-    margin: 48px;
+    margin-left: 40px;
     display: flex;
 }
 
@@ -22,4 +26,11 @@
 
 .cadastro-produtos input[type='number'] {
     appearance: textfield;
+}
+
+.asterisco{
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #DC2438;
 }

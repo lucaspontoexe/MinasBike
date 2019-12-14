@@ -5,8 +5,13 @@ export default function TextBox(props) {
     const { label, name, options, list } = props;
     return (
         <div className="text-box">
-            {/* renderiza label se existir */}
-            {label && <label htmlFor={name}>{label}</label>}
+            <div className="nameInput">
+                {label && <label htmlFor={name}>{label}</label>}
+                <text className="asterisco"> *</text>
+            </div>
+            
+            
+
 
             {/* copia todas as props pro input */}
             <input {...props}></input>
