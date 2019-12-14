@@ -78,13 +78,10 @@ export default class CadastroProdutos extends Component {
 
     render() {
         return (
-            <>
-            
             <div className="tela cadastro-produtos">
-                
                 {this.state.error !== '' && <Error>{this.state.error}</Error>}
                 <Header>Novo Produto</Header>
-                
+
                 <form onSubmit={this.handleSubmit}>
                     <div className="page">
                         <TextBox
@@ -192,13 +189,11 @@ export default class CadastroProdutos extends Component {
                                 required
                                 name="qty_min"
                                 label="QTD. mínima no estoque"
-                                
                             />
                             <TextBox
                                 required
                                 name="qty_max"
                                 label="QTD. máxima no estoque"
-                               
                             />
                         </div>
 
@@ -207,13 +202,11 @@ export default class CadastroProdutos extends Component {
                                 required
                                 name="change_by"
                                 label="Alterado por"
-                                
                             />
                             <TextBox
                                 required
                                 name="incl_by"
                                 label="Incluído por"
-                                
                             />
                         </div>
 
@@ -233,7 +226,6 @@ export default class CadastroProdutos extends Component {
                     </div>
                 </form>
             </div>
-            </>
         );
     }
 }
