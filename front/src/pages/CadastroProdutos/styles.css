@@ -1,7 +1,6 @@
 .cadastro-produtos {
     height: 100%;
     width: 100%;
-    top:0px;
 }
 
 .cadastro-produtos form {
@@ -24,9 +23,9 @@
     appearance: textfield;
 }
 
-.asterisco{
+.asterisco {
     font-family: Poppins, sans-serif;
     font-weight: bold;
     font-size: 16px;
-    color: #DC2438;
+    color: #dc2438;
 }

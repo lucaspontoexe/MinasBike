@@ -4,7 +4,7 @@ import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Error from '../../components/Error';
-import Approved from '../../components/Approved';
+// import Approved from '../../components/Approved';
 import './styles.css';
 
 export default class CadastroProdutos extends Component {
