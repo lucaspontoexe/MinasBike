@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
+
 import './styles.css';
 
 export default function ListaProdutos({ history }) {
@@ -30,6 +31,7 @@ export default function ListaProdutos({ history }) {
     }
 
     return (
+        
         <div className="tela lista-produtos">
             <Header>Produtos</Header>
             <div className="table-wrapper">
