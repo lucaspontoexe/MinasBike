@@ -79,7 +79,7 @@ export default class CadastroProdutos extends Component {
         return (
             <div className="tela cadastro-produtos">
                 {this.state.shouldModalAppear && (
-                    <Approved onClose={this.props.history.replace('/produtos')}>
+                    <Approved onClose={() => this.props.history.replace('/produtos')}>
                         Produto cadastrado
                     </Approved>
                 )}
