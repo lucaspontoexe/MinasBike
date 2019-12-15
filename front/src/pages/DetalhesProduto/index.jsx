@@ -11,15 +11,11 @@ export default function DetalhesProduto(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [productData, setProductData] = useState({});
     useEffect(() => {
-        fetchData();
-    }, []);
-
-    async function fetchData() {
-        const response = await api.get('/products');
-        const products = response.data;
-        setProductData(products.filter(item => item.code === id)[0]);
-        setIsLoaded(true);
-    }
+        api.get(`/products/${id}`).then(response => {
+            setProductData(response.data);
+            setIsLoaded(true);
+        });
+    }, [id]);
 
     function handleSubmit(event) {
         event.preventDefault();
