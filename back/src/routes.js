@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import multer from 'multer';
 import multerConfig from './config/multer';
 
@@ -14,7 +15,8 @@ import StockController from './app/controllers/StockController';
 import FileController from './app/controllers/FileController';
 
 const routes = new Router();
-const upload = multer(multerConfig);
+
+const upload = multer(multerConfig).single('file');
 
 // root
 routes.get('/', (req, res) => {
@@ -61,7 +63,21 @@ routes.delete('/providers/:id', ProviderController.delete);
 routes.post('/stocks', StockController.store);
 routes.put('/stocks/:id', StockController.update);
 routes.delete('/stocks/:id', StockController.delete);
-// files
-routes.post('/files', upload.single('file'), FileController.store);
+
+// file upload
+routes.post('/files', (req, res) => {
+  upload(req, res, err => {
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ error: 'failed to get the request file' });
+    }
+    if (err) {
+      return res
+        .status(500)
+        .json({ error: 'A Multer error occurred when uploading.' });
+    }
+    // Everything went fine.
+    return FileController.store(req, res);
+  });
+});
 
 export default routes;
