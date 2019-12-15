@@ -1,5 +1,5 @@
-.fundo{
-    width:100%;
+.fundo {
+    width: 100%;
     height: 100%;
     background-color: rgba(243, 243, 243, 0.7);
     display: flex;
@@ -7,15 +7,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    top:0px;
+    top: 0px;
     left: 0px;
     z-index: 2;
 }
 
-.retangulo{
+.retangulo {
     width: 40%;
     height: 60%;
-    background-color: #FFF;
+    background-color: #fff;
     border-radius: 10px;
     flex-direction: column;
     display: flex;
@@ -23,22 +23,19 @@
     justify-content: center;
 }
 
-.icone{
+.icone {
     width: 30%;
     height: 30%;
 }
 
-.textOne{
+.textOne {
     font-family: Poppins, sans-serif;
     font-size: 16px;
-    margin-top:5%
-    
+    margin-top: 5%;
 }
 
-.text{
+.text {
     font-family: Poppins, sans-serif;
     font-size: 16px;
-    margin-bottom:5%
-    
+    margin-bottom: 5%;
 }
-
