@@ -31,7 +31,7 @@ class CategoryController {
       });
       return res.json(category);
     } catch (error) {
-      return res.status(400).json({ error: 'invalid parameters' });
+      return res.status(400).json({ error: 'invalid query parameters' });
     }
   }
 
@@ -70,26 +70,29 @@ class CategoryController {
       return res.status(400).json({ error: 'invalid fields' });
     }
 
-    // check if the new category already exists
+    // check if the new category name already exists
     const { name, description } = req.body;
 
-    const categoryAlreadyExists = await Category.findOne({
-      where: { name },
-    });
-    if (categoryAlreadyExists) {
-      return res.status(400).json({ error: 'category already exists' });
+    if (name) {
+      const categoryAlreadyExists = await Category.findOne({
+        where: { name },
+      });
+      if (categoryAlreadyExists) {
+        return res.status(400).json({ error: 'category already exists' });
+      }
     }
 
     // check if id is valid and update
     try {
       const { id } = req.params;
       const category = await Category.findByPk(id);
-      await category.update({ name, description });
-      return res.json({
-        id,
-        name,
-        description,
-      });
+      if (name) {
+        await category.update({ name });
+      }
+      if (description) {
+        await category.update({ description });
+      }
+      return res.json(category);
     } catch (error) {
       return res.status(400).json({ error: 'invalid request parameters' });
     }
