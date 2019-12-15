@@ -27,7 +27,7 @@
 }
 
 .text-box input:focus {
-	border: 2px solid #dc2438;
+	border: 2px solid #CCC;
 }
 
 .text-box label {
