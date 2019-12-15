@@ -6,7 +6,7 @@ import Header from '../../components/Header';
 import Error from '../../components/Error';
 import SelectWithLabel from '../../components/SelectWithLabel';
 
-// import Approved from '../../components/Approved';
+import Approved from '../../components/Approved';
 import './styles.css';
 
 export default class CadastroProdutos extends Component {
@@ -23,6 +23,7 @@ export default class CadastroProdutos extends Component {
             id_provider: 1,
             qty_in_stock: 1,
             error: '',
+            shouldModalAppear: false,
             categories: [],
             providers: [],
         };
@@ -47,8 +48,9 @@ export default class CadastroProdutos extends Component {
             id_provider: this.state.id_provider.value,
             id_category: this.state.id_category.value,
             error: undefined,
+            shouldModalAppear: undefined,
         };
-        
+
         console.log('posting: ', submitObject);
 
         try {
@@ -58,10 +60,10 @@ export default class CadastroProdutos extends Component {
                 },
             });
             console.log(response);
-            this.props.history.replace('/produtos');
+            this.setState({ shouldModalAppear: true });
         } catch (error) {
-            this.setState({ error: error.response.data });
-            console.log(error.response.data);
+            this.setState({ error: error.response.data.error });
+            console.log(error.response.data.error);
         }
     };
 
@@ -76,6 +78,11 @@ export default class CadastroProdutos extends Component {
     render() {
         return (
             <div className="tela cadastro-produtos">
+                {this.state.shouldModalAppear && (
+                    <Approved onClose={this.props.history.replace('/produtos')}>
+                        Produto cadastrado
+                    </Approved>
+                )}
                 {this.state.error !== '' && <Error>{this.state.error}</Error>}
                 <Header>Novo Produto</Header>
 
