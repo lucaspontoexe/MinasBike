@@ -32,6 +32,7 @@ routes.get('/categories/:id', CategoryController.index);
 
 // locations
 routes.get('/locations', LocationController.index);
+routes.get('/locations/:id', LocationController.index);
 // products
 routes.get('/products', ProductController.index);
 routes.get('/products/:id', ProductController.index);
