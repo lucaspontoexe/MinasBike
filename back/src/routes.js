@@ -38,6 +38,7 @@ routes.get('/products', ProductController.index);
 routes.get('/products/:id', ProductController.index);
 // providers
 routes.get('/providers', ProviderController.index);
+routes.get('/providers/:id', ProviderController.index);
 // stocks
 routes.get('/stocks', StockController.index);
 
