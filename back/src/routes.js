@@ -41,6 +41,7 @@ routes.get('/providers', ProviderController.index);
 routes.get('/providers/:id', ProviderController.index);
 // stocks
 routes.get('/stocks', StockController.index);
+routes.get('/stocks/:id', StockController.index);
 
 // authenticated routes
 routes.use(authMiddleware);
