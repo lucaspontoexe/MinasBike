@@ -47,7 +47,9 @@ routes.get('/stocks/:id', StockController.index);
 routes.use(authMiddleware);
 // users
 routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.index);
 routes.put('/users', UserController.update);
+routes.delete('/users/:id', UserController.delete);
 // categories
 routes.post('/categories', CategoryController.store);
 routes.put('/categories/:id', CategoryController.update);
