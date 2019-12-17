@@ -13,15 +13,17 @@ export default class CadastroProdutos extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            brand: '',
-            price: 5,
-            code: undefined,
-            quantity_per_unity: undefined,
-            unity: '',
-            id_category: 1,
-            id_provider: 1,
-            qty_in_stock: 1,
+            formData: {
+                name: '',
+                brand: '',
+                price: 5,
+                code: undefined,
+                quantity_per_unity: undefined,
+                unity: '',
+                id_category: 0,
+                id_provider: 0,
+                qty_in_stock: 1,
+            },
             error: '',
             shouldModalAppear: false,
             categories: [],
@@ -32,31 +34,28 @@ export default class CadastroProdutos extends Component {
     handleChange = ({ target }) => {
         const isNumber = target.type === 'number';
 
-        this.setState({
-            [target.name]: isNumber ? parseFloat(target.value) : target.value,
-        });
+        this.setState(prevState => ({
+            formData: {
+                ...prevState.formData,
+                [target.name]: isNumber
+                    ? parseFloat(target.value)
+                    : target.value,
+            },
+        }));
     };
 
     handleSubmit = async event => {
         event.preventDefault();
 
-        //TODO: state independente
-        const submitObject = {
-            ...this.state,
-            providers: undefined,
-            categories: undefined,
-            error: undefined,
-            shouldModalAppear: undefined,
-        };
-
-        console.log('posting: ', submitObject);
+        console.log('posting: ', this.state.formData);
 
         try {
-            const response = await api.post('/products', submitObject, {
+            const response = await api.post('/products', this.state.formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
+
             console.log(response);
             this.setState({ shouldModalAppear: true });
         } catch (error) {
@@ -77,7 +76,9 @@ export default class CadastroProdutos extends Component {
         return (
             <div className="tela cadastro-produtos">
                 {this.state.shouldModalAppear && (
-                    <Approved onClose={() => this.props.history.replace('/produtos')}>
+                    <Approved
+                        onClose={() => this.props.history.replace('/produtos')}
+                    >
                         Produto cadastrado
                     </Approved>
                 )}
@@ -103,7 +104,12 @@ export default class CadastroProdutos extends Component {
                                 return { value: item.id, label: item.name };
                             })}
                             onChange={selectedOption => {
-                                this.setState({ id_category: selectedOption.value });
+                                this.setState(prevState => ({
+                                    formData: {
+                                        ...prevState.formData,
+                                        id_category: selectedOption.value,
+                                    },
+                                }));
                             }}
                         />
 
@@ -116,7 +122,12 @@ export default class CadastroProdutos extends Component {
                                 return { value: item.id, label: item.name };
                             })}
                             onChange={selectedOption => {
-                                this.setState({ id_provider: selectedOption.value });
+                                this.setState(prevState => ({
+                                    formData: {
+                                        ...prevState.formData,
+                                        id_provider: selectedOption.value,
+                                    },
+                                }));
                             }}
                         />
 
