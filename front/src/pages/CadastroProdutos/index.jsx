@@ -45,8 +45,6 @@ export default class CadastroProdutos extends Component {
             ...this.state,
             providers: undefined,
             categories: undefined,
-            id_provider: this.state.id_provider.value,
-            id_category: this.state.id_category.value,
             error: undefined,
             shouldModalAppear: undefined,
         };
@@ -104,9 +102,8 @@ export default class CadastroProdutos extends Component {
                             options={this.state.categories.map(item => {
                                 return { value: item.id, label: item.name };
                             })}
-                            value={this.state.id_category}
                             onChange={selectedOption => {
-                                this.setState({ id_category: selectedOption });
+                                this.setState({ id_category: selectedOption.value });
                             }}
                         />
 
@@ -118,9 +115,8 @@ export default class CadastroProdutos extends Component {
                             options={this.state.providers.map(item => {
                                 return { value: item.id, label: item.name };
                             })}
-                            value={this.state.id_provider}
                             onChange={selectedOption => {
-                                this.setState({ id_provider: selectedOption });
+                                this.setState({ id_provider: selectedOption.value });
                             }}
                         />
 
