@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Button from '../../components/Button';
 import TextBox from '../../components/TextBox';
 import Error from '../../components/Error';
@@ -42,6 +43,7 @@ export default function NovaConta({ history }) {
                         name="name"
                         type="text"
                         label="Nome"
+                        placeholder="João"
                         required
                         autoFocus
                         value={name}
@@ -62,6 +64,7 @@ export default function NovaConta({ history }) {
                         name="password"
                         type="password"
                         label="Senha"
+                        placeholder="*******"
                         required
                         value={password}
                         onChange={event => setPassword(event.target.value)}
@@ -70,6 +73,7 @@ export default function NovaConta({ history }) {
                         name="confirmPassword"
                         type="password"
                         label="Confirmar Senha"
+                        placeholder="*******"
                         required
                         value={password_confirmation}
                         onChange={event =>
@@ -79,6 +83,11 @@ export default function NovaConta({ history }) {
                     <Button type="submit" color="#DC2438">
                         Registrar
                     </Button>
+
+                    <span>
+                        Já possui uma conta?{' '}
+                        <Link to="/">Fazer Login</Link>
+                    </span>
                 </form>
             </div>
         </>
