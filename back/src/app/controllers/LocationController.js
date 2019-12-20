@@ -1,38 +1,10 @@
 import * as Yup from 'yup';
-import { Op } from 'sequelize';
 import Location from '../models/Location';
 
 class LocationController {
   async index(req, res) {
-    // get by id
-    const { id } = req.params;
-    if (id) {
-      try {
-        const location = await Location.findOne({ where: { id } });
-        return res.json(location);
-      } catch (error) {
-        return res.status(400).json({ error: 'invalid request parameters' });
-      }
-    }
-
-    // get by field value. (returns a getAll if no queryParams are passed)
-    const { city, state } = req.query;
-    const queryParams = [];
-    if (city) {
-      queryParams.push({ city });
-    }
-    if (state) {
-      queryParams.push({ state });
-    }
-
-    try {
-      const location = await Location.findAll({
-        where: { [Op.and]: queryParams },
-      });
-      return res.json(location);
-    } catch (error) {
-      return res.status(400).json({ error: 'invalid query parameters' });
-    }
+    const locations = await Location.findAll();
+    return res.json(locations);
   }
 
   async store(req, res) {
@@ -47,15 +19,14 @@ class LocationController {
     }
 
     // check if the location already exists
-    const { city, state } = req.body;
     const locationAlreadyExists = await Location.findOne({
-      where: { city },
+      where: { city: req.body.city },
     });
     if (locationAlreadyExists) {
       return res.status(400).json({ error: 'location already exists' });
     }
 
-    const location = await Location.create({ city, state });
+    const location = await Location.create(req.body);
     return res.json(location);
   }
 
@@ -73,39 +44,34 @@ class LocationController {
     // check if the new location already exists
     const { city, state } = req.body;
 
-    if (city) {
-      const locationAlreadyExists = await Location.findOne({
-        where: { city },
-      });
-      if (locationAlreadyExists) {
-        return res.status(400).json({ error: 'location already exists' });
-      }
+    const locationAlreadyExists = await Location.findOne({
+      where: { city: req.body.city },
+    });
+    if (locationAlreadyExists) {
+      return res.status(400).json({ error: 'location already exists' });
     }
+    const { id } = req.params;
+    const location = await Location.findByPk(id);
 
-    // set the fields and update
-    try {
-      const { id } = req.params;
-      const location = await Location.findByPk(id);
-      if (city) {
-        await location.update({ city });
-      }
-      if (state) {
-        await location.update({ state });
-      }
-      return res.json(location);
-    } catch (error) {
-      return res.status(400).json({ error: 'invalid request parameters' });
-    }
+    await location.update(req.body);
+
+    return res.json({
+      id,
+      city,
+      state,
+    });
   }
 
   async delete(req, res) {
-    try {
-      const location = await Location.findByPk(req.params.id);
-      await location.destroy();
-      return res.json({ message: 'location deleted' });
-    } catch (error) {
-      return res.status(400).json({ error: 'invalid request parameters' });
+    const location = await Location.findByPk(req.params.id);
+
+    if (!location) {
+      res.status(400).json({ error: 'location do not exists' });
     }
+
+    await location.destroy();
+
+    return res.json({ message: 'location deleted' });
   }
 }
 
