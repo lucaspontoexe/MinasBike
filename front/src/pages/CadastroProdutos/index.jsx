@@ -4,82 +4,88 @@ import TextBox from '../../components/TextBox';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Error from '../../components/Error';
+import SelectWithLabel from '../../components/SelectWithLabel';
+
+import Modal from '../../components/Modal';
 import './styles.css';
 
 export default class CadastroProdutos extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            brand: '',
-            price: 5,
-            code: undefined,
-            quantity_per_unity: undefined,
-            unity: '',
-            id_category: 0,
-            id_provider: 0,
-            qty_in_stock: 1,
+            formData: {
+                name: '',
+                brand: '',
+                price: 5,
+                code: undefined,
+                quantity_per_unity: undefined,
+                unity: '',
+                id_category: 0,
+                id_provider: 0,
+                qty_in_stock: 1,
+            },
             error: '',
+            shouldModalAppear: false,
+            categories: [],
+            providers: [],
         };
     }
-
-    // response data
-    categoryData = [];
-    providersData = [];
 
     handleChange = ({ target }) => {
         const isNumber = target.type === 'number';
 
-        this.setState({
-            [target.name]: isNumber ? parseFloat(target.value) : target.value,
-        });
+        this.setState(prevState => ({
+            formData: {
+                ...prevState.formData,
+                [target.name]: isNumber
+                    ? parseFloat(target.value)
+                    : target.value,
+            },
+        }));
     };
 
     handleSubmit = async event => {
         event.preventDefault();
 
-        const submitObject = {
-            ...this.state,
-            error: undefined,
-        };
-
-        console.log('posting: ', submitObject);
+        console.log('posting: ', this.state.formData);
 
         try {
-            const response = await api.post('/products', submitObject, {
+            const response = await api.post('/products', this.state.formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
+
             console.log(response);
-            this.props.history.replace('/produtos');
+            this.setState({ shouldModalAppear: true });
         } catch (error) {
-            this.setState({ error: error.response.data });
-            console.log(error.response.data);
+            this.setState({ error: error.response.data.error });
+            console.log(error.response.data.error);
         }
     };
 
-    getID(array, name) {
-        const matches = array.filter(obj => obj.name === name);
-        if (matches.length === 0) return undefined;
-        return matches[0].id;
-    }
-
     componentDidMount() {
         api.get('/providers').then(response => {
-            this.providersData = response.data;
+            this.setState({ providers: response.data });
         });
-
         api.get('/categories').then(response => {
-            this.categoryData = response.data;
+            this.setState({ categories: response.data });
         });
     }
-
     render() {
         return (
             <div className="tela cadastro-produtos">
+                {this.state.shouldModalAppear && (
+                    <Modal
+                        type="success"
+                        onClose={() => this.props.history.replace('/produtos')}
+                    >
+                        Produto cadastrado
+                    </Modal>
+                )}
                 {this.state.error !== '' && <Error>{this.state.error}</Error>}
                 <Header>Novo Produto</Header>
+
                 <form onSubmit={this.handleSubmit}>
                     <div className="page">
                         <TextBox
@@ -89,38 +95,43 @@ export default class CadastroProdutos extends Component {
                             name="name"
                             onChange={this.handleChange}
                         />
-                        <TextBox
+
+                        <SelectWithLabel
                             required
                             name="category"
                             label="Categoria"
-                            type="text"
-                            list="categorias"
-                            options={this.categoryData.map(obj => obj.name)}
-                            onChange={event =>
-                                this.setState({
-                                    id_category: this.getID(
-                                        this.categoryData,
-                                        event.target.value
-                                    ),
-                                })
-                            }
+                            placeholder="Escolha uma categoria..."
+                            options={this.state.categories.map(item => {
+                                return { value: item.id, label: item.name };
+                            })}
+                            onChange={selectedOption => {
+                                this.setState(prevState => ({
+                                    formData: {
+                                        ...prevState.formData,
+                                        id_category: selectedOption.value,
+                                    },
+                                }));
+                            }}
                         />
-                        <TextBox
+
+                        <SelectWithLabel
                             required
                             name="provider"
                             label="Fornecedor"
-                            type="text"
-                            list="providers"
-                            options={this.providersData.map(obj => obj.name)}
-                            onChange={event =>
-                                this.setState({
-                                    id_provider: this.getID(
-                                        this.providersData,
-                                        event.target.value
-                                    ),
-                                })
-                            }
+                            placeholder="Escolha um fornecedor..."
+                            options={this.state.providers.map(item => {
+                                return { value: item.id, label: item.name };
+                            })}
+                            onChange={selectedOption => {
+                                this.setState(prevState => ({
+                                    formData: {
+                                        ...prevState.formData,
+                                        id_provider: selectedOption.value,
+                                    },
+                                }));
+                            }}
                         />
+
                         <TextBox
                             required
                             name="code"
@@ -174,8 +185,9 @@ export default class CadastroProdutos extends Component {
                                 }
                             />
                             <TextBox
+                                required
                                 name="qty_current"
-                                label="Quantidade atual no estoque"
+                                label="QTD. atual no estoque"
                                 type="number"
                                 onChange={this.handleChange}
                                 min="1"
@@ -183,27 +195,27 @@ export default class CadastroProdutos extends Component {
                         </div>
                         <div className="item">
                             <TextBox
+                                required
                                 name="qty_min"
-                                label="Quantidade mínima no estoque"
-                                disabled
+                                label="QTD. mínima no estoque"
                             />
                             <TextBox
+                                required
                                 name="qty_max"
-                                label="Quantidade máxima no estoque"
-                                disabled
+                                label="QTD. máxima no estoque"
                             />
                         </div>
 
                         <div className="item">
                             <TextBox
+                                required
                                 name="change_by"
                                 label="Alterado por"
-                                disabled
                             />
                             <TextBox
+                                required
                                 name="incl_by"
                                 label="Incluído por"
-                                disabled
                             />
                         </div>
 

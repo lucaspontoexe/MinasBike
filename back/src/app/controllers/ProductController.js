@@ -1,71 +1,17 @@
 import * as Yup from 'yup';
-import { Op } from 'sequelize';
 import Product from '../models/Product';
 import Category from '../models/Category';
 import Provider from '../models/Provider';
 
 class ProductController {
   async index(req, res) {
-    // get by id
     const { id } = req.params;
     if (id) {
-      try {
-        const product = await Product.findOne({ where: { id } });
-        return res.json(product);
-      } catch (error) {
-        return res.status(400).json({ error: 'invalid request parameters' });
-      }
-    }
-
-    // get by field value. (returns a getAll if no queryParams are passed)
-    const {
-      name,
-      brand,
-      price,
-      price_cost,
-      code,
-      quantity_per_unity,
-      unity,
-      id_provider,
-      id_category,
-    } = req.query;
-    const queryParams = [];
-    if (name) {
-      queryParams.push({ name });
-    }
-    if (brand) {
-      queryParams.push({ brand });
-    }
-    if (price) {
-      queryParams.push({ price });
-    }
-    if (price_cost) {
-      queryParams.push({ price_cost });
-    }
-    if (code) {
-      queryParams.push({ code });
-    }
-    if (quantity_per_unity) {
-      queryParams.push({ quantity_per_unity });
-    }
-    if (unity) {
-      queryParams.push({ unity });
-    }
-    if (id_provider) {
-      queryParams.push({ id_provider });
-    }
-    if (id_category) {
-      queryParams.push({ id_category });
-    }
-
-    try {
-      const product = await Product.findAll({
-        where: { [Op.and]: queryParams },
-      });
+      const product = await Product.findOne({ where: { id } });
       return res.json(product);
-    } catch (error) {
-      return res.status(400).json({ error: 'invalid query parameters' });
     }
+    const products = await Product.findAll();
+    return res.json(products);
   }
 
   async store(req, res) {
@@ -87,26 +33,15 @@ class ProductController {
     }
 
     // check if the product already exists
-    const {
-      name,
-      brand,
-      price,
-      price_cost,
-      code,
-      quantity_per_unity,
-      unity,
-      id_provider,
-      id_category,
-    } = req.body;
-
     const productAlreadyExists = await Product.findOne({
-      where: { name },
+      where: { name: req.body.name },
     });
     if (productAlreadyExists) {
       return res.status(400).json({ error: 'product already exists' });
     }
 
     // check if provider and category exists
+    const { id_category, id_provider } = req.body;
     if (!(await Provider.findByPk(id_provider))) {
       return res
         .status(400)
@@ -118,17 +53,7 @@ class ProductController {
         .json({ error: 'selected category does not exists' });
     }
 
-    const product = await Product.create({
-      name,
-      brand,
-      price,
-      price_cost,
-      code,
-      quantity_per_unity,
-      unity,
-      id_provider,
-      id_category,
-    });
+    const product = await Product.create(req.body);
     return res.json(product);
   }
 
@@ -151,21 +76,9 @@ class ProductController {
     }
 
     // check if the product already exists
-    const {
-      name,
-      brand,
-      price,
-      price_cost,
-      code,
-      quantity_per_unity,
-      unity,
-      id_provider,
-      id_category,
-    } = req.body;
-
-    if (name) {
+    if (req.body.name) {
       const productAlreadyExists = await Product.findOne({
-        where: { name },
+        where: { name: req.body.name },
       });
       if (productAlreadyExists) {
         return res.status(400).json({ error: 'product already exists' });
@@ -173,6 +86,8 @@ class ProductController {
     }
 
     // check if provider and category exists
+    const { id_category, id_provider } = req.body;
+
     if (id_provider) {
       if (!(await Provider.findByPk(id_provider))) {
         return res
@@ -188,52 +103,43 @@ class ProductController {
       }
     }
 
-    // update
-    try {
-      const { id } = req.params;
-      const product = await Product.findByPk(id);
-      if (name) {
-        await product.update({ name });
-      }
-      if (brand) {
-        await product.update({ brand });
-      }
-      if (price) {
-        await product.update({ price });
-      }
-      if (price_cost) {
-        await product.update({ price_cost });
-      }
-      if (code) {
-        await product.update({ code });
-      }
-      if (quantity_per_unity) {
-        await product.update({ quantity_per_unity });
-      }
-      if (unity) {
-        await product.update({ unity });
-      }
-      if (id_provider) {
-        await product.update({ id_provider });
-      }
-      if (id_category) {
-        await product.update({ id_category });
-      }
+    const { id } = req.params;
+    const product = await Product.findByPk(id);
 
-      return res.json(product);
-    } catch (error) {
-      return res.status(400).json({ error: 'invalid request parameters' });
-    }
+    const {
+      name,
+      brand,
+      price,
+      price_cost,
+      code,
+      quantity_per_unity,
+      unity,
+    } = await product.update(req.body);
+
+    return res.json({
+      id,
+      name,
+      brand,
+      price,
+      price_cost,
+      code,
+      quantity_per_unity,
+      unity,
+      id_provider,
+      id_category,
+    });
   }
 
   async delete(req, res) {
-    try {
-      const product = await Product.findByPk(req.params.id);
-      await product.destroy();
-      return res.json({ message: 'product deleted' });
-    } catch (error) {
-      return res.status(400).json({ error: 'invalid request parameters' });
+    const product = await Product.findByPk(req.params.id);
+
+    if (!product) {
+      res.status(400).json({ error: 'product do not exists' });
     }
+
+    await product.destroy();
+
+    return res.json({ message: 'product deleted' });
   }
 }
 

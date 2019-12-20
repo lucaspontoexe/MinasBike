@@ -2,17 +2,11 @@ import xlsx from 'node-xlsx';
 
 class FileController {
   async store(req, res) {
-    try {
-      const { filename } = req.file;
-      const processedFile = xlsx.parse(
-        `${__dirname}/../../../tmp/uploads/${filename}`
-      );
-      return res.json(processedFile);
-    } catch (error) {
-      return res
-        .status(400)
-        .json({ error: 'failed to read the uploaded file' });
-    }
+    // const thefile = xlsx.parse(/tmp/uploads/36d049a3ec98d644aabaa15bbc76b092.csv);
+    const workSheetsFromBuffer = xlsx.parse(
+      `${__dirname}/../../../tmp/uploads/36d049a3ec98d644aabaa15bbc76b092.csv`
+    );
+    return res.json(workSheetsFromBuffer);
   }
 }
 
