@@ -1,39 +1,11 @@
 import * as Yup from 'yup';
-import { Op } from 'sequelize';
 import Stock from '../models/Stock';
 import Product from '../models/Product';
 
 class StockController {
   async index(req, res) {
-    // get by id
-    const { id } = req.params;
-    if (id) {
-      try {
-        const stock = await Stock.findOne({ where: { id } });
-        return res.json(stock);
-      } catch (error) {
-        return res.status(400).json({ error: 'invalid request parameters' });
-      }
-    }
-
-    // get by field value. (returns a getAll if no queryParams are passed)
-    const { restock, id_product } = req.query;
-    const queryParams = [];
-    if (restock) {
-      queryParams.push({ restock });
-    }
-    if (id_product) {
-      queryParams.push({ id_product });
-    }
-
-    try {
-      const stock = await Stock.findAll({
-        where: { [Op.and]: queryParams },
-      });
-      return res.json(stock);
-    } catch (error) {
-      return res.status(400).json({ error: 'invalid query parameters' });
-    }
+    const stocks = await Stock.findAll();
+    return res.json(stocks);
   }
 
   async store(req, res) {
@@ -51,13 +23,7 @@ class StockController {
     }
 
     // check if the stock already exists
-    const {
-      id_product,
-      current_qty,
-      minimum_qty,
-      maximum_qty,
-      restock,
-    } = req.body;
+    const { id_product } = req.body;
 
     if (await Stock.findOne({ where: { id_product } })) {
       return res
@@ -70,13 +36,7 @@ class StockController {
       return res.status(400).json({ error: 'selected product not found' });
     }
 
-    const stock = await Stock.create({
-      current_qty,
-      minimum_qty,
-      maximum_qty,
-      restock,
-      id_product,
-    });
+    const stock = await Stock.create(req.body);
     return res.json(stock);
   }
 
@@ -87,6 +47,7 @@ class StockController {
       minimum_qty: Yup.number(),
       maximum_qty: Yup.number(),
       restock: Yup.boolean(),
+      id_product: Yup.number(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -94,38 +55,50 @@ class StockController {
     }
 
     // check if the product and stock already exists
+    const { id_product } = req.body;
     const { id } = req.params;
-    const { current_qty, minimum_qty, maximum_qty, restock } = req.body;
 
-    // check if id is valid and update
-    try {
-      const stock = await Stock.findByPk(id);
-      if (current_qty) {
-        await stock.update({ current_qty });
+    if (id_product) {
+      if (!(await Product.findByPk(id_product))) {
+        return res.status(400).json({ error: 'selected product not found' });
       }
-      if (minimum_qty) {
-        await stock.update({ minimum_qty });
+
+      if (await Stock.findOne({ where: { id_product } })) {
+        if (!(id === id_product)) {
+          return res
+            .status(400)
+            .json({ error: 'stock for the selected product already exists' });
+        }
       }
-      if (maximum_qty) {
-        await stock.update({ maximum_qty });
-      }
-      if (restock) {
-        await stock.update({ restock });
-      }
-      return res.json(stock);
-    } catch (error) {
-      return res.status(400).json({ error: 'invalid request parameters' });
     }
+
+    const stock = await Stock.findByPk(id);
+
+    const {
+      current_qty,
+      minimum_qty,
+      maximum_qty,
+      restock,
+    } = await stock.update(req.body);
+
+    return res.json({
+      id,
+      current_qty,
+      minimum_qty,
+      maximum_qty,
+      restock,
+      id_product,
+    });
   }
 
   async delete(req, res) {
-    try {
-      const stock = await Stock.findByPk(req.params.id);
-      await stock.destroy();
-      return res.json({ message: 'stock deleted' });
-    } catch (error) {
-      return res.status(400).json({ error: 'invalid request parameters' });
+    const stock = await Stock.findByPk(req.params.id);
+    if (!stock) {
+      res.status(400).json({ error: 'stock do not exists' });
     }
+
+    await stock.destroy();
+    return res.json({ message: 'stock deleted' });
   }
 }
 

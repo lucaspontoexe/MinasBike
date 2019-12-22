@@ -20,12 +20,13 @@ export default function SelectWithLabel(props) {
 
     return (
         <div className="select-wrapper">
-            {label && <label htmlFor={name}>{label}</label>}
-            <Select
-                styles={customStyles}
-                theme={themeSettings}
-                {...props}
-            />
+            {label && (
+                <label htmlFor={name}>
+                    {label}
+                    {props.required && <span className="asterisco"> *</span>}
+                </label>
+            )}
+            <Select styles={customStyles} theme={themeSettings} {...props} />
         </div>
     );
 }
