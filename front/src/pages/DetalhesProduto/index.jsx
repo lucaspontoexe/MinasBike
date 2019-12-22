@@ -11,7 +11,7 @@ export default function DetalhesProduto(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [productData, setProductData] = useState({});
     useEffect(() => {
-        api.get(`/products/${code}`).then(response => {
+        api.get('/products', { params: { code } }).then(response => {
             setProductData(response.data);
             setIsLoaded(true);
         });
