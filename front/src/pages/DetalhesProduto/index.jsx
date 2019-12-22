@@ -6,16 +6,16 @@ import api from '../../services/api';
 import './styles.css';
 
 export default function DetalhesProduto(props) {
-    const { id } = props.match.params;
+    const { code } = props.match.params;
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [productData, setProductData] = useState({});
     useEffect(() => {
-        api.get(`/products/${id}`).then(response => {
+        api.get(`/products/${code}`).then(response => {
             setProductData(response.data);
             setIsLoaded(true);
         });
-    }, [id]);
+    }, [code]);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -24,7 +24,7 @@ export default function DetalhesProduto(props) {
 
     return (
         <div className="tela detalhes-produto">
-            <Header>Detalhes do Produto {id}</Header>
+            <Header>Detalhes do Produto {code}</Header>
 
             {isLoaded && (
                 <form onSubmit={handleSubmit}>
