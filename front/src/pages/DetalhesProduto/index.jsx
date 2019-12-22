@@ -12,7 +12,7 @@ export default function DetalhesProduto(props) {
     const [productData, setProductData] = useState({});
     useEffect(() => {
         api.get('/products', { params: { code } }).then(response => {
-            setProductData(response.data);
+            setProductData(response.data[0]);
             setIsLoaded(true);
         });
     }, [code]);
@@ -34,7 +34,7 @@ export default function DetalhesProduto(props) {
                             label="Preço"
                             type="number"
                             disabled
-                            value={productData.price}
+                            value={productData.price / 100}
                         />
                         {/* <TextBox name="preco_custo" label="Preço de custo" type="number"/> */}
                         {/* <TextBox name="preco_venda" label="Preço de venda" type="number"/> */}
