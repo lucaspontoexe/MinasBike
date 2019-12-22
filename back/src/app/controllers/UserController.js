@@ -1,11 +1,38 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 import User from '../models/User';
 
 class UserController {
   async index(req, res) {
-    const users = await User.findAll();
+    // get by id
+    const { id } = req.params;
+    if (id) {
+      try {
+        const user = await User.findOne({ where: { id } });
+        return res.json(user);
+      } catch (error) {
+        return res.status(400).json({ error: 'invalid request parameters' });
+      }
+    }
 
-    return res.json(users);
+    // get by field value. (returns a getAll if no queryParams are passed)
+    const { name, email } = req.query;
+    const queryParams = [];
+    if (name) {
+      queryParams.push({ name });
+    }
+    if (email) {
+      queryParams.push({ email });
+    }
+
+    try {
+      const user = await User.findAll({
+        where: { [Op.and]: queryParams },
+      });
+      return res.json(user);
+    } catch (error) {
+      return res.status(400).json({ error: 'invalid query parameters' });
+    }
   }
 
   async store(req, res) {
@@ -28,14 +55,16 @@ class UserController {
     }
 
     // check if the user email already exists
+    const { name, email, password } = req.body;
+
     const userAlreadyExists = await User.findOne({
-      where: { email: req.body.email },
+      where: { email },
     });
     if (userAlreadyExists) {
       return res.status(400).json({ error: 'user already exists' });
     }
 
-    const user = await User.create(req.body);
+    const user = await User.create({ name, email, password });
     return res.json(user);
   }
 
@@ -60,37 +89,53 @@ class UserController {
     }
 
     // check if the new user email already exists
-    const user = await User.findByPk(req.userId);
     const { email, old_password, password } = req.body;
+    try {
+      const user = await User.findByPk(req.userId);
 
-    if (email) {
-      if (email !== user.email) {
-        const userAlreadyExists = await User.findOne({
-          where: { email: req.body.email },
-        });
+      if (email) {
+        if (email !== user.email) {
+          const userAlreadyExists = await User.findOne({
+            where: { email: req.body.email },
+          });
 
-        if (userAlreadyExists) {
-          return res.status(400).json({ error: 'user already exists' });
+          if (userAlreadyExists) {
+            return res.status(400).json({ error: 'user already exists' });
+          }
         }
       }
-    }
 
-    // checks password
-    try {
-      if (password && !(await user.checkPassword(old_password))) {
-        return res.status(401).json({ error: 'password does not match' });
+      // checks password
+      try {
+        if (password && !(await user.checkPassword(old_password))) {
+          return res.status(401).json({ error: 'password does not match' });
+        }
+      } catch (error) {
+        return res.status(400).json({ error: 'missing fields' });
       }
+
+      const { id, name } = await user.update(req.body);
+
+      return res.json({
+        id,
+        name,
+        email,
+      });
     } catch (error) {
-      return res.status(400).json({ error: 'missing fields' });
+      return res
+        .status(401)
+        .json({ error: 'not authorized to proceed, token auth failed' });
     }
+  }
 
-    const { id, name } = await user.update(req.body);
-
-    return res.json({
-      id,
-      name,
-      email,
-    });
+  async delete(req, res) {
+    try {
+      const user = await User.findByPk(req.params.id);
+      await user.destroy();
+      return res.json({ message: 'user deleted' });
+    } catch (error) {
+      return res.status(400).json({ error: 'invalid request parameters' });
+    }
   }
 }
 
