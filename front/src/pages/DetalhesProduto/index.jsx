@@ -6,16 +6,16 @@ import api from '../../services/api';
 import './styles.css';
 
 export default function DetalhesProduto(props) {
-    const { id } = props.match.params;
+    const { code } = props.match.params;
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [productData, setProductData] = useState({});
     useEffect(() => {
-        api.get(`/products/${id}`).then(response => {
-            setProductData(response.data);
+        api.get('/products', { params: { code } }).then(response => {
+            setProductData(response.data[0]);
             setIsLoaded(true);
         });
-    }, [id]);
+    }, [code]);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -24,7 +24,7 @@ export default function DetalhesProduto(props) {
 
     return (
         <div className="tela detalhes-produto">
-            <Header>Detalhes do Produto {id}</Header>
+            <Header>Detalhes do Produto {code}</Header>
 
             {isLoaded && (
                 <form onSubmit={handleSubmit}>
@@ -34,7 +34,7 @@ export default function DetalhesProduto(props) {
                             label="Preço"
                             type="number"
                             disabled
-                            value={productData.price}
+                            value={productData.price / 100}
                         />
                         {/* <TextBox name="preco_custo" label="Preço de custo" type="number"/> */}
                         {/* <TextBox name="preco_venda" label="Preço de venda" type="number"/> */}

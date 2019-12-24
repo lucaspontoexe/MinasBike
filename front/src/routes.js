@@ -18,7 +18,7 @@ export default function Routes() {
 
                 <Route path="/produtos" exact component={ListaProdutos} />
                 <Route path="/produtos/novo" component={CadastroProdutos} />
-                <Route path="/produtos/:id" component={DetalhesProduto} />
+                <Route path="/produtos/:code" component={DetalhesProduto} />
 
                 <Route path="/estoque" exact component={ListaEstoque} />
                 <Route path="/cadastrar" component={NovaConta} />

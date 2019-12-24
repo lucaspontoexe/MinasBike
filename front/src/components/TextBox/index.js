@@ -2,13 +2,13 @@ import React from 'react';
 import './style.css';
 
 export default function TextBox(props) {
-    const { label, name, options, list } = props;
+    const { label, required, name, options, list } = props;
     return (
         <div className="text-box">
             {label && (
                 <label htmlFor={name}>
                     {label}
-                    <span className="asterisco"> *</span>
+                    {required && <span className="asterisco"> *</span>}
                 </label>
             )}
 
