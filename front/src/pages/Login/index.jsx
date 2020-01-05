@@ -24,7 +24,8 @@ export default function Login({ history }) {
         })
 
             .then(response => {
-                localStorage.setItem('token', response.data.token);
+                sessionStorage.setItem('token', response.data.token);
+                sessionStorage.setItem('username', response.data.user.name);
                 history.push('/produtos');
             })
 
