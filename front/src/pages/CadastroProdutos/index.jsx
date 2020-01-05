@@ -24,6 +24,7 @@ export default class CadastroProdutos extends Component {
                 id_provider: 0,
                 qty_in_stock: 1,
             },
+            username: '',
             error: '',
             shouldModalAppear: false,
             categories: [],
@@ -52,7 +53,7 @@ export default class CadastroProdutos extends Component {
         try {
             const response = await api.post('/products', this.state.formData, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
             });
 
@@ -71,6 +72,8 @@ export default class CadastroProdutos extends Component {
         api.get('/categories').then(response => {
             this.setState({ categories: response.data });
         });
+        // use global state?
+        this.setState({ username: sessionStorage.getItem('username') });
     }
     render() {
         return (
@@ -208,14 +211,16 @@ export default class CadastroProdutos extends Component {
 
                         <div className="item">
                             <TextBox
-                                required
-                                name="change_by"
+                                disabled
+                                name="changed_by"
                                 label="Alterado por"
+                                value={this.state.username}
                             />
+
                             <TextBox
-                                required
-                                name="incl_by"
-                                label="Incluído por"
+                                disabled
+                                name="incl_datetime"
+                                label="Incluído em"
                             />
                         </div>
 

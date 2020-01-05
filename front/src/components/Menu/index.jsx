@@ -21,6 +21,13 @@ function Menu(props) {
 
     const hiddenMenuPages = ['/', '/cadastrar'];
 
+    // TODO: mover para outro componente,
+    // manter a separation of concerns funcionando
+    function handleLogout() {
+        sessionStorage.clear();
+        props.history.push('/');
+    }
+
     return (
         <>
             {!hiddenMenuPages.includes(pathname) && (
@@ -46,7 +53,7 @@ function Menu(props) {
                             ))}
                         </ul>
                     </nav>
-                    <button onClick={() => console.log('logout')}>Sair</button>
+                    <button onClick={handleLogout}>Sair</button>
                 </div>
             )}
         </>

@@ -25,7 +25,7 @@ export default function NovaConta({ history }) {
         })
 
             .then(response => {
-                //localStorage.setEmail('token', response.data.token);
+                //sessionStorage.setEmail('token', response.data.token);
                 history.push('/');
             })
 
