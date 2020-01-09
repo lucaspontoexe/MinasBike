@@ -8,7 +8,7 @@ import CadastroProdutos from './pages/CadastroProdutos';
 import NovaConta from './pages/NovaConta';
 import Menu from './components/Menu';
 import DetalhesProduto from './pages/DetalhesProduto';
-import AuthCheck from 'AuthCheck';
+import AuthCheck from './AuthCheck';
 
 export default function Routes() {
     return (
