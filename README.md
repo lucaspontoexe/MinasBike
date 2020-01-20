@@ -11,11 +11,16 @@ Run these commands to setup the application and start:
 
 ```
 docker-compose run frontend yarn
-docker-compose run backend yarn
-docker-compose run backend yarn sequelize db:create
-docker-compose run backend yarn sequelize db:migrate
 docker-compose up
 ```
+Go to your favorite database manager, and create a table named ```adonis```
+Then, run:
+```
+docker-compose run backend adonis migration:run
+docker-compose run backend adonis seed
+```
+
+Congrats, your application is running!
 
 ### Stopping the application and reseting database
 
@@ -28,16 +33,8 @@ docker-compose stop
 ```
 docker-compose down
 ```
-
-* To start running the application again, run:
-```
-docker-compose up
-```
+Remember to follow all the first steps to run the application again.
 
 The Backend will point to [http://localhost:3001](http://localhost:3001).
+The Database will point to [http://localhost:5433](http://localhost:5433).
 The Frontend will point to [http://localhost:3000](http://localhost:3000).
-
-### Testing routes using insomnia
-
-The details about routes for tests are in the following file on backend folder:
-* Insomnia_xxxx-xx-xx.json
