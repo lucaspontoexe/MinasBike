@@ -1,0 +1,156 @@
+'use strict'
+
+const Yup = require('yup')
+const FieldsValidator = use('App/Lib/YupValidation')
+const User = use('App/Models/User')
+const Usertype = use('App/Models/Usertype')
+
+class UserController {
+  async index ({ request, response, params }) {
+    // get by id
+    const id = params.id
+    if (id) {
+      const user = await User.query().where('id', id).with('usertype').fetch()
+      return user
+    }
+    // get by field value or getAll if no params
+    const data = request.only([
+      'active',
+      'name',
+      'login',
+      'email',
+      'usertype_id'
+    ])
+
+    const users = await User.query().where(data).with('usertype').fetch()
+    return users
+  }
+
+  async store ({ request, response }) {
+    const data = request.only([
+      'active',
+      'name',
+      'login',
+      'email',
+      'password',
+      'usertype_id'
+    ])
+
+    // validate all fields
+    const fields = [
+      { active: Yup.boolean().required() },
+      { name: Yup.string().strict().required() },
+      { login: Yup.string().strict().required() },
+      { email: Yup.string().strict().required() },
+      { password: Yup.string().strict().required() },
+      { usertype_id: Yup.number().required() }
+    ]
+
+    const validation = await FieldsValidator.validate({ fields, data })
+
+    if (!validation.success) {
+      return response.status(400).json({ error: validation.error })
+    }
+
+    // check if already exists
+    const checkIfLoginExists = await User.findBy('login', data.login)
+    if (checkIfLoginExists) {
+      return response.status(409).json({
+        error: 'Invalid:Fields:login',
+        message: 'This resource already exists'
+      })
+    }
+    const checkIfEmailExists = await User.findBy('email', data.email)
+    if (checkIfEmailExists) {
+      return response.status(409).json({
+        error: 'Invalid:Fields:email',
+        message: 'This resource already exists'
+      })
+    }
+    const checkIfUsertypeExists = await Usertype.findBy('id', data.usertype_id)
+    if (!checkIfUsertypeExists) {
+      return response.status(409).json({
+        error: 'Invalid:Fields:usertype_id',
+        message: 'This resource does not exist'
+      })
+    }
+
+    // create and return
+    data.usertype_id = 1
+    data.active = 1
+    const user = await User.create(data)
+    return user
+  }
+
+  async update ({ request, response, auth, params }) {
+    const data = request.only([
+      'name',
+      'login',
+      'password',
+      'old_password'
+    ])
+
+    // get by id
+    const id = params.id
+    const user = await User.findBy('id', id)
+
+    // check if the resource exist
+    if (!user) {
+      return response.status(400).json({
+        error: 'Invalid:Request',
+        message: 'This resource does not exist'
+      })
+    }
+
+    // check if logged user is the params user
+    const loggedUser = await auth.getUser()
+    // eslint-disable-next-line eqeqeq
+    if (!(id == loggedUser.id)) {
+      return response.status(401).json({ error: 'Denied:Token:Id' })
+    }
+
+    // validate all fields
+    const fields = [
+      { name: Yup.string().strict() },
+      { login: Yup.string().strict() },
+      { password: Yup.string().strict() },
+      { old_password: Yup.string().strict() }
+    ]
+    const validation = await FieldsValidator.validate({ fields, data })
+
+    if (!validation.success) {
+      return response.status(400).json({ error: validation.error })
+    }
+
+    // check if already exists
+    if (data.login) {
+      const checkIfLoginExists = await User.findBy('login', data.login)
+      if (checkIfLoginExists) {
+        return response.status(409).json({
+          error: 'Invalid:Fields:login',
+          message: 'This resource already exists'
+        })
+      }
+    }
+
+    // check old password
+    if (data.password) {
+      await auth.attempt(user.email, data.old_password)
+    }
+
+    // update and return
+    if (data.login) {
+      user.login = data.login
+    }
+    if (data.password) {
+      user.password = data.password
+    }
+    if (data.name) {
+      user.name = data.name
+    }
+    user.save()
+    return user
+  }
+}
+
+module.exports = UserController
