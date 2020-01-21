@@ -25,12 +25,13 @@ export default function Login({ history }) {
 
             .then(response => {
                 sessionStorage.setItem('token', response.data.token);
-                sessionStorage.setItem('username', response.data.user.name);
+                // sessionStorage.setItem('username', response.data.user.name);
                 history.push('/produtos');
             })
 
             .catch(err => {
-                setError(err.response.data.error);
+                //TODO: HIGHLIGHT DE CAMPOS
+                setError(err.response.data[0].message)
             });
     }
 
