@@ -26,13 +26,6 @@ export default function ListaProdutos({ history }) {
         setIsLoaded(true);
     }
 
-    // TODO: mover para um outro arquivo
-    function getProperty(objects, id, property) {
-        const matches = objects.filter(obj => obj.id === id)[0];
-        if (matches.length === 0) return undefined;
-        return matches[property];
-    }
-
     function getBPName(id) {
         const matches = products.filter(obj => obj.id === id)[0];
         if (matches.length === 0) return undefined;
