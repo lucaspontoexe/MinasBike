@@ -26,10 +26,17 @@ export default function ListaProdutos({ history }) {
         setIsLoaded(true);
     }
 
+    // TODO: mover para um outro arquivo
     function getProperty(objects, id, property) {
         const matches = objects.filter(obj => obj.id === id)[0];
         if (matches.length === 0) return undefined;
         return matches[property];
+    }
+
+    function getBPName(id) {
+        const matches = products.filter(obj => obj.id === id)[0];
+        if (matches.length === 0) return undefined;
+        return `${matches.product.name} ${matches.brand.name}`;
     }
 
     return (
@@ -65,14 +72,7 @@ export default function ListaProdutos({ history }) {
                                             </Link>
                                         }
                                     </td>
-                                    <td>
-                                        {/* {getProperty(
-                                            products,
-                                            row.id_product,
-                                            'name'
-                                        )} */}
-                                        [WIP] {row.brandproduct_id}
-                                    </td>
+                                    <td>{getBPName(row.brandproduct_id)}</td>
                                     <td>{row.current_qty}</td>
                                     <td>{row.initial_qty}</td>
                                     <td>R$ {row.brandproduct.price / 100}</td>
