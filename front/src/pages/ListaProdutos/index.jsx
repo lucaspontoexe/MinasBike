@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import useAuth from '../../utils/useAuth';
+import getProperty from '../../utils/getProperty';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 
@@ -22,12 +23,6 @@ export default function ListaProdutos({ history }) {
         }
         fetchData();
     }, []);
-
-    function getName(objects, id) {
-        const matches = objects.filter(obj => obj.id === id)[0];
-        if (matches.length === 0) return undefined;
-        return matches.name;
-    }
 
     return (
         <div className="tela lista-produtos">
@@ -56,31 +51,41 @@ export default function ListaProdutos({ history }) {
                         </tr>
                     </thead>
 
-                    <tbody>
-                        {products.map((row, index) => (
-                            <tr key={index}>
-                                <td>
-                                    <Link
-                                        to={`/produtos/${row.brandproduct.code}`}
-                                    >
-                                        {row.brandproduct.code}
-                                    </Link>
-                                </td>
-                                <td>
-                                    {productDetails.length > 0 &&
-                                        getName(
+                    {productDetails.length > 0 && (
+                        <tbody>
+                            {products.map((row, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <Link
+                                            to={`/produtos/${row.brandproduct.code}`}
+                                        >
+                                            {row.brandproduct.code}
+                                        </Link>
+                                    </td>
+                                    <td>
+                                        {getProperty(
                                             productDetails,
-                                            row.brandproduct.product_id
+                                            row.brandproduct.product_id,
+                                            'name'
                                         )}
-                                </td>
+                                    </td>
 
-                                <td>R$ {row.brandproduct.price / 100}</td>
-                                <td>{`${row.brandproduct.quantity_per_unity} ${row.brandproduct.unity}`}</td>
-                                <td>{row.provider.name}</td>
-                                <td>{/* {row.brandproduct} */}categoria [WIP]</td>
-                            </tr>
-                        ))}
-                    </tbody>
+                                    <td>R$ {row.brandproduct.price / 100}</td>
+                                    <td>{`${row.brandproduct.quantity_per_unity} ${row.brandproduct.unity}`}</td>
+                                    <td>{row.provider.name}</td>
+                                    <td>
+                                        {
+                                            getProperty(
+                                                productDetails,
+                                                row.brandproduct.product_id,
+                                                'category'
+                                            ).name
+                                        }
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    )}
                 </table>
             </div>
         </div>
