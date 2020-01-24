@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import ListaProdutos from './pages/ListaProdutos';
-import ListaEstoque from './pages/ListaEstoque';
+import ListaProdutos from './pages/Lista/Produtos';
+import ListaEstoque from './pages/Lista/Estoque';
 import Login from './pages/Login';
 import CadastroProdutos from './pages/CadastroProdutos';
 import NovaConta from './pages/NovaConta';
