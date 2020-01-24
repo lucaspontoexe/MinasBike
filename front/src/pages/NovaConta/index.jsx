@@ -22,6 +22,9 @@ export default function NovaConta({ history }) {
             email,
             password,
             password_confirmation,
+            active: true,
+            usertype_id: 1,
+            login: email
         })
 
             .then(response => {
