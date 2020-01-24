@@ -9,10 +9,6 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
                 setGlobalFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
             }}
             placeholder={`Pesquisar`}
-            style={{
-                fontSize: '1.1rem',
-                border: '0',
-            }}
         />
     );
 }
