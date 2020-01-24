@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import useAuth from '../../utils/useAuth';
+import getProperty from '../../utils/getProperty';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import './styles.css';
@@ -26,12 +27,6 @@ export default function ListaProdutos({ history }) {
         setIsLoaded(true);
     }
 
-    function getBPName(id) {
-        const matches = products.filter(obj => obj.id === id)[0];
-        if (matches.length === 0) return undefined;
-        return `${matches.product.name} ${matches.brand.name}`;
-    }
-
     return (
         <div className="tela lista-produtos">
             <Header>Estoque</Header>
@@ -46,6 +41,7 @@ export default function ListaProdutos({ history }) {
                         <tr>
                             <th>Código</th>
                             <th>Produto</th>
+                            <th>Marca</th>
                             <th>Qtd. Atual</th>
                             <th>Qtd. Inicial</th>
                             <th>Preço</th>
@@ -65,7 +61,24 @@ export default function ListaProdutos({ history }) {
                                             </Link>
                                         }
                                     </td>
-                                    <td>{getBPName(row.brandproduct_id)}</td>
+                                    <td>
+                                        {
+                                            getProperty(
+                                                products,
+                                                row.brandproduct_id,
+                                                'product'
+                                            ).name
+                                        }
+                                    </td>
+                                    <td>
+                                        {
+                                            getProperty(
+                                                products,
+                                                row.brandproduct_id,
+                                                'brand'
+                                            ).name
+                                        }
+                                    </td>
                                     <td>{row.current_qty}</td>
                                     <td>{row.initial_qty}</td>
                                     <td>R$ {row.brandproduct.price / 100}</td>
