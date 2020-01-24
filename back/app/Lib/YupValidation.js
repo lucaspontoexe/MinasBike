@@ -18,7 +18,7 @@ class Batata {
       return {
         success: false,
         fields: failedFields,
-        error: `Invalid:Fields:${failedFields}`
+        message: 'Invalid fields'
       }
     } else {
       return { success: true }
