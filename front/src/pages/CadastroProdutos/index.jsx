@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import api from '../../services/api';
-import TextBox from '../../components/TextBox';
-import Button from '../../components/Button';
-import Header from '../../components/Header';
-import Error from '../../components/Error';
-import SelectWithLabel from '../../components/SelectWithLabel';
+import api from 'services/api';
+import TextBox from 'components/TextBox';
+import Button from 'components/Button';
+import Header from 'components/Header';
+import Error from 'components/Error';
+import SelectWithLabel from 'components/SelectWithLabel';
 
-import Modal from '../../components/Modal';
+import Modal from 'components/Modal';
 import './styles.css';
 
 export default class CadastroProdutos extends Component {

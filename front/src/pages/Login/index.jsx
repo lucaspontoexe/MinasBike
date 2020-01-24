@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../../components/Button';
-import TextBox from '../../components/TextBox';
-import Error from '../../components/Error';
+import Button from 'components/Button';
+import TextBox from 'components/TextBox';
+import Error from 'components/Error';
 
-import api from '../../services/api';
-import logo from '../../assets/images/logo-white.png';
-import emailIcon from '../../assets/icons/email.svg';
-import passwordIcon from '../../assets/icons/password.svg';
+import api from 'services/api';
+import logo from 'assets/images/logo-white.png';
+import emailIcon from 'assets/icons/email.svg';
+import passwordIcon from 'assets/icons/password.svg';
 import './styles.css';
 
 export default function Login({ history }) {

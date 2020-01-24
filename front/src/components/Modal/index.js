@@ -1,8 +1,8 @@
 import React from 'react';
 import './styles.css';
 import Button from '../Button';
-import iconApproved from '../../assets/icons/approved-signal.svg';
-import iconError from '../../assets/icons/error-signal.svg';
+import iconApproved from 'assets/icons/approved-signal.svg';
+import iconError from 'assets/icons/error-signal.svg';
 
 export default function Modal(props) {
     const { children, type, onClose } = props;

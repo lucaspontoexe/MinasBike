@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import TextBox from '../../components/TextBox';
-import Button from '../../components/Button';
-import Header from '../../components/Header';
-import api from '../../services/api';
+import TextBox from 'components/TextBox';
+import Button from 'components/Button';
+import Header from 'components/Header';
+import api from 'services/api';
 import './styles.css';
 
 export default function DetalhesProduto(props) {
