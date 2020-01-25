@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import api from 'services/api';
 import useAuth from 'utils/useAuth';
 import formatPrice from 'utils/formatPrice';
-import getProperty from 'utils/getProperty';
+import { getProperty, getNestedProperty } from 'utils/getProperty';
 import Header from 'components/Header';
 import Button from 'components/Button';
 import Table from 'components/Table';
@@ -41,7 +41,12 @@ export default function ListaProdutos({ history }) {
             code: bp.code,
             name: getProperty(productDetails, bp.product_id, 'name'),
             price: formatPrice(bp.price),
-            quantity: 0,
+            quantity: `${0} ${getNestedProperty(
+                productDetails,
+                bp.product_id,
+                'unity',
+                'acronym'
+            )}`,
             provider: item.provider.name,
             category: getCategory(productDetails, bp.product_id) || 'wip',
         };
@@ -120,7 +125,7 @@ export default function ListaProdutos({ history }) {
 
                 <span>tabela nova (do react-table)</span>
                 {productDetails.length > 0 && (
-                    <Table columns={headers} data={data} linkTo='produtos'/>
+                    <Table columns={headers} data={data} linkTo="produtos" />
                 )}
             </div>
         </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from 'services/api';
 import useAuth from 'utils/useAuth';
 import formatPrice from 'utils/formatPrice';
+import { getNestedProperty } from "utils/getProperty";
 import Header from 'components/Header';
 import Button from 'components/Button';
 import Table from 'components/Table';
@@ -48,11 +49,7 @@ export default function ListaProdutos({ history }) {
         };
     });
 
-    function getNestedProperty(objects, id, level1, level2) {
-        const matches = objects.filter(obj => obj.id === id);
-        if (matches.length === 0) return undefined;
-        return matches[0][level1][level2];
-    }
+
     return (
         <div className="tela tela--lista">
             <Header>Estoque</Header>
