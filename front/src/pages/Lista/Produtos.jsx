@@ -54,7 +54,7 @@ export default function ListaProdutos({ history }) {
     }
 
     return (
-        <div className="tela lista-produtos">
+        <div className="tela tela--lista">
             <Header>Produtos</Header>{' '}
             <div className="buttons">
                 <Button

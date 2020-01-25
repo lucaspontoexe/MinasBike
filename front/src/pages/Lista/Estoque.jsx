@@ -54,7 +54,7 @@ export default function ListaProdutos({ history }) {
         return matches[0][level1][level2];
     }
     return (
-        <div className="tela lista-produtos">
+        <div className="tela tela--lista">
             <Header>Estoque</Header>
             <div className="table-wrapper">
                 <div className="buttons">
