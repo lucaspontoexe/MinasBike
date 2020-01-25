@@ -38,8 +38,7 @@ export default function ListaProdutos({ history }) {
     const data = products.map(item => {
         const bp = item.brandproduct;
         return {
-            //TODO: renderizar link na tabela, pra conseguir pesquisar
-            code: <Link to={`/produtos/${bp.code}`}>{bp.code}</Link>,
+            code: bp.code,
             name: getProperty(productDetails, bp.product_id, 'name'),
             price: formatPrice(bp.price),
             quantity: 0,
@@ -121,7 +120,7 @@ export default function ListaProdutos({ history }) {
 
                 <span>tabela nova (do react-table)</span>
                 {productDetails.length > 0 && (
-                    <Table columns={headers} data={data} />
+                    <Table columns={headers} data={data} linkTo='produtos'/>
                 )}
             </div>
         </div>

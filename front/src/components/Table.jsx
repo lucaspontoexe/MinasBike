@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useTable, useSortBy, useGlobalFilter } from 'react-table';
 
 function GlobalFilter({ globalFilter, setGlobalFilter }) {
@@ -13,7 +14,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
     );
 }
 
-export default function Table({ columns, data }) {
+export default function Table({ columns, data, linkTo }) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -72,7 +73,16 @@ export default function Table({ columns, data }) {
                                 {row.cells.map(cell => {
                                     return (
                                         <td {...cell.getCellProps()}>
-                                            {cell.render('Cell')}
+                                            {/* Render link if column name is 'code' */}
+                                            {cell.column.id === 'code'
+                                                ? cell.render(
+                                                      <Link
+                                                          to={`/${linkTo}/${cell.value}`}
+                                                      >
+                                                          {cell.value}
+                                                      </Link>
+                                                  )
+                                                : cell.render('Cell')}
                                         </td>
                                     );
                                 })}
