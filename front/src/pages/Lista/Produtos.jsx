@@ -13,6 +13,8 @@ import './styles.css';
 export default function ListaProdutos({ history }) {
     const [products, setProducts] = useState([]);
     const [productDetails, setProductDetails] = useState([]);
+    const [brandDetails, setBrandDetails] = useState([]);
+    const [stockDetails, setStockDetails] = useState([]); //🐎🐎🐎🐎🏇🏇🏇🏇
 
     useEffect(() => {
         function fetchData() {
@@ -22,6 +24,8 @@ export default function ListaProdutos({ history }) {
             api.get('/products', useAuth).then(res =>
                 setProductDetails(res.data)
             );
+            api.get('/brands', useAuth).then(res => setBrandDetails(res.data));
+            api.get('/stocks', useAuth).then(res => setStockDetails(res.data));
         }
         fetchData();
     }, []);
@@ -29,10 +33,11 @@ export default function ListaProdutos({ history }) {
     const headers = [
         { Header: 'Código', accessor: 'code' },
         { Header: 'Nome', accessor: 'name' },
+        { Header: 'Marca', accessor: 'brand' },
         { Header: 'Preço', accessor: 'price' },
-        { Header: 'Quantidade', accessor: 'quantity' },
-        { Header: 'Fornecedor', accessor: 'provider' },
         { Header: 'Categoria', accessor: 'category' },
+        { Header: 'Fornecedor', accessor: 'provider' },
+        { Header: 'Quantidade', accessor: 'quantity' },
     ];
 
     const data = products.map(item => {
@@ -40,15 +45,16 @@ export default function ListaProdutos({ history }) {
         return {
             code: bp.code,
             name: getProperty(productDetails, bp.product_id, 'name'),
+            brand: getProperty(brandDetails, bp.product_id, 'name'),
             price: formatPrice(bp.price),
-            quantity: `${0} ${getNestedProperty(
+            category: getCategory(productDetails, bp.product_id) || 'wip',
+            provider: item.provider.name,
+            quantity: `[wip] ${getProperty(stockDetails, bp.id, 'current_qty')} ${getNestedProperty(
                 productDetails,
                 bp.product_id,
                 'unity',
                 'acronym'
             )}`,
-            provider: item.provider.name,
-            category: getCategory(productDetails, bp.product_id) || 'wip',
         };
     });
 
