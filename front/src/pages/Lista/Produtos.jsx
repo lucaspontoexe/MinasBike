@@ -96,6 +96,7 @@ export default function ListaProdutos({ history }) {
                         columns={headers}
                         data={data}
                         linkTo="produtos"
+                        searchText="Buscar produtos..."
                         TopHeaderComponent={<TopHeader />}
                     />
                 )}

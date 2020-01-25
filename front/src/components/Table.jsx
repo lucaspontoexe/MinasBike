@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 import { useTable, useSortBy, useGlobalFilter } from 'react-table';
 import TextBox from './TextBox';
 
-function GlobalFilter({ globalFilter, setGlobalFilter }) {
+function GlobalFilter({ globalFilter, setGlobalFilter, searchText }) {
     return (
         <TextBox
             value={globalFilter || ''}
             onChange={e => {
                 setGlobalFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
             }}
-            placeholder={`Pesquisar`}
+            placeholder={searchText || 'Pesquisar...'}
         />
     );
 }
 
-export default function Table({ columns, data, linkTo, TopHeaderComponent }) {
+export default function Table({ columns, data, linkTo, TopHeaderComponent, searchText }) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -39,6 +39,7 @@ export default function Table({ columns, data, linkTo, TopHeaderComponent }) {
             <GlobalFilter
                 globalFilter={state.globalFilter}
                 setGlobalFilter={setGlobalFilter}
+                searchText={searchText}
             />
             {TopHeaderComponent}
             </div>

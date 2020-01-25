@@ -88,6 +88,7 @@ export default function ListaFornecedores({ history }) {
                         columns={headers}
                         data={data}
                         linkTo="fornecedores"
+                        searchText="Buscar fornecedores..."
                         TopHeaderComponent={<TopHeader/>}
                     />
                 )}
