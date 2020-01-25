@@ -9,6 +9,7 @@ import NovaConta from './pages/NovaConta';
 import Menu from './components/Menu';
 import DetalhesProduto from './pages/DetalhesProduto';
 import AuthCheck from './AuthCheck';
+import ListaFornecedores from 'pages/Lista/Fornecedores';
 
 export default function Routes() {
     return (
@@ -21,6 +22,8 @@ export default function Routes() {
                 <Route path="/produtos" exact component={ListaProdutos} />
                 <Route path="/produtos/novo" component={CadastroProdutos} />
                 <Route path="/produtos/:code" component={DetalhesProduto} />
+
+                <Route path="/fornecedores" exact component={ListaFornecedores} />
 
                 <Route path="/estoque" exact component={ListaEstoque} />
                 <Route path="/cadastrar" component={NovaConta} />
