@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import api from 'services/api';
 import useAuth from 'utils/useAuth';
 import formatPrice from 'utils/formatPrice';
@@ -49,7 +48,11 @@ export default function ListaProdutos({ history }) {
             price: formatPrice(bp.price),
             category: getCategory(productDetails, bp.product_id) || 'wip',
             provider: item.provider.name,
-            quantity: `[wip] ${getProperty(stockDetails, bp.id, 'current_qty')} ${getNestedProperty(
+            quantity: `[wip] ${getProperty(
+                stockDetails,
+                bp.id,
+                'current_qty'
+            )} ${getNestedProperty(
                 productDetails,
                 bp.product_id,
                 'unity',
@@ -66,7 +69,7 @@ export default function ListaProdutos({ history }) {
 
     return (
         <div className="tela tela--lista">
-            <Header>Produtos</Header>{' '}
+            <Header>Produtos</Header>
             <div className="buttons">
                 <Button
                     color="#30CC57"
@@ -79,57 +82,6 @@ export default function ListaProdutos({ history }) {
                 </Button>
             </div>
             <div className="table-wrapper">
-                <span>tabela antiga:</span>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Nome</th>
-                            <th>Preço</th>
-                            <th>Quantidade</th>
-                            <th>Fornecedor</th>
-                            <th>Categoria</th>
-                        </tr>
-                    </thead>
-
-                    {productDetails.length > 0 && (
-                        <tbody>
-                            {products.map((row, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        <Link
-                                            to={`/produtos/${row.brandproduct.code}`}
-                                        >
-                                            {row.brandproduct.code}
-                                        </Link>
-                                    </td>
-                                    <td>
-                                        {getProperty(
-                                            productDetails,
-                                            row.brandproduct.product_id,
-                                            'name'
-                                        )}
-                                    </td>
-
-                                    <td>R$ {row.brandproduct.price / 100}</td>
-                                    <td>{`${row.brandproduct.quantity_per_unity} ${row.brandproduct.unity}`}</td>
-                                    <td>{row.provider.name}</td>
-                                    <td>
-                                        {
-                                            getProperty(
-                                                productDetails,
-                                                row.brandproduct.product_id,
-                                                'category'
-                                            ).name
-                                        }
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    )}
-                </table>
-
-                <span>tabela nova (do react-table)</span>
                 {productDetails.length > 0 && (
                     <Table columns={headers} data={data} linkTo="produtos" />
                 )}
