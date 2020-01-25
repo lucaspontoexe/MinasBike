@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
+import useAuth from '../../utils/useAuth';
+import getProperty from '../../utils/getProperty';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import './styles.css';
@@ -16,15 +18,13 @@ export default function ListaProdutos({ history }) {
     }, []);
 
     async function fetchData() {
-        await api.get('/products').then(response => setProducts(response.data));
-        await api.get('/stocks').then(response => setStocks(response.data));
+        await api
+            .get('/brandproducts', useAuth)
+            .then(response => setProducts(response.data));
+        await api
+            .get('/stocks', useAuth)
+            .then(response => setStocks(response.data));
         setIsLoaded(true);
-    }
-
-    function getProperty(objects, id, property) {
-        const matches = objects.filter(obj => obj.id === id)[0];
-        if (matches.length === 0) return undefined;
-        return matches[property];
     }
 
     return (
@@ -41,9 +41,9 @@ export default function ListaProdutos({ history }) {
                         <tr>
                             <th>Código</th>
                             <th>Produto</th>
+                            <th>Marca</th>
                             <th>Qtd. Atual</th>
-                            <th>Qtd. Máxima</th>
-                            <th>Qtd. Mínima</th>
+                            <th>Qtd. Inicial</th>
                             <th>Preço</th>
                         </tr>
                     </thead>
@@ -55,38 +55,33 @@ export default function ListaProdutos({ history }) {
                                     <td>
                                         {
                                             <Link
-                                                to={`/produtos/${getProperty(
-                                                    products,
-                                                    row.id_product,
-                                                    'code'
-                                                )}`}
+                                                to={`/produtos/${row.brandproduct.code}`}
                                             >
-                                                {getProperty(
-                                                    products,
-                                                    row.id_product,
-                                                    'code'
-                                                )}
+                                                {row.brandproduct.code}
                                             </Link>
                                         }
                                     </td>
                                     <td>
-                                        {getProperty(
-                                            products,
-                                            row.id_product,
-                                            'name'
-                                        )}
+                                        {
+                                            getProperty(
+                                                products,
+                                                row.brandproduct_id,
+                                                'product'
+                                            ).name
+                                        }
+                                    </td>
+                                    <td>
+                                        {
+                                            getProperty(
+                                                products,
+                                                row.brandproduct_id,
+                                                'brand'
+                                            ).name
+                                        }
                                     </td>
                                     <td>{row.current_qty}</td>
-                                    <td>{row.minimum_qty}</td>
-                                    <td>{row.maximum_qty}</td>
-                                    <td>
-                                        R${' '}
-                                        {getProperty(
-                                            products,
-                                            row.id_product,
-                                            'price'
-                                        ) / 100}
-                                    </td>
+                                    <td>{row.initial_qty}</td>
+                                    <td>R$ {row.brandproduct.price / 100}</td>
                                 </tr>
                             ))}
                         </tbody>
