@@ -1,25 +1,23 @@
 'use strict'
 
 const Yup = require('yup')
-const FieldsValidator = use('App/Lib/YupValidation')
+const FieldsValidator = use('App/Lib/FieldsValidator')
 const Brand = use('App/Models/Brand')
 
 class BrandController {
-  async index ({ request, response, params }) {
+  async index ({ request, params }) {
     // get by id
     const id = params.id
-    try {
-      if (id) {
-        const brand = await Brand.findBy('id', id)
-        return brand
-      }
-    } catch (error) {
-      return response.status(400).json({ error: 'This resource does not exist' })
+    if (id) {
+      const brand = await Brand.findBy('id', id)
+      return brand
     }
 
     // get by field value or getAll if no params
     const data = request.only(['name'])
+
     const brands = await Brand.query().where(data).fetch()
+
     return brands
   }
 
@@ -30,19 +28,18 @@ class BrandController {
     const fields = [
       { name: Yup.string().strict().required() }
     ]
-
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
     const checkIfExists = await Brand.findBy('name', data.name)
     if (checkIfExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:name',
-        message: 'This resource already exists'
+        success: false,
+        fields: ['name'],
+        message: 'Already exists'
       })
     }
 
@@ -60,10 +57,7 @@ class BrandController {
 
     // check if the resource exist
     if (!brand) {
-      return response.status(409).json({
-        error: 'Invalid:Request',
-        message: 'This resource does not exist'
-      })
+      return brand
     }
 
     // validate all fields
@@ -71,10 +65,9 @@ class BrandController {
       { name: Yup.string().strict().required() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
@@ -82,9 +75,10 @@ class BrandController {
       const checkIfExists = await Brand.findBy('name', data.name)
       if (checkIfExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:name',
-          message: 'This resource already exists'
-        })
+            success: false,
+            fields: ['name'],
+            message: 'Already exists'
+          })
       }
     }
 
@@ -92,7 +86,9 @@ class BrandController {
     if (data.name) {
       brand.name = data.name
     }
+
     brand.save()
+
     return brand
   }
 }

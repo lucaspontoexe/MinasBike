@@ -1,22 +1,23 @@
 'use strict'
 
 const Yup = require('yup')
-const FieldsValidator = use('App/Lib/YupValidation')
+const FieldsValidator = use('App/Lib/FieldsValidator')
 const Product = use('App/Models/Product')
 const Unity = use('App/Models/Unity')
 const Category = use('App/Models/Category')
 
 class ProductController {
-  async index ({ request, response, params }) {
+  async index ({ request, params }) {
     // get by id
     const id = params.id
     if (id) {
-      try {
-        const product = await Product.query().where('id', id).with('category').with('unity').fetch()
-        return product
-      } catch (error) {
-        return response.status(400).json({ error: 'This resource does not exist' })
-      }
+      const product = await Product.query()
+        .where('id', id)
+        .with('category')
+        .with('unity')
+        .fetch()
+
+      return product
     }
     // get by field value or getAll if no params
     const data = request.only([
@@ -25,7 +26,13 @@ class ProductController {
       'category_id',
       'unity_id'
     ])
-    const products = await Product.query().where(data).with('category').with('unity').fetch()
+
+    const products = await Product.query()
+      .where(data)
+      .with('category')
+      .with('unity')
+      .fetch()
+
     return products
   }
 
@@ -45,37 +52,41 @@ class ProductController {
       { unity_id: Yup.number().required() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
     const checkIfExists = await Product.findBy('name', data.name)
     if (checkIfExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:name',
-        message: 'This resource already exists'
-      })
+        success: false,
+        fields: ['name'],
+        message: 'Already exists'
+    })
     }
+
     const checkIfUnityExists = await Unity.findBy('id', data.unity_id)
     if (!checkIfUnityExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:unity_id',
-        message: 'This resource does not exist'
+        success: false,
+        fields: ['unity_id'],
+        message: 'does not exists'
       })
     }
     const checkIfCategoryExists = await Category.findBy('id', data.category_id)
     if (!checkIfCategoryExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:category_id',
-        message: 'This resource does not exist'
+        success: false,
+        fields: ['category_id'],
+        message: 'does not exists'
       })
     }
 
     // create and return
     const product = await Product.create(data)
+
     return product
   }
 
@@ -93,11 +104,8 @@ class ProductController {
 
     // check if the resource exist
     if (!product) {
-      return response.status(400).json({
-        error: 'Invalid:Request',
-        message: 'This resource does not exist'
-      })
-    }
+      return product
+  }
 
     // validate all fields
     const fields = [
@@ -107,10 +115,9 @@ class ProductController {
       { unity_id: Yup.number() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
@@ -118,17 +125,20 @@ class ProductController {
       const checkIfExists = await Product.findBy('name', data.name)
       if (checkIfExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:name',
-          message: 'This resource already exists'
+          success: false,
+          fields: ['name'],
+          message: 'Already exists'
         })
       }
     }
+
     if (data.unity_id) {
       const checkIfUnityExists = await Unity.findBy('id', data.unity_id)
       if (!checkIfUnityExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:unity_id',
-          message: 'This resource does not exist'
+          success: false,
+          fields: ['unity_id'],
+          message: 'does not exist'
         })
       }
     }
@@ -136,8 +146,9 @@ class ProductController {
       const checkIfCategoryExists = await Category.findBy('id', data.category_id)
       if (!checkIfCategoryExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:unity_id',
-          message: 'This resource does not exist'
+          success: false,
+          fields: ['category_id'],
+          message: 'does not exist'
         })
       }
     }
@@ -157,6 +168,7 @@ class ProductController {
     }
 
     product.save()
+
     return product
   }
 }

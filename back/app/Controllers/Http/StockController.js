@@ -1,26 +1,24 @@
 'use strict'
 
 const Yup = require('yup')
-const FieldsValidator = use('App/Lib/YupValidation')
+const FieldsValidator = use('App/Lib/FieldsValidator')
 const Stock = use('App/Models/Stock')
 const Brandproduct = use('App/Models/Brandproduct')
 
 class StockController {
-  async index ({ request, response, params }) {
+  async index ({ request, params }) {
     // get by id
     const id = params.id
-    if (id) {
-      try {
-        const stock = await Stock.query()
-          .where('id', id)
-          .with('brandproduct')
-          .fetch()
 
-        return stock
-      } catch (error) {
-        return response.status(400).json({ error: 'This resource does not exist' })
-      }
+    if (id) {
+      const stock = await Stock.query()
+        .where('id', id)
+        .with('brandproduct')
+        .fetch()
+
+      return stock
     }
+
     // get by field value or getAll if no params
     const data = request.only([
       'min_qty',
@@ -29,10 +27,12 @@ class StockController {
       'brandproduct_id',
       'modified_by'
     ])
+
     const stocks = await Stock.query()
       .where(data)
       .with('brandproduct')
       .fetch()
+
     return stocks
   }
 
@@ -43,11 +43,13 @@ class StockController {
       'current_qty',
       'brandproduct_id'
     ])
+
+    // get logged user
     try {
       const loggedUser = await auth.getUser()
       data.modified_by = loggedUser.id
     } catch (error) {
-      return response.status(401).json({ error: 'Failed:Auth' })
+      return response.status(401)
     }
 
     // validate all fields
@@ -58,18 +60,18 @@ class StockController {
       { brandproduct_id: Yup.number().required() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
     const checkIfBrandproductExists = await Brandproduct.findBy('id', data.brandproduct_id)
     if (!checkIfBrandproductExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:brandproduct_id',
-        message: 'This resource does not exist'
+        success: false,
+        fields: ['brandproduct_id'],
+        message: 'does not exists'
       })
     }
 
@@ -78,13 +80,15 @@ class StockController {
       .fetch()
     if (checkIfExists.first()) {
       return response.status(409).json({
-        error: 'Invalid:Fields:brandproduct_id',
-        message: 'This resource already exists'
+        success: false,
+        fields: ['brandproduct_id'],
+        message: 'already exists'
       })
     }
 
     // create and return
     const stock = await Stock.create(data)
+
     return stock
   }
 
@@ -95,6 +99,8 @@ class StockController {
       'current_qty',
       'brandproduct_id'
     ])
+
+    //get logged user
     try {
       const loggedUser = await auth.getUser()
       data.modified_by = loggedUser.id
@@ -108,10 +114,7 @@ class StockController {
 
     // check if the resource exist
     if (!stock) {
-      return response.status(400).json({
-        error: 'Invalid:Request',
-        message: 'This resource does not exist'
-      })
+      return stock
     }
 
     // validate all fields
@@ -122,10 +125,9 @@ class StockController {
       { brandproduct_id: Yup.number() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
@@ -133,17 +135,20 @@ class StockController {
       const checkIfBrandproductExists = await Brandproduct.findBy('id', data.brandproduct_id)
       if (!checkIfBrandproductExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:brandproduct_id',
-          message: 'This resource does not exist'
+          success: false,
+          fields: ['brandproduct_id'],
+          message: 'does not exists'
         })
       }
+
       const checkIfExists = await Stock.query()
         .where('brandproduct_id', data.brandproduct_id)
         .fetch()
       if (checkIfExists.first()) {
         return response.status(409).json({
-          error: 'Invalid:Fields:brandproduct_id',
-          message: 'This resource already exists'
+          success: false,
+          fields: ['brandproduct_id'],
+          message: 'already exists'
         })
       }
     }
@@ -163,6 +168,7 @@ class StockController {
     }
 
     stock.save()
+
     return stock
   }
 }

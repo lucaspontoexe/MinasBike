@@ -1,28 +1,25 @@
 'use strict'
 
 const Yup = require('yup')
-const FieldsValidator = use('App/Lib/YupValidation')
+const FieldsValidator = use('App/Lib/FieldsValidator')
 const Providerproduct = use('App/Models/Providerproduct')
 const Brandproduct = use('App/Models/Brandproduct')
 const Provider = use('App/Models/Provider')
 
 class ProviderproductController {
-  async index ({ request, response, params }) {
+  async index ({ request, params }) {
     // get by id
     const id = params.id
     if (id) {
-      try {
-        const providerproduct = await Providerproduct.query()
-          .where('id', id)
-          .with('brandproduct')
-          .with('provider')
-          .fetch()
+      const providerproduct = await Providerproduct.query()
+        .where('id', id)
+        .with('brandproduct')
+        .with('provider')
+        .fetch()
 
-        return providerproduct
-      } catch (error) {
-        return response.status(400).json({ error: 'This resource does not exist' })
-      }
+      return providerproduct
     }
+
     // get by field value or getAll if no params
     const data = request.only([
       'cost_price',
@@ -53,25 +50,26 @@ class ProviderproductController {
       { provider_id: Yup.number().required() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
-    // check if already exists
+    // check if exists
     const checkIfBrandproductExists = await Brandproduct.findBy('id', data.brandproduct_id)
     if (!checkIfBrandproductExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:brandproduct_id',
-        message: 'This resource does not exist'
+        success: false,
+        fields: ['brandproduct_id'],
+        message: 'does not exists'
       })
     }
     const checkIfProviderExists = await Provider.findBy('id', data.provider_id)
     if (!checkIfProviderExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:provider_id',
-        message: 'This resource does not exist'
+        success: false,
+        fields: ['provider_id'],
+        message: 'does not exists'
       })
     }
 
@@ -79,15 +77,18 @@ class ProviderproductController {
       .where('brandproduct_id', data.brandproduct_id)
       .where('provider_id', data.provider_id)
       .fetch()
+
     if (checkIfExists.first()) {
       return response.status(409).json({
-        error: 'Invalid:Fields:brandproduct_id,provider_id',
-        message: 'This resource already exists'
+        success: false,
+        fields: ['brandproduct_id', 'provider_id'],
+        message: 'Already exists'
       })
     }
 
     // create and return
     const providerproduct = await Providerproduct.create(data)
+
     return providerproduct
   }
 
@@ -103,10 +104,7 @@ class ProviderproductController {
 
     // check if the resource exist
     if (!providerproduct) {
-      return response.status(400).json({
-        error: 'Invalid:Request',
-        message: 'This resource does not exist'
-      })
+      return providerproduct
     }
 
     // validate all fields
@@ -115,10 +113,9 @@ class ProviderproductController {
       { provider_id: Yup.number() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
@@ -126,18 +123,21 @@ class ProviderproductController {
       const checkIfProviderExists = await Provider.findBy('id', data.provider_id)
       if (!checkIfProviderExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:provider_id',
-          message: 'This resource does not exist'
+          success: false,
+          fields: ['provider_id'],
+          message: 'does not exists'
         })
       }
+
       const checkIfExists = await Providerproduct.query()
         .where('brandproduct_id', providerproduct.brandproduct_id)
         .where('provider_id', data.provider_id)
         .fetch()
       if (checkIfExists.first()) {
         return response.status(409).json({
-          error: 'Invalid:Fields:provider_id,brandproduct_id',
-          message: 'This resource already exists'
+          success: false,
+          fields: ['brandproduct_id', 'provider_id'],
+          message: 'Already exists'
         })
       }
     }
@@ -151,6 +151,7 @@ class ProviderproductController {
     }
 
     providerproduct.save()
+
     return providerproduct
   }
 }

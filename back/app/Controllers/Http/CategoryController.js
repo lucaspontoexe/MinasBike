@@ -1,24 +1,22 @@
 'use strict'
 
 const Yup = require('yup')
-const FieldsValidator = use('App/Lib/YupValidation')
+const FieldsValidator = use('App/Lib/FieldsValidator')
 const Category = use('App/Models/Category')
 
 class CategoryController {
-  async index ({ request, response, params }) {
+  async index ({ request, params }) {
     // get by id
     const id = params.id
-    try {
-      if (id) {
-        const category = await Category.findBy('id', id)
-        return category
-      }
-    } catch (error) {
-      return response.status(400).json({ error: 'This resource does not exist' })
+    if (id) {
+      const category = await Category.findBy('id', id)
+      return category
     }
+
     // get by field value or getAll if no params
     const data = request.only(['name', 'description'])
     const categories = await Category.query().where(data).fetch()
+
     return categories
   }
 
@@ -31,23 +29,24 @@ class CategoryController {
       { description: Yup.string().strict().required() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
     const checkIfExists = await Category.findBy('name', data.name)
     if (checkIfExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:name',
-        message: 'This resource already exists'
+        success: false,
+        fields: ['name'],
+        message: 'Already exists'
       })
     }
 
     // create and return
     const category = await Category.create(data)
+
     return category
   }
 
@@ -60,11 +59,8 @@ class CategoryController {
 
     // check if the resource exist
     if (!category) {
-      return response.status(400).json({
-        error: 'Invalid:Request',
-        message: 'This resource does not exist'
-      })
-    }
+      return category
+  }
 
     // validate all fields
     const fields = [
@@ -72,10 +68,9 @@ class CategoryController {
       { description: Yup.string().strict() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
@@ -83,8 +78,9 @@ class CategoryController {
       const checkIfExists = await Category.findBy('name', data.name)
       if (checkIfExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:name',
-          message: 'This resource already exists'
+          success: false,
+          fields: ['name'],
+          message: 'Already exists'
         })
       }
     }
@@ -96,7 +92,9 @@ class CategoryController {
     if (data.description) {
       category.description = data.description
     }
+
     category.save()
+
     return category
   }
 }

@@ -1,18 +1,19 @@
 'use strict'
 
 const Yup = require('yup')
-const FieldsValidator = use('App/Lib/YupValidation')
+const FieldsValidator = use('App/Lib/FieldsValidator')
 const User = use('App/Models/User')
 const Usertype = use('App/Models/Usertype')
 
 class UserController {
-  async index ({ request, response, params }) {
+  async index ({ request, params }) {
     // get by id
     const id = params.id
     if (id) {
       const user = await User.query().where('id', id).with('usertype').fetch()
       return user
     }
+
     // get by field value or getAll if no params
     const data = request.only([
       'active',
@@ -23,6 +24,7 @@ class UserController {
     ])
 
     const users = await User.query().where(data).with('usertype').fetch()
+
     return users
   }
 
@@ -35,6 +37,8 @@ class UserController {
       'password',
       'usertype_id'
     ])
+    data.usertype_id = 1
+    data.active = 1
 
     // validate all fields
     const fields = [
@@ -46,38 +50,39 @@ class UserController {
       { usertype_id: Yup.number().required() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
     const checkIfLoginExists = await User.findBy('login', data.login)
     if (checkIfLoginExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:login',
-        message: 'This resource already exists'
+        success: false,
+        fields: ['login'],
+        message: 'Already exists'
       })
     }
     const checkIfEmailExists = await User.findBy('email', data.email)
     if (checkIfEmailExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:email',
-        message: 'This resource already exists'
+        success: false,
+        fields: ['email'],
+        message: 'Already exists'
       })
     }
+
     const checkIfUsertypeExists = await Usertype.findBy('id', data.usertype_id)
     if (!checkIfUsertypeExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:usertype_id',
-        message: 'This resource does not exist'
+        success: false,
+        fields: ['usertype_id'],
+        message: 'does not exists'
       })
     }
 
     // create and return
-    data.usertype_id = 1
-    data.active = 1
     const user = await User.create(data)
     return user
   }
@@ -96,17 +101,18 @@ class UserController {
 
     // check if the resource exist
     if (!user) {
-      return response.status(400).json({
-        error: 'Invalid:Request',
-        message: 'This resource does not exist'
-      })
+      return user
     }
 
     // check if logged user is the params user
     const loggedUser = await auth.getUser()
-    // eslint-disable-next-line eqeqeq
-    if (!(id == loggedUser.id)) {
-      return response.status(401).json({ error: 'Denied:Token:Id' })
+    try {
+      // eslint-disable-next-line eqeqeq
+      if (!(id == loggedUser.id)) {
+        return response.status(401)
+      }
+    } catch (error) {
+      return response.status(401)
     }
 
     // validate all fields
@@ -116,10 +122,10 @@ class UserController {
       { password: Yup.string().strict() },
       { old_password: Yup.string().strict() }
     ]
-    const validation = await FieldsValidator.validate({ fields, data })
 
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
@@ -127,8 +133,9 @@ class UserController {
       const checkIfLoginExists = await User.findBy('login', data.login)
       if (checkIfLoginExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:login',
-          message: 'This resource already exists'
+          success: false,
+          fields: ['login'],
+          message: 'Already exists'
         })
       }
     }
@@ -148,7 +155,9 @@ class UserController {
     if (data.name) {
       user.name = data.name
     }
+
     user.save()
+
     return user
   }
 }

@@ -5,20 +5,20 @@ const Usertype = use('App/Models/Usertype')
 
 class UsertypeController {
   // store only by seeds
-  async index ({ request, response, params }) {
+  async index ({ request, params }) {
     // get by id
     const id = params.id
-    try {
-      if (id) {
-        const usertypes = await Usertype.findBy('id', id)
-        return usertypes
-      }
-    } catch (error) {
-      return response.status(400).json({ error: 'This resource does not exist' })
+
+    if (id) {
+      const usertypes = await Usertype.findBy('id', id)
+      return usertypes
     }
+
     // get by field value or getAll if no params
     const data = request.only(['name', 'access_level'])
+
     const usertypes = await Usertype.query().where(data).fetch()
+
     return usertypes
   }
 }
