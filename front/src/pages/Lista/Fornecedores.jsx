@@ -34,7 +34,7 @@ export default function ListaFornecedores({ history }) {
     ];
 
     const data = providers.map(item => {
-        if (item.id === 3) debugger
+        // if (item.id === 3) debugger
         return {
             code: item.id,
             name: item.name,
