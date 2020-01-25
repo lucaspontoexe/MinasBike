@@ -67,9 +67,18 @@ export default function ListaProdutos({ history }) {
         return matches[0].category.name;
     }
 
+    function TopHeader() {
+        return (
+            <Button color="#DC2438" onClick={() => {}}>
+                Upload de Arquivos
+            </Button>
+        );
+    }
+
     return (
         <div className="tela tela--lista">
             <Header>Produtos</Header>
+
             <div className="buttons">
                 <Button
                     color="#30CC57"
@@ -83,7 +92,12 @@ export default function ListaProdutos({ history }) {
             </div>
             <div className="table-wrapper">
                 {productDetails.length > 0 && (
-                    <Table columns={headers} data={data} linkTo="produtos" />
+                    <Table
+                        columns={headers}
+                        data={data}
+                        linkTo="produtos"
+                        TopHeaderComponent={<TopHeader />}
+                    />
                 )}
             </div>
         </div>

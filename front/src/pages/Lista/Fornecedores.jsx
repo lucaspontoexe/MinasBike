@@ -15,7 +15,9 @@ export default function ListaFornecedores({ history }) {
 
     useEffect(() => {
         function fetchData() {
-            api.get('/providerproducts', useAuth).then(res => setPrpr(res.data));
+            api.get('/providerproducts', useAuth).then(res =>
+                setPrpr(res.data)
+            );
             api.get('/providers', useAuth).then(res => setProviders(res.data));
             //prettier-disable-next-line max-len
             // api.get('/stocks', useAuth).then(res => setStockDetails(res.data));
@@ -39,17 +41,37 @@ export default function ListaFornecedores({ history }) {
             code: item.id,
             name: item.name,
             contact: item.contact,
-            product: getNestedProperty(prpr, item.provider_id, 'brandproduct', 'code'),
-            cost_price: formatPrice(ObjectSelect('cost_price', prpr, obj => obj.provider_id === item.id)),
+            product: getNestedProperty(
+                prpr,
+                item.provider_id,
+                'brandproduct',
+                'code'
+            ),
+            cost_price: formatPrice(
+                ObjectSelect(
+                    'cost_price',
+                    prpr,
+                    obj => obj.provider_id === item.id
+                )
+            ),
             location: `${item.location.city}, ${item.location.state}`,
-            contact_two: '#descubra'
+            contact_two: '#descubra',
         };
     });
+
+    function TopHeader(params) {
+        return (
+                <Button color="#DC2438" onClick={() => {}}>
+                    Enviar Arquivo
+                </Button>
+        );
+    }
 
     return (
         <div className="tela tela--lista">
             <Header>Fornecedores</Header>
             <div className="buttons">
+
                 <Button
                     color="#30CC57"
                     onClick={() => history.push('/fornecedores/novo')}
@@ -62,7 +84,12 @@ export default function ListaFornecedores({ history }) {
             </div>
             <div className="table-wrapper">
                 {providers.length > 0 && (
-                    <Table columns={headers} data={data} linkTo="fornecedores" />
+                    <Table
+                        columns={headers}
+                        data={data}
+                        linkTo="fornecedores"
+                        TopHeaderComponent={<TopHeader/>}
+                    />
                 )}
             </div>
         </div>

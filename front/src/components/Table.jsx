@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTable, useSortBy, useGlobalFilter } from 'react-table';
+import TextBox from './TextBox';
 
 function GlobalFilter({ globalFilter, setGlobalFilter }) {
     return (
-        <input
+        <TextBox
             value={globalFilter || ''}
             onChange={e => {
                 setGlobalFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
@@ -14,7 +15,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
     );
 }
 
-export default function Table({ columns, data, linkTo }) {
+export default function Table({ columns, data, linkTo, TopHeaderComponent }) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -34,10 +35,13 @@ export default function Table({ columns, data, linkTo }) {
 
     return (
         <>
+            <div className="top-header">
             <GlobalFilter
                 globalFilter={state.globalFilter}
                 setGlobalFilter={setGlobalFilter}
             />
+            {TopHeaderComponent}
+            </div>
             <table {...getTableProps()}>
                 <thead>
                     {headerGroups.map(headerGroup => (

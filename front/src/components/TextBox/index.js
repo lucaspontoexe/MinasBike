@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.css';
+import './styles.css';
 
 export default function TextBox(props) {
     const { label, required, name, options, list } = props;
