@@ -10,11 +10,6 @@ import Table from 'components/Table';
 import './styles.css';
 
 export default function ListaFornecedores({ history }) {
-    const [products, setProducts] = useState([]);
-    const [productDetails, setProductDetails] = useState([]);
-    const [brandDetails, setBrandDetails] = useState([]);
-    const [stockDetails, setStockDetails] = useState([]); //🐎🐎🐎🐎🏇🏇🏇🏇
-
     const [providers, setProviders] = useState([]);
     const [prpr, setPrpr] = useState([]);
 
