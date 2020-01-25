@@ -6,12 +6,13 @@ import getProperty from 'utils/getProperty';
 import Header from 'components/Header';
 import Button from 'components/Button';
 import './styles.css';
+import formatPrice from 'utils/formatPrice';
+import Table from 'components/Table';
 
 export default function ListaProdutos({ history }) {
     const [products, setProducts] = useState([]);
     const [stocks, setStocks] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
-    // TODO: CRIAR UM COMPONENTE DE VERDADE E COMPONENTIZAR A TABELA
 
     useEffect(() => {
         fetchData();
@@ -27,6 +28,33 @@ export default function ListaProdutos({ history }) {
         setIsLoaded(true);
     }
 
+    const headers = [
+        { Header: 'Código', accessor: 'code' },
+        { Header: 'Produto', accessor: 'product' },
+        { Header: 'Marca', accessor: 'brand' },
+        { Header: 'Qtd. Atual', accessor: 'current_qty' },
+        { Header: 'Qtd. Inicial', accessor: 'initial_qty' },
+        { Header: 'Preço', accessor: 'price' },
+    ];
+
+    const data = stocks.map(item => {
+        const bp = item.brandproduct;
+        const { current_qty, initial_qty } = item;
+        return {
+            code: bp.code,
+            product: getNestedProperty(products, bp.id, 'product', 'name'),
+            brand: getNestedProperty(products, bp.id, 'brand', 'name'),
+            current_qty,
+            initial_qty,
+            price: formatPrice(bp.price),
+        };
+    });
+
+    function getNestedProperty(objects, id, level1, level2) {
+        const matches = objects.filter(obj => obj.id === id);
+        if (matches.length === 0) return undefined;
+        return matches[0][level1][level2];
+    }
     return (
         <div className="tela lista-produtos">
             <Header>Estoque</Header>
@@ -87,6 +115,8 @@ export default function ListaProdutos({ history }) {
                         </tbody>
                     )}
                 </table>
+
+                <Table columns={headers} data={data} linkTo="produtos" />
             </div>
         </div>
     );
