@@ -2,8 +2,8 @@
 
 const Yup = require('yup')
 
-class Batata {
-  async validate ({ fields, data }) {
+class Validator {
+  async validate ({ fields, data, response }) {
     let failCount = 0
     const failedFields = []
     for (const field of fields) {
@@ -11,19 +11,18 @@ class Batata {
       const validationResponse = await schema.isValid(data)
       if (!validationResponse) {
         failCount += 1
-        failedFields.push(Object.keys(field))
+        failedFields.push(Object.keys(field)[0])
       }
     }
     if (failCount > 0) {
-      return {
+      return response.status(409).json({
         success: false,
         fields: failedFields,
-        error: `Invalid:Fields:${failedFields}`
-      }
-    } else {
-      return { success: true }
+        message: 'Invalid field(s)'
+      })
     }
+    return true
   }
 }
 
-module.exports = new Batata()
+module.exports = new Validator()

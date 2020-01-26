@@ -1,22 +1,19 @@
 'use strict'
 
 const Yup = require('yup')
-const FieldsValidator = use('App/Lib/YupValidation')
+const FieldsValidator = use('App/Lib/FieldsValidator')
 const Provider = use('App/Models/Provider')
 const Location = use('App/Models/Location')
 
 class ProviderController {
-  async index ({ request, response, params }) {
+  async index ({ request, params }) {
     // get by id
     const id = params.id
     if (id) {
-      try {
-        const provider = await Provider.query().where('id', id).with('location').fetch()
-        return provider
-      } catch (error) {
-        return response.status(400).json({ error: 'This resource does not exist' })
-      }
+      const provider = await Provider.query().where('id', id).with('location').fetch()
+      return provider
     }
+
     // get by field value or getAll if no params
     const data = request.only([
       'name',
@@ -25,7 +22,9 @@ class ProviderController {
       'phone',
       'location_id'
     ])
+
     const providers = await Provider.query().where(data).with('location').fetch()
+
     return providers
   }
 
@@ -47,30 +46,33 @@ class ProviderController {
       { location_id: Yup.number().required() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
     const checkIfExists = await Provider.findBy('name', data.name)
     if (checkIfExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:name',
-        message: 'This resource already exists'
+        success: false,
+        fields: ['name'],
+        message: 'Already exists'
       })
     }
+
     const checkIfLocationExists = await Location.findBy('id', data.location_id)
     if (!checkIfLocationExists) {
       return response.status(409).json({
-        error: 'Invalid:Fields:location_id',
-        message: 'This resource does not exist'
+        success: false,
+        fields: ['location_id'],
+        message: 'does not exists'
       })
     }
 
     // create and return
     const provider = await Provider.create(data)
+
     return provider
   }
 
@@ -89,10 +91,7 @@ class ProviderController {
 
     // check if the resource exist
     if (!provider) {
-      return response.status(400).json({
-        error: 'Invalid:Request',
-        message: 'This resource does not exist'
-      })
+      return provider
     }
 
     // validate all fields
@@ -104,10 +103,9 @@ class ProviderController {
       { location_id: Yup.number() }
     ]
 
-    const validation = await FieldsValidator.validate({ fields, data })
-
-    if (!validation.success) {
-      return response.status(400).json({ error: validation.error })
+    const validation = await FieldsValidator.validate({ fields, data, response })
+    if (validation !== true) {
+      return validation
     }
 
     // check if already exists
@@ -115,17 +113,20 @@ class ProviderController {
       const checkIfExists = await Provider.findBy('name', data.name)
       if (checkIfExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:name',
-          message: 'This resource already exists'
+          success: false,
+          fields: ['name'],
+          message: 'Already exists'
         })
       }
     }
+
     if (data.location_id) {
       const checkIfLocationExists = await Location.findBy('id', data.location_id)
       if (!checkIfLocationExists) {
         return response.status(409).json({
-          error: 'Invalid:Fields:location_id',
-          message: 'This resource does not exist'
+          success: false,
+          fields: ['location_id'],
+          message: 'does not exists'
         })
       }
     }
@@ -146,7 +147,9 @@ class ProviderController {
     if (data.location_id) {
       provider.location_id = data.location_id
     }
+
     provider.save()
+
     return provider
   }
 }
