@@ -92,7 +92,7 @@ class ProviderController {
     // check if the resource exist
     if (!provider) {
       return provider
-  }
+    }
 
     // validate all fields
     const fields = [

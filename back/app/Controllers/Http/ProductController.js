@@ -64,7 +64,7 @@ class ProductController {
         success: false,
         fields: ['name'],
         message: 'Already exists'
-    })
+      })
     }
 
     const checkIfUnityExists = await Unity.findBy('id', data.unity_id)
@@ -105,7 +105,7 @@ class ProductController {
     // check if the resource exist
     if (!product) {
       return product
-  }
+    }
 
     // validate all fields
     const fields = [

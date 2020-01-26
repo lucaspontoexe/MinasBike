@@ -75,10 +75,10 @@ class BrandController {
       const checkIfExists = await Brand.findBy('name', data.name)
       if (checkIfExists) {
         return response.status(409).json({
-            success: false,
-            fields: ['name'],
-            message: 'Already exists'
-          })
+          success: false,
+          fields: ['name'],
+          message: 'Already exists'
+        })
       }
     }
 

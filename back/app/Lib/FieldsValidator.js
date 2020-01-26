@@ -21,7 +21,7 @@ class Validator {
         message: 'Invalid field(s)'
       })
     }
-      return true
+    return true
   }
 }
 

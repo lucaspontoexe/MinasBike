@@ -60,10 +60,10 @@ class BrandproductController {
     const checkIfBrandExists = await Brand.findBy('id', data.brand_id)
     if (!checkIfBrandExists) {
       return response.status(409).json({
-          success: false,
-          fields: ['brand_id'],
-          message: 'does not exist'
-        })
+        success: false,
+        fields: ['brand_id'],
+        message: 'does not exist'
+      })
     }
     const checkIfProductExists = await Product.findBy('id', data.product_id)
     if (!checkIfProductExists) {
@@ -71,7 +71,7 @@ class BrandproductController {
         success: false,
         fields: ['product_id'],
         message: 'does not exist'
-    })
+      })
     }
 
     const checkIfExists = await Brandproduct.query()
@@ -142,7 +142,7 @@ class BrandproductController {
           success: false,
           fields: ['brand_id'],
           message: 'Already exists'
-      })
+        })
       }
     }
 

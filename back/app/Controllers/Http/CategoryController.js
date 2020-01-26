@@ -60,7 +60,7 @@ class CategoryController {
     // check if the resource exist
     if (!category) {
       return category
-  }
+    }
 
     // validate all fields
     const fields = [

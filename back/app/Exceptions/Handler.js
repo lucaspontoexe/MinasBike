@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 'use strict'
 
 const Env = use('Env')

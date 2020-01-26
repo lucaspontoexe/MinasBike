@@ -100,7 +100,7 @@ class StockController {
       'brandproduct_id'
     ])
 
-    //get logged user
+    // get logged user
     try {
       const loggedUser = await auth.getUser()
       data.modified_by = loggedUser.id

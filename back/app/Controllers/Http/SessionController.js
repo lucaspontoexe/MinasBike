@@ -29,7 +29,7 @@ class SessionController {
           success: false,
           fields: ['login'],
           message: 'does not exists'
-      })
+        })
       }
     }
 
