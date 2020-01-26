@@ -13,12 +13,18 @@ function GlobalFilter({ globalFilter, setGlobalFilter, searchText }) {
                 setGlobalFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
             }}
             placeholder={searchText || 'Pesquisar...'}
-            icon={searchIcon}   
+            icon={searchIcon}
         />
     );
 }
 
-export default function Table({ columns, data, linkTo, TopHeaderComponent, searchText }) {
+export default function Table({
+    columns,
+    data,
+    linkTo,
+    TopHeaderComponent,
+    searchText,
+}) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -39,12 +45,12 @@ export default function Table({ columns, data, linkTo, TopHeaderComponent, searc
     return (
         <>
             <div className="top-header">
-            <GlobalFilter
-                globalFilter={state.globalFilter}
-                setGlobalFilter={setGlobalFilter}
-                searchText={searchText}
-            />
-            {TopHeaderComponent}
+                <GlobalFilter
+                    globalFilter={state.globalFilter}
+                    setGlobalFilter={setGlobalFilter}
+                    searchText={searchText}
+                />
+                {TopHeaderComponent}
             </div>
             <table {...getTableProps()}>
                 <thead>
