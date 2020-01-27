@@ -4,7 +4,8 @@ import Header from 'components/Header'
 export default function CadastroFornecedor() {
     return (
         <div>
-            <Header/>
+            <Header>Novo Fornecedor</Header>
+            
         </div>
     )
 }
