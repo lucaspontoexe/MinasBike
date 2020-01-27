@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../../components/Button';
-import TextBox from '../../components/TextBox';
-import Error from '../../components/Error';
+import Button from 'components/Button';
+import TextBox from 'components/TextBox';
+import Error from 'components/Error';
 
-import api from '../../services/api';
+import api from 'services/api';
 import './styles.css';
 
 export default function NovaConta({ history }) {

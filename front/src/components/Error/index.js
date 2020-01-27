@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.css';
+import './styles.css';
 
 export default function Error(props) {
     const { children, color, textColor } = props;

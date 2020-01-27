@@ -1,8 +1,18 @@
 import React from 'react';
-import './style.css';
+import './styles.css';
 
 export default function TextBox(props) {
-    const { label, required, name, options, list } = props;
+    const { label, required, name, options, list, icon } = props;
+
+    function useIcon(icon) {
+        if (icon) return {
+            paddingLeft: 40,
+            backgroundImage: `url(${icon})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 10,
+        };
+    }
+
     return (
         <div className="text-box">
             {label && (
@@ -13,7 +23,7 @@ export default function TextBox(props) {
             )}
 
             {/* copia todas as props pro input */}
-            <input {...props}></input>
+            <input {...props} style={useIcon(icon)}/>
 
             {/* cria uma lista de opções caso necessário */}
             {list && (

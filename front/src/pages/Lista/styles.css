@@ -6,6 +6,19 @@
     align-items: center;
 }
 
+.table-wrapper .top-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    position: sticky;
+    top: 0px;
+}
+
+.table-wrapper .top-header .text-box {
+    width: 480px;
+}
+
 table {
     width: 100%;
     margin-top: 24px;
@@ -43,8 +56,6 @@ td {
 
 td a {
     color: black;
-    /* font-weight: bold; */
-    /* text-decoration: none; */
 }
 
 .buttons {

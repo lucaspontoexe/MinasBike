@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../../components/Button';
-import TextBox from '../../components/TextBox';
-import Error from '../../components/Error';
+import Button from 'components/Button';
+import TextBox from 'components/TextBox';
+import Error from 'components/Error';
 
-import api from '../../services/api';
-import logo from '../../assets/images/logo-white.png';
-import emailIcon from '../../assets/icons/email.svg';
-import passwordIcon from '../../assets/icons/password.svg';
+import api from 'services/api';
+import logo from 'assets/images/logo-white.png';
+import emailIcon from 'assets/icons/email.svg';
+import passwordIcon from 'assets/icons/password.svg';
 import './styles.css';
 
 export default function Login({ history }) {
@@ -35,15 +35,6 @@ export default function Login({ history }) {
             });
     }
 
-    function useIcon(icon) {
-        return {
-            paddingLeft: 40,
-            backgroundImage: `url(${icon})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 10,
-        };
-    }
-
     return (
         <>
             {error !== '' && <Error>{error}</Error>}
@@ -66,7 +57,7 @@ export default function Login({ history }) {
                         autoFocus
                         value={email}
                         onChange={event => setEmail(event.target.value)}
-                        style={useIcon(emailIcon)}
+                        icon={emailIcon}
                     />
 
                     <TextBox
@@ -76,7 +67,7 @@ export default function Login({ history }) {
                         required
                         value={password}
                         onChange={event => setPassword(event.target.value)}
-                        style={useIcon(passwordIcon)}
+                        icon={passwordIcon}
                     />
 
                     <Button type="submit" color="#DC2438">

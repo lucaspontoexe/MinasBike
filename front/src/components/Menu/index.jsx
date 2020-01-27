@@ -2,12 +2,12 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './styles.css';
 
-import logo from '../../assets/images/logo.png';
+import logo from 'assets/images/logo.png';
 
-import produto from '../../assets/icons/produto.svg';
-import fornecedor from '../../assets/icons/fornecedor.svg';
-import estoque from '../../assets/icons/estoque.svg';
-import vendas from '../../assets/icons/payment.svg';
+import produto from 'assets/icons/produto.svg';
+import fornecedor from 'assets/icons/fornecedor.svg';
+import estoque from 'assets/icons/estoque.svg';
+import vendas from 'assets/icons/payment.svg';
 
 function Menu(props) {
     const { pathname } = props.history.location;
