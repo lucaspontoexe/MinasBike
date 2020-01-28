@@ -11,6 +11,8 @@ export default function CadastroFornecedor() {
     const [contact, setContact] = useState('');
     const [email, setEmail] = useState('');
 
+
+
     return (
         <div className="tela tela-cadastro">
             <Header>Novo Fornecedor</Header>
@@ -27,8 +29,7 @@ export default function CadastroFornecedor() {
                     name="location"
                     label="Cidade - Estado"
                     required
-                    value={locationID}
-                    onChange={setLocationID}
+                    onChange={opt => {setLocationID(opt.value)}}
                 />
                 <TextBox
                     name="contact"
