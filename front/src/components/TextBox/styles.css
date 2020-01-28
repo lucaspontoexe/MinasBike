@@ -29,7 +29,8 @@
 }
 
 .text-box label {
-    display: inline;
+    /* display: inline; */
+    margin-bottom: 5px;
 
     font-family: Poppins, sans-serif;
     font-weight: bold;
