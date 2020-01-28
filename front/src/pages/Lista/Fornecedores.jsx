@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from 'services/api';
 import useAuth from 'utils/useAuth';
 import formatPrice from 'utils/formatPrice';
-import { ObjectSelect, getNestedProperty } from 'utils/getProperty';
+import { queryObject } from 'utils/getProperty';
 import Header from 'components/Header';
 import Button from 'components/Button';
 import Table from 'components/Table';
@@ -41,17 +41,16 @@ export default function ListaFornecedores({ history }) {
             code: item.id,
             name: item.name,
             contact: item.contact,
-            product: getNestedProperty(
+            product: queryObject(
                 prpr,
-                item.provider_id,
-                'brandproduct',
-                'code'
+                obj => obj.provider_id === item.id,
+                'brandproduct.code'
             ),
             cost_price: formatPrice(
-                ObjectSelect(
-                    'cost_price',
+                queryObject(
                     prpr,
-                    obj => obj.provider_id === item.id
+                    obj => obj.provider_id === item.id,
+                    'cost_price'
                 )
             ),
             location: `${item.location.city}, ${item.location.state}`,
@@ -61,9 +60,9 @@ export default function ListaFornecedores({ history }) {
 
     function TopHeader(params) {
         return (
-                <Button color="#DC2438" onClick={() => {}}>
-                    Enviar Arquivo
-                </Button>
+            <Button color="#DC2438" onClick={() => {}}>
+                Enviar Arquivo
+            </Button>
         );
     }
 
@@ -71,7 +70,6 @@ export default function ListaFornecedores({ history }) {
         <div className="tela tela--lista">
             <Header>Fornecedores</Header>
             <div className="buttons">
-
                 <Button
                     color="#30CC57"
                     onClick={() => history.push('/fornecedores/novo')}
@@ -89,7 +87,7 @@ export default function ListaFornecedores({ history }) {
                         data={data}
                         linkTo="fornecedores"
                         searchText="Buscar fornecedores..."
-                        TopHeaderComponent={<TopHeader/>}
+                        TopHeaderComponent={<TopHeader />}
                     />
                 )}
             </div>

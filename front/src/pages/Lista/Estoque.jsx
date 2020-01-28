@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from 'services/api';
 import useAuth from 'utils/useAuth';
 import formatPrice from 'utils/formatPrice';
-import { getNestedProperty } from "utils/getProperty";
+import { queryObject } from 'utils/getProperty';
 import Header from 'components/Header';
 import Button from 'components/Button';
 import Table from 'components/Table';
@@ -41,14 +41,17 @@ export default function ListaProdutos({ history }) {
         const { current_qty, initial_qty } = item;
         return {
             code: bp.code,
-            product: getNestedProperty(products, bp.id, 'product', 'name'),
-            brand: getNestedProperty(products, bp.id, 'brand', 'name'),
+            product: queryObject(
+                products,
+                obj => obj.id === bp.id,
+                'product.name'
+            ),
+            brand: queryObject(products, obj => obj.id === bp.id, 'brand.name'),
             current_qty,
             initial_qty,
             price: formatPrice(bp.price),
         };
     });
-
 
     return (
         <div className="tela tela--lista">
