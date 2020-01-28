@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from 'services/api';
 import useAuth from 'utils/useAuth';
 import formatPrice from 'utils/formatPrice';
-import { getProperty, queryObject } from 'utils/getProperty';
+import { queryObject } from 'utils/getProperty';
 import Header from 'components/Header';
 import Button from 'components/Button';
 import Table from 'components/Table';
@@ -60,7 +60,7 @@ export default function ListaProdutos({ history }) {
                 'category.name'
             ),
             provider: item.provider.name,
-            quantity: `${getProperty(
+            quantity: `${queryObject(
                 stockDetails,
                 bp.id,
                 'current_qty'

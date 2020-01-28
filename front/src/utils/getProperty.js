@@ -4,8 +4,13 @@ export function getProperty(objects, id, property) {
     return matches[0][property];
 }
 
-export function queryObject(objects, rule, path) {
-    const matches = objects.filter(rule);
+export function queryObject(objects, where, path) {
+    let matches;
+
+    typeof where === 'function'
+        ? (matches = objects.filter(where))
+        : (matches = objects.filter(obj => obj.id === where));
+
     if (matches.length === 0) return undefined;
     return getObjectPath(matches[0], path);
 }
