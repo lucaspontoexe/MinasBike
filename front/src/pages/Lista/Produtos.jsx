@@ -60,7 +60,7 @@ export default function ListaProdutos({ history }) {
                 'category.name'
             ),
             provider: item.provider.name,
-            quantity: `[wip] ${getProperty(
+            quantity: `${getProperty(
                 stockDetails,
                 bp.id,
                 'current_qty'
