@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
 import SelectWithLabel from 'components/SelectWithLabel';
+import api from 'services/api';
+import useAuth from 'utils/useAuth';
+import Button from 'components/Button';
 
 export default function CadastroFornecedor() {
     //TODO: Procurar se alguma lib de form ajuda
@@ -11,13 +14,21 @@ export default function CadastroFornecedor() {
     const [contact, setContact] = useState('');
     const [email, setEmail] = useState('');
 
-
+    function handleSubmit() {
+        api.post('/providers', useAuth, {
+            name,
+            phone,
+            email,
+            location_id: locationID,
+            contact,
+        });
+    }
 
     return (
         <div className="tela tela-cadastro">
             <Header>Novo Fornecedor</Header>
 
-            <form>
+            <form onSubmit={handleSubmit}>
                 <TextBox
                     name="name"
                     label="Nome do Fornecedor"
@@ -29,7 +40,9 @@ export default function CadastroFornecedor() {
                     name="location"
                     label="Cidade - Estado"
                     required
-                    onChange={opt => {setLocationID(opt.value)}}
+                    onChange={opt => {
+                        setLocationID(opt.value);
+                    }}
                 />
                 <TextBox
                     name="contact"
@@ -54,6 +67,17 @@ export default function CadastroFornecedor() {
                     value={email}
                     onChange={setEmail}
                 />
+                <div className="buttons">
+                    <Button
+                        color="#DC2438"
+                        onClick={() => this.props.history.replace('/fornecedores')}
+                    >
+                        Cancelar
+                    </Button>
+                    <Button type="submit" color="#30CC57">
+                        Cadastrar
+                    </Button>
+                </div>
             </form>
         </div>
     );
