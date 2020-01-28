@@ -32,7 +32,6 @@ export default function ListaFornecedores({ history }) {
         { Header: 'Produto', accessor: 'product' },
         { Header: 'Preço de Custo', accessor: 'cost_price' },
         { Header: 'Cidade', accessor: 'location' },
-        { Header: 'Representante', accessor: 'contact_two' },
     ];
 
     const data = providers.map(item => {
@@ -54,7 +53,6 @@ export default function ListaFornecedores({ history }) {
                 )
             ),
             location: `${item.location.city}, ${item.location.state}`,
-            contact_two: '#descubra',
         };
     });
 
