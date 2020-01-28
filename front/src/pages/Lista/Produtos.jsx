@@ -43,20 +43,12 @@ export default function ListaProdutos({ history }) {
         const bp = item.brandproduct;
         return {
             code: bp.code,
-            name: queryObject(
-                productDetails,
-                obj => obj.id === bp.product_id,
-                'name'
-            ),
-            brand: queryObject(
-                brandDetails,
-                obj => obj.id === bp.product_id,
-                'name'
-            ),
+            name: queryObject(productDetails, bp.product_id, 'name'),
+            brand: queryObject(brandDetails, bp.product_id, 'name'),
             price: formatPrice(bp.price),
             category: queryObject(
                 productDetails,
-                obj => obj.id === bp.product_id,
+                bp.product_id,
                 'category.name'
             ),
             provider: item.provider.name,
@@ -64,11 +56,7 @@ export default function ListaProdutos({ history }) {
                 stockDetails,
                 bp.id,
                 'current_qty'
-            )} ${queryObject(
-                productDetails,
-                obj => obj.id === bp.product_id,
-                'unity.acronym'
-            )}`,
+            )} ${queryObject(productDetails, bp.product_id, 'unity.acronym')}`,
         };
     });
 

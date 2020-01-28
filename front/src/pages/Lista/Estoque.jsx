@@ -43,10 +43,10 @@ export default function ListaProdutos({ history }) {
             code: bp.code,
             product: queryObject(
                 products,
-                obj => obj.id === bp.id,
+                bp.id,
                 'product.name'
             ),
-            brand: queryObject(products, obj => obj.id === bp.id, 'brand.name'),
+            brand: queryObject(products, bp.id, 'brand.name'),
             current_qty,
             initial_qty,
             price: formatPrice(bp.price),
