@@ -12,11 +12,15 @@ import './styles.css';
 export default function ListaFornecedores({ history }) {
     const [providers, setProviders] = useState([]);
     const [prpr, setPrpr] = useState([]);
+    const [bp, setBp] = useState([]);
 
     useEffect(() => {
         function fetchData() {
             api.get('/providerproducts', useAuth).then(res =>
                 setPrpr(res.data)
+            );
+            api.get('/brandproducts', useAuth).then(res =>
+                setBp(res.data)
             );
             api.get('/providers', useAuth).then(res => setProviders(res.data));
             //prettier-disable-next-line max-len
@@ -40,11 +44,7 @@ export default function ListaFornecedores({ history }) {
             code: item.id,
             name: item.name,
             contact: item.contact,
-            product: queryObject(
-                prpr,
-                obj => obj.provider_id === item.id,
-                'brandproduct.code'
-            ),
+            product: `${queryObject(bp, item.id, 'brand.name')} ${queryObject(bp, item.id, 'product.name')}`,
             cost_price: formatPrice(
                 queryObject(
                     prpr,
