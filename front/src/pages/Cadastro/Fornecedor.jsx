@@ -8,22 +8,16 @@ import Button from 'components/Button';
 
 export default function CadastroFornecedor() {
     //TODO: Procurar se alguma lib de form ajuda
-    const [name, setName] = useState('');
-    const [locationID, setLocationID] = useState(0);
-    const [phone, setPhone] = useState('');
-    const [contact, setContact] = useState('');
-    const [email, setEmail] = useState('');
+    const [formData, setFormData] = useState({});
 
-    function handleSubmit() {
-        api.post('/providers', useAuth, {
-            name,
-            phone,
-            email,
-            location_id: locationID,
-            contact,
-        });
+    function handleSubmit(event) {
+        event.preventDefault();
+        api.post('/providers', useAuth, formData);
     }
 
+    function handleChange({ target }) {
+        setFormData({ ...formData, [target.name]: target.value });
+    }
     return (
         <div className="tela tela-cadastro">
             <Header>Novo Fornecedor</Header>
@@ -33,44 +27,42 @@ export default function CadastroFornecedor() {
                     name="name"
                     label="Nome do Fornecedor"
                     required
-                    value={name}
-                    onChange={setName}
+                    onChange={handleChange}
                 />
                 <SelectWithLabel
                     name="location"
                     label="Cidade - Estado"
-                    required
+                    // required
                     onChange={opt => {
-                        setLocationID(opt.value);
+                        setFormData({ ...formData, location_id: opt.value });
                     }}
                 />
                 <TextBox
                     name="contact"
                     label="Nome do Contato Principal"
                     required
-                    value={contact}
-                    onChange={setContact}
+                    onChange={handleChange}
                 />
                 <TextBox
                     name="phone"
                     label="Telefone do contato"
                     type="tel"
                     required
-                    value={phone}
-                    onChange={setPhone}
+                    onChange={handleChange}
                 />
                 <TextBox
                     name="email"
                     label="E-mail do contato principal"
                     type="email"
                     required
-                    value={email}
-                    onChange={setEmail}
+                    onChange={handleChange}
                 />
                 <div className="buttons">
                     <Button
                         color="#DC2438"
-                        onClick={() => this.props.history.replace('/fornecedores')}
+                        onClick={() =>
+                            this.props.history.replace('/fornecedores')
+                        }
                     >
                         Cancelar
                     </Button>
