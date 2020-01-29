@@ -12,12 +12,14 @@ import './styles.css';
 export default function ListaFornecedores({ history }) {
     const [providers, setProviders] = useState([]);
     const [prpr, setPrpr] = useState([]);
+    const [bp, setBp] = useState([]);
 
     useEffect(() => {
         function fetchData() {
             api.get('/providerproducts', useAuth).then(res =>
                 setPrpr(res.data)
             );
+            api.get('/brandproducts', useAuth).then(res => setBp(res.data));
             api.get('/providers', useAuth).then(res => setProviders(res.data));
             //prettier-disable-next-line max-len
             // api.get('/stocks', useAuth).then(res => setStockDetails(res.data));
@@ -32,7 +34,6 @@ export default function ListaFornecedores({ history }) {
         { Header: 'Produto', accessor: 'product' },
         { Header: 'Preço de Custo', accessor: 'cost_price' },
         { Header: 'Cidade', accessor: 'location' },
-        { Header: 'Representante', accessor: 'contact_two' },
     ];
 
     const data = providers.map(item => {
@@ -41,11 +42,11 @@ export default function ListaFornecedores({ history }) {
             code: item.id,
             name: item.name,
             contact: item.contact,
-            product: queryObject(
-                prpr,
-                obj => obj.provider_id === item.id,
-                'brandproduct.code'
-            ),
+            product: `${queryObject(bp, item.id, 'brand.name')} ${queryObject(
+                bp,
+                item.id,
+                'product.name'
+            )}`,
             cost_price: formatPrice(
                 queryObject(
                     prpr,
@@ -54,17 +55,14 @@ export default function ListaFornecedores({ history }) {
                 )
             ),
             location: `${item.location.city}, ${item.location.state}`,
-            contact_two: '#descubra',
         };
     });
 
-    function TopHeader(params) {
-        return (
-            <Button color="#DC2438" onClick={() => {}}>
-                Enviar Arquivo
-            </Button>
-        );
-    }
+    const TopHeader = () => (
+        <Button color="#DC2438" onClick={() => {}}>
+            Enviar Arquivo
+        </Button>
+    );
 
     return (
         <div className="tela tela--lista">
