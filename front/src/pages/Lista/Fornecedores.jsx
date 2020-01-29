@@ -19,9 +19,7 @@ export default function ListaFornecedores({ history }) {
             api.get('/providerproducts', useAuth).then(res =>
                 setPrpr(res.data)
             );
-            api.get('/brandproducts', useAuth).then(res =>
-                setBp(res.data)
-            );
+            api.get('/brandproducts', useAuth).then(res => setBp(res.data));
             api.get('/providers', useAuth).then(res => setProviders(res.data));
             //prettier-disable-next-line max-len
             // api.get('/stocks', useAuth).then(res => setStockDetails(res.data));
@@ -44,7 +42,11 @@ export default function ListaFornecedores({ history }) {
             code: item.id,
             name: item.name,
             contact: item.contact,
-            product: `${queryObject(bp, item.id, 'brand.name')} ${queryObject(bp, item.id, 'product.name')}`,
+            product: `${queryObject(bp, item.id, 'brand.name')} ${queryObject(
+                bp,
+                item.id,
+                'product.name'
+            )}`,
             cost_price: formatPrice(
                 queryObject(
                     prpr,
@@ -56,13 +58,11 @@ export default function ListaFornecedores({ history }) {
         };
     });
 
-    function TopHeader(params) {
-        return (
-            <Button color="#DC2438" onClick={() => {}}>
-                Enviar Arquivo
-            </Button>
-        );
-    }
+    const TopHeader = () => (
+        <Button color="#DC2438" onClick={() => {}}>
+            Enviar Arquivo
+        </Button>
+    );
 
     return (
         <div className="tela tela--lista">
