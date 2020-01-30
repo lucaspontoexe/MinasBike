@@ -7,7 +7,7 @@ const Usertype = use('App/Models/Usertype')
 const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class UserController {
-  async index ({ request, params }) {
+  async index ({ request, params, auth }) {
     const data = request.only([
       'active',
       'name',
@@ -17,10 +17,39 @@ class UserController {
     ])
     const modelName = 'User'
     const id = params.id
-    const includes = request.only([
-      'stocks',
+    let includes = request.only([
       'usertype'
     ])
+
+    // check logged user
+    const loggedUser = await auth.getUser()
+    // check if it is an admin
+    // eslint-disable-next-line eqeqeq
+    if (loggedUser.usertype_id == 1) {
+      includes = request.only([
+        'stocks',
+        'usertype'
+      ])
+    }
+
+    // check if it is the correct user
+    if (id) {
+      // eslint-disable-next-line eqeqeq
+      if (loggedUser.usertype_id == 1) {
+        includes = request.only([
+          'stocks',
+          'usertype'
+        ])
+      } else {
+        // eslint-disable-next-line eqeqeq
+        if (!(id == loggedUser.id)) {
+          includes = request.only([
+            'stocks',
+            'usertype'
+          ])
+        }
+      }
+    }
 
     const query = await IndexBuilder.build({ modelName, id, data, includes })
 
