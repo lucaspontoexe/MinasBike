@@ -1,22 +1,20 @@
 'use strict'
 
-const Unity = use('App/Models/Unity')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class UnityController {
   async index ({ request, params }) {
-    // get by id
-    const id = params.id
-    if (id) {
-      const unity = await Unity.findBy('id', id)
-      return unity
-    }
-
-    // get by field value or getAll if no params
     const data = request.only(['acronym', 'description'])
+    const modelName = 'Unity'
+    const id = params.id
+    const includes = request.only([
+      'products',
+      'brandproducts'
+    ])
 
-    const unities = await Unity.query().where(data).fetch()
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
 
-    return unities
+    return query
   }
 }
 

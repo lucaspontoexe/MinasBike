@@ -5,35 +5,30 @@ const FieldsValidator = use('App/Lib/FieldsValidator')
 const Product = use('App/Models/Product')
 const Unity = use('App/Models/Unity')
 const Category = use('App/Models/Category')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class ProductController {
   async index ({ request, params }) {
-    // get by id
-    const id = params.id
-    if (id) {
-      const product = await Product.query()
-        .where('id', id)
-        .with('category')
-        .with('unity')
-        .fetch()
-
-      return product
-    }
-    // get by field value or getAll if no params
     const data = request.only([
       'name',
       'description',
       'category_id',
       'unity_id'
     ])
+    const modelName = 'Product'
+    const id = params.id
+    const includes = request.only([
+      'category',
+      'unity',
+      'brands',
+      'providerproducts',
+      'brandproducts',
+      'stocks'
+    ])
 
-    const products = await Product.query()
-      .where(data)
-      .with('category')
-      .with('unity')
-      .fetch()
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
 
-    return products
+    return query
   }
 
   async store ({ request, response }) {

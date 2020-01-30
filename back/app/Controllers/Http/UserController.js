@@ -4,17 +4,10 @@ const Yup = require('yup')
 const FieldsValidator = use('App/Lib/FieldsValidator')
 const User = use('App/Models/User')
 const Usertype = use('App/Models/Usertype')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class UserController {
   async index ({ request, params }) {
-    // get by id
-    const id = params.id
-    if (id) {
-      const user = await User.query().where('id', id).with('usertype').fetch()
-      return user
-    }
-
-    // get by field value or getAll if no params
     const data = request.only([
       'active',
       'name',
@@ -22,10 +15,16 @@ class UserController {
       'email',
       'usertype_id'
     ])
+    const modelName = 'User'
+    const id = params.id
+    const includes = request.only([
+      'stocks',
+      'usertype'
+    ])
 
-    const users = await User.query().where(data).with('usertype').fetch()
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
 
-    return users
+    return query
   }
 
   async store ({ request, response }) {
