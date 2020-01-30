@@ -12,12 +12,16 @@ class Brandproduct extends Model {
     return this.belongsTo('App/Models/Product')
   }
 
+  stock () {
+    return this.hasOne('App/Models/Stock')
+  }
+
   providerproducts () {
     return this.hasMany('App/Models/Providerproduct')
   }
 
-  stock () {
-    return this.hasOne('App/Models/Stock')
+  providers () {
+    return this.manyThrough('App/Models/Providerproduct', 'provider', 'id', 'brandproduct_id')
   }
 }
 

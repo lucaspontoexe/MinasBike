@@ -3,22 +3,18 @@
 const Yup = require('yup')
 const FieldsValidator = use('App/Lib/FieldsValidator')
 const Brand = use('App/Models/Brand')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class BrandController {
   async index ({ request, params }) {
-    // get by id
+    const modelName = 'Brand'
     const id = params.id
-    if (id) {
-      const brand = await Brand.findBy('id', id)
-      return brand
-    }
-
-    // get by field value or getAll if no params
     const data = request.only(['name'])
+    const includes = request.only(['products', 'brandproducts', 'providerproducts'])
 
-    const brands = await Brand.query().where(data).fetch()
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
 
-    return brands
+    return query
   }
 
   async store ({ request, response }) {

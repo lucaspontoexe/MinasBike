@@ -4,17 +4,10 @@ const Yup = require('yup')
 const FieldsValidator = use('App/Lib/FieldsValidator')
 const Provider = use('App/Models/Provider')
 const Location = use('App/Models/Location')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class ProviderController {
   async index ({ request, params }) {
-    // get by id
-    const id = params.id
-    if (id) {
-      const provider = await Provider.query().where('id', id).with('location').fetch()
-      return provider
-    }
-
-    // get by field value or getAll if no params
     const data = request.only([
       'name',
       'contact',
@@ -22,10 +15,17 @@ class ProviderController {
       'phone',
       'location_id'
     ])
+    const modelName = 'Provider'
+    const id = params.id
+    const includes = request.only([
+      'location',
+      'providerproducts',
+      'brandproducts'
+    ])
 
-    const providers = await Provider.query().where(data).with('location').fetch()
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
 
-    return providers
+    return query
   }
 
   async store ({ request, response }) {
