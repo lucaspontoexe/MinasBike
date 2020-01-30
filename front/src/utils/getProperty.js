@@ -4,14 +4,26 @@ export function getProperty(objects, id, property) {
     return matches[0][property];
 }
 
-export function getNestedProperty(objects, id, level1, level2) {
-    const matches = objects.filter(obj => obj.id === id);
+export function queryObject(objects, where, path) {
+    let matches;
+
+    typeof where === 'function'
+        ? (matches = objects.filter(where))
+        : (matches = objects.filter(obj => obj.id === where));
+
     if (matches.length === 0) return undefined;
-    return matches[0][level1][level2];
+    return getObjectPath(matches[0], path);
 }
 
-export function ObjectSelect(property, from, where, limit = 0) {
-    const matches = from.filter(where);
-    if (matches.length === 0) return undefined;
-    return matches[0][property];
+function getObjectPath(obj, path) {
+    path = path
+        .replace(/\[/g, '.')
+        .replace(/]/g, '')
+        .split('.');
+
+    path.forEach(function(level) {
+        obj = obj[level];
+    });
+
+    return obj;
 }

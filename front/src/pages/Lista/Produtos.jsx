@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from 'services/api';
 import useAuth from 'utils/useAuth';
 import formatPrice from 'utils/formatPrice';
-import { getProperty, getNestedProperty } from 'utils/getProperty';
+import { queryObject } from 'utils/getProperty';
 import Header from 'components/Header';
 import Button from 'components/Button';
 import Table from 'components/Table';
@@ -43,29 +43,22 @@ export default function ListaProdutos({ history }) {
         const bp = item.brandproduct;
         return {
             code: bp.code,
-            name: getProperty(productDetails, bp.product_id, 'name'),
-            brand: getProperty(brandDetails, bp.product_id, 'name'),
+            name: queryObject(productDetails, bp.product_id, 'name'),
+            brand: queryObject(brandDetails, bp.product_id, 'name'),
             price: formatPrice(bp.price),
-            category: getCategory(productDetails, bp.product_id) || 'wip',
+            category: queryObject(
+                productDetails,
+                bp.product_id,
+                'category.name'
+            ),
             provider: item.provider.name,
-            quantity: `[wip] ${getProperty(
+            quantity: `${queryObject(
                 stockDetails,
                 bp.id,
                 'current_qty'
-            )} ${getNestedProperty(
-                productDetails,
-                bp.product_id,
-                'unity',
-                'acronym'
-            )}`,
+            )} ${queryObject(productDetails, bp.product_id, 'unity.acronym')}`,
         };
     });
-
-    function getCategory(objects, id) {
-        const matches = objects.filter(obj => obj.id === id);
-        if (matches.length === 0) return undefined;
-        return matches[0].category.name;
-    }
 
     function TopHeader() {
         return (
