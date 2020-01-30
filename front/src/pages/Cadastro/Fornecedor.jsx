@@ -59,6 +59,7 @@ export default function CadastroFornecedor({history}) {
                 />
                 <div className="buttons">
                     <Button
+                        type="reset"
                         color="#DC2438"
                         onClick={() =>
                             history.replace('/fornecedores')
