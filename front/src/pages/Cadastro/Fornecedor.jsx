@@ -6,7 +6,7 @@ import api from 'services/api';
 import useAuth from 'utils/useAuth';
 import Button from 'components/Button';
 
-export default function CadastroFornecedor() {
+export default function CadastroFornecedor({history}) {
     //TODO: Procurar se alguma lib de form ajuda
     const [formData, setFormData] = useState({});
 
@@ -61,7 +61,7 @@ export default function CadastroFornecedor() {
                     <Button
                         color="#DC2438"
                         onClick={() =>
-                            this.props.history.replace('/fornecedores')
+                            history.replace('/fornecedores')
                         }
                     >
                         Cancelar
