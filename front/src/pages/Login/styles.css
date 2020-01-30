@@ -37,6 +37,7 @@
 
 .login-container .text-box {
     width: 90%;
+    margin: 10px 0px;
 }
 
 .login-container button {
