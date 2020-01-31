@@ -4,22 +4,10 @@ const Yup = require('yup')
 const FieldsValidator = use('App/Lib/FieldsValidator')
 const Stock = use('App/Models/Stock')
 const Brandproduct = use('App/Models/Brandproduct')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class StockController {
   async index ({ request, params }) {
-    // get by id
-    const id = params.id
-
-    if (id) {
-      const stock = await Stock.query()
-        .where('id', id)
-        .with('brandproduct')
-        .fetch()
-
-      return stock
-    }
-
-    // get by field value or getAll if no params
     const data = request.only([
       'min_qty',
       'initial_qty',
@@ -27,13 +15,16 @@ class StockController {
       'brandproduct_id',
       'modified_by'
     ])
+    const modelName = 'Stock'
+    const id = params.id
+    const includes = request.only([
+      'brandproduct',
+      'user'
+    ])
 
-    const stocks = await Stock.query()
-      .where(data)
-      .with('brandproduct')
-      .fetch()
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
 
-    return stocks
+    return query
   }
 
   async store ({ request, response, auth }) {

@@ -11,6 +11,7 @@ Run these commands to setup the application and start:
 
 ```
 docker-compose run frontend yarn
+docker-compose run backend npm i
 docker-compose up
 ```
 Go to your favorite database manager, and create a table named ```adonis```

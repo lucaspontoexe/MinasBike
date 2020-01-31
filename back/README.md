@@ -1,28 +1,44 @@
 # Adonis API application
 
-This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
+## routes get schema example:
+/route or /route/id
+  - list os queryparams accepted to return included relations
+  - list of queryparams with required authentication permissions
 
-1. Bodyparser
-2. Authentication
-3. CORS
-4. Lucid ORM
-5. Migrations and seeds
+The query param must be sent with the value ```true```
 
-## Setup
+all routes below are restricted, only can be accessed by active users
+/brands or /brands/id 
+  - products, brandproducts, providerproducts
 
-Use the adonis command to install the blueprint
+/brandproducts or /brandproducts/id 
+  - brand, product, stock, providerproducts, providers
 
-```bash
-adonis new yardstick --api-only
-```
+/categories or /categories/id 
+  - products, brandproducts
 
-or manually clone the repo and then run `npm install`.
+/locations or /locations/id 
+  - providers, providerproducts
 
+/products or /products/id 
+  - category, unity, brandproducts, brands, stocks, providerproducts
 
-### Migrations
+/providers or /providers/id 
+  - location, providerproducts, brandproducts
 
-Run the following command to run startup migrations.
+/providerproducts or /providerproducts/id 
+  - provider, brandproduct
 
-```js
-adonis migration:run
-```
+/stocks or /stocks/id 
+  - brandproduct, user
+
+/unities or /unities/id 
+  - products, brandproducts
+
+/users or /users/id 
+  - usertype
+  - stocks (it requires to be the owner of the stocks to see, or admin to see all the stocks)
+
+/usertypes or /usertypes/id 
+  - users
+

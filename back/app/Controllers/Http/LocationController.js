@@ -1,21 +1,20 @@
 'use strict'
 
-const Location = use('App/Models/Location')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class LocationController {
   async index ({ request, params }) {
-    // get by id
+    const data = request.only(['city', 'state'])
+    const modelName = 'Location'
     const id = params.id
-    if (id) {
-      const location = await Location.findBy('id', id)
-      return location
-    }
+    const includes = request.only([
+      'providerproducts',
+      'providers'
+    ])
 
-    // get by field value or getAll if no params
-    const data = request.only(['name', 'description'])
-    const locations = await Location.query().where(data).fetch()
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
 
-    return locations
+    return query
   }
 }
 

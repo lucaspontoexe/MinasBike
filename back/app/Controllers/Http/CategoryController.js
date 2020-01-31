@@ -3,21 +3,21 @@
 const Yup = require('yup')
 const FieldsValidator = use('App/Lib/FieldsValidator')
 const Category = use('App/Models/Category')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class CategoryController {
   async index ({ request, params }) {
-    // get by id
-    const id = params.id
-    if (id) {
-      const category = await Category.findBy('id', id)
-      return category
-    }
-
-    // get by field value or getAll if no params
     const data = request.only(['name', 'description'])
-    const categories = await Category.query().where(data).fetch()
+    const modelName = 'Category'
+    const id = params.id
+    const includes = request.only([
+      'products',
+      'brandproducts'
+    ])
 
-    return categories
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
+
+    return query
   }
 
   async store ({ request, response }) {

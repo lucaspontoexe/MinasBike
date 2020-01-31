@@ -38,6 +38,10 @@ class User extends Model {
   usertype () {
     return this.belongsTo('App/Models/Usertype')
   }
+
+  stocks () {
+    return this.hasMany('App/Models/Stock', 'id', 'modified_by')
+  }
 }
 
 module.exports = User

@@ -5,35 +5,25 @@ const FieldsValidator = use('App/Lib/FieldsValidator')
 const Providerproduct = use('App/Models/Providerproduct')
 const Brandproduct = use('App/Models/Brandproduct')
 const Provider = use('App/Models/Provider')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class ProviderproductController {
   async index ({ request, params }) {
-    // get by id
-    const id = params.id
-    if (id) {
-      const providerproduct = await Providerproduct.query()
-        .where('id', id)
-        .with('brandproduct')
-        .with('provider')
-        .fetch()
-
-      return providerproduct
-    }
-
-    // get by field value or getAll if no params
     const data = request.only([
       'cost_price',
       'brandproduct_id',
       'provider_id'
     ])
+    const modelName = 'Providerproduct'
+    const id = params.id
+    const includes = request.only([
+      'brandproduct',
+      'provider'
+    ])
 
-    const providerproducts = await Providerproduct.query()
-      .where(data)
-      .with('brandproduct')
-      .with('provider')
-      .fetch()
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
 
-    return providerproducts
+    return query
   }
 
   async store ({ request, response }) {

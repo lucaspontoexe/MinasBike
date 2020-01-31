@@ -1,25 +1,21 @@
 /* eslint-disable camelcase */
 'use strict'
 
-const Usertype = use('App/Models/Usertype')
+const IndexBuilder = use('App/Lib/IndexBuilder')
 
 class UsertypeController {
   // store only by seeds
   async index ({ request, params }) {
-    // get by id
-    const id = params.id
-
-    if (id) {
-      const usertypes = await Usertype.findBy('id', id)
-      return usertypes
-    }
-
-    // get by field value or getAll if no params
     const data = request.only(['name', 'access_level'])
+    const modelName = 'Usertype'
+    const id = params.id
+    const includes = request.only([
+      'users'
+    ])
 
-    const usertypes = await Usertype.query().where(data).fetch()
+    const query = await IndexBuilder.build({ modelName, id, data, includes })
 
-    return usertypes
+    return query
   }
 }
 

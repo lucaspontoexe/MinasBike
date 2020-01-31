@@ -11,6 +11,10 @@ class Provider extends Model {
   providerproducts () {
     return this.hasMany('App/Models/Providerproduct')
   }
+
+  brandproducts () {
+    return this.manyThrough('App/Models/Providerproduct', 'brandproduct', 'id', 'provider_id')
+  }
 }
 
 module.exports = Provider
