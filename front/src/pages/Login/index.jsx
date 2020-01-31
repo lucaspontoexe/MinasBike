@@ -25,13 +25,15 @@ export default function Login({ history }) {
 
             .then(response => {
                 sessionStorage.setItem('token', response.data.token);
-                // sessionStorage.setItem('username', response.data.user.name);
+                api.defaults.headers.common[
+                    'Authorization'
+                ] = `Bearer ${response.data.token}`;
                 history.push('/produtos');
             })
 
             .catch(err => {
                 //TODO: HIGHLIGHT DE CAMPOS
-                setError(err.response.data[0].message)
+                setError(err.response.data[0].message);
             });
     }
 
