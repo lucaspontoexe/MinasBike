@@ -19,10 +19,10 @@ export default function ListaProdutos({ history }) {
 
     async function fetchData() {
         await api
-            .get('/brandproducts', useAuth)
+            .get('/brandproducts?product&brand', useAuth)
             .then(response => setProducts(response.data));
         await api
-            .get('/stocks', useAuth)
+            .get('/stocks?brandproduct', useAuth)
             .then(response => setStocks(response.data));
         // setIsLoaded(true);
     }
