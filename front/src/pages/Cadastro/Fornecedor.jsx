@@ -6,7 +6,7 @@ import useAuth from 'utils/useAuth';
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
-import LocationSelect from 'components/LocationSelect/index.jsx';
+import LocationSelector from 'components/LocationSelector/index.jsx';
 
 export default function CadastroFornecedor({ history }) {
     //TODO: Procurar se alguma lib de form ajuda
@@ -32,7 +32,7 @@ export default function CadastroFornecedor({ history }) {
                     required
                     onChange={handleChange}
                 />
-                <LocationSelect
+                <LocationSelector
                     onChange={value =>
                         setFormData({ ...formData, location_id: value })
                     }
