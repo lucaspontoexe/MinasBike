@@ -12,9 +12,10 @@ export default function CadastroFornecedor({ history }) {
     //TODO: Procurar se alguma lib de form ajuda
     const [formData, setFormData] = useState({});
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
-        api.post('/providers', useAuth, formData);
+        await api.post('/providers', formData, useAuth);
+        history.push('/fornecedores');
     }
 
     function handleChange({ target }) {
