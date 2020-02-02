@@ -7,10 +7,12 @@ import Header from 'components/Header';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import LocationSelector from 'components/LocationSelector/index.jsx';
+import Modal from 'components/Modal';
 
 export default function CadastroFornecedor({ history }) {
     //TODO: Procurar se alguma lib de form ajuda
     const [formData, setFormData] = useState({});
+    const [displayModal, setDisplayModal] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -26,7 +28,13 @@ export default function CadastroFornecedor({ history }) {
         <div className="tela tela-cadastro">
             <Header>Novo Fornecedor</Header>
 
-            <form onSubmit={handleSubmit}>
+            <form
+                action="#"
+                onSubmit={event => {
+                    event.preventDefault();
+                    setDisplayModal(true);
+                }}
+            >
                 <TextBox
                     name="name"
                     label="Nome do Fornecedor"
@@ -34,7 +42,7 @@ export default function CadastroFornecedor({ history }) {
                     onChange={handleChange}
                 />
                 <LocationSelector
-                required
+                    required
                     onChange={value =>
                         setFormData({ ...formData, location_id: value })
                     }
@@ -72,6 +80,14 @@ export default function CadastroFornecedor({ history }) {
                     </Button>
                 </div>
             </form>
+
+            {displayModal && (
+                <Modal
+                    type="confirmation"
+                    onClose={() => setDisplayModal(false)}
+                    onConfirm={handleSubmit}
+                />
+            )}
         </div>
     );
 }
