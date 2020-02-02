@@ -34,6 +34,7 @@ export default function CadastroFornecedor({ history }) {
                     onChange={handleChange}
                 />
                 <LocationSelector
+                required
                     onChange={value =>
                         setFormData({ ...formData, location_id: value })
                     }

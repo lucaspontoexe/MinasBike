@@ -6,7 +6,7 @@ import stateNames from './states.json';
 
 import SelectWithLabel from 'components/SelectWithLabel';
 
-export default function LocationSelector({ onChange }) {
+export default function LocationSelector({ onChange, required }) {
     const [currentBRState, setCurrentBRState] = useState('');
     const [currentCity, setCurrentCity] = useState({});
     const [cityList, setCityList] = useState([]);
@@ -34,14 +34,14 @@ export default function LocationSelector({ onChange }) {
             <SelectWithLabel
                 name="location_state"
                 label="Estado"
-                required
+                required={required}
                 options={br_states}
                 onChange={opt => setCurrentBRState(opt.value)}
             />
             <SelectWithLabel
                 name="location_city"
                 label="Cidade"
-                required
+                required={required}
                 isDisabled={currentBRState === ''}
                 options={cityList}
                 value={currentCity}
