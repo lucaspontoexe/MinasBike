@@ -10,23 +10,27 @@ export default function LocationSelector({ onChange, required }) {
     const [currentBRState, setCurrentBRState] = useState('');
     const [currentCity, setCurrentCity] = useState({});
     const [cityList, setCityList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const br_states = stateNames.map(item => {
         return { value: item, label: item };
     });
 
     useEffect(() => {
+        setIsLoading(true);
         setCurrentCity({});
         api.get('/locations', {
             ...useAuth,
             params: { state: currentBRState },
-        }).then(res =>
-            setCityList(
-                res.data.map(item => {
-                    return { value: item.id, label: item.city };
-                })
+        })
+            .then(res =>
+                setCityList(
+                    res.data.map(item => {
+                        return { value: item.id, label: item.city };
+                    })
+                )
             )
-        );
+            .finally(setIsLoading(false));
     }, [currentBRState]);
 
     return (
@@ -43,6 +47,7 @@ export default function LocationSelector({ onChange, required }) {
                 label="Cidade"
                 required={required}
                 isDisabled={currentBRState === ''}
+                isLoading={isLoading}
                 options={cityList}
                 value={currentCity}
                 onChange={opt => {
