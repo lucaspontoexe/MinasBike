@@ -12,7 +12,7 @@ all routes below are restricted, only can be accessed by active users
   - products, brandproducts, providerproducts
 
 /brandproducts or /brandproducts/id 
-  - brand, product, stock, providerproducts, providers
+  - brand, product, stock, providerproducts, providers, receivedproviderproducts
 
 /categories or /categories/id 
   - products, brandproducts
@@ -24,7 +24,7 @@ all routes below are restricted, only can be accessed by active users
   - category, unity, brandproducts, brands, stocks, providerproducts
 
 /providers or /providers/id 
-  - location, providerproducts, brandproducts
+  - location, providerproducts, brandproducts, receivedproviderproducts
 
 /providerproducts or /providerproducts/id 
   - provider, brandproduct
@@ -42,3 +42,8 @@ all routes below are restricted, only can be accessed by active users
 /usertypes or /usertypes/id 
   - users
 
+/receivements or /receivements/id
+  - receivedproviderproducts, providerproducts
+
+/receivedproviderproducts or /receivedproviderproducts/id
+  - receivement, providerproduct

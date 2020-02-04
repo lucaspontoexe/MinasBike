@@ -22,7 +22,8 @@ class BrandproductController {
       'brand',
       'stock',
       'providerproducts',
-      'providers'
+      'providers',
+      'receivedproviderproducts'
     ])
 
     const query = await IndexBuilder.build({ modelName, id, data, includes })

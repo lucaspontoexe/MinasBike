@@ -12,6 +12,8 @@ const Stock = use('App/Models/Stock')
 const Unity = use('App/Models/Unity')
 const User = use('App/Models/User')
 const Usertype = use('App/Models/Usertype')
+const Receivement = use('App/Models/Receivement')
+const Receivedproviderproduct = use('App/Models/Receivedproviderproduct')
 
 class IndexBuilder {
   async build ({ modelName, id, data, includes }) {

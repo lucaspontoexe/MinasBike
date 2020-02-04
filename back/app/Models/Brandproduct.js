@@ -23,6 +23,10 @@ class Brandproduct extends Model {
   providers () {
     return this.manyThrough('App/Models/Providerproduct', 'provider', 'id', 'brandproduct_id')
   }
+
+  receivedproviderproducts () {
+    return this.manyThrough('App/Models/Providerproduct', 'receivedproviderproducts', 'id', 'brandproduct_id')
+  }
 }
 
 module.exports = Brandproduct

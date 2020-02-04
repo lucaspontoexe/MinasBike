@@ -74,4 +74,12 @@ Route.group(() => {
   Route.get('/providerproducts/:id', 'ProviderproductController.index')
   Route.post('/providerproducts', 'ProviderproductController.store')
   Route.put('/providerproducts/:id', 'ProviderproductController.update')
+  // providerproducts
+  Route.get('/receivedproviderproducts', 'ReceivedproviderproductController.index')
+  Route.get('/receivedproviderproducts/:id', 'ReceivedproviderproductController.index')
+  // providerproducts
+  Route.get('/receivements', 'ReceivementController.index')
+  Route.get('/receivements/:id', 'ReceivementController.index')
+  Route.post('/receivements', 'ReceivementController.store')
+  Route.put('/receivements/:id', 'ReceivementController.update')
 }).middleware(['auth'])

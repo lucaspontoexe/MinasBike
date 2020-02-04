@@ -20,7 +20,8 @@ class ProviderController {
     const includes = request.only([
       'location',
       'providerproducts',
-      'brandproducts'
+      'brandproducts',
+      'receivedproviderproducts'
     ])
 
     const query = await IndexBuilder.build({ modelName, id, data, includes })
