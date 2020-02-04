@@ -10,21 +10,21 @@ import Table from 'components/Table';
 import './styles.css';
 
 export default function ListaProdutos({ history }) {
+    const [providerProducts, setProviderProducts] = useState([]);
     const [products, setProducts] = useState([]);
-    const [productDetails, setProductDetails] = useState([]);
-    const [brandDetails, setBrandDetails] = useState([]);
-    const [stockDetails, setStockDetails] = useState([]); //🐎🐎🐎🐎🏇🏇🏇🏇
-
+    const [brandProducts, setBrandProducts] = useState([]);
     useEffect(() => {
         function fetchData() {
-            api.get('/providerproducts', useAuth).then(res =>
+            api.get(
+                '/providerproducts?brandproduct&provider',
+                useAuth
+            ).then(res => setProviderProducts(res.data));
+            api.get('/products?category&brand&unity', useAuth).then(res =>
                 setProducts(res.data)
             );
-            api.get('/products', useAuth).then(res =>
-                setProductDetails(res.data)
+            api.get('/brandproducts?brand&product&stock', useAuth).then(res =>
+                setBrandProducts(res.data)
             );
-            api.get('/brands', useAuth).then(res => setBrandDetails(res.data));
-            api.get('/stocks', useAuth).then(res => setStockDetails(res.data));
         }
         fetchData();
     }, []);
@@ -39,24 +39,20 @@ export default function ListaProdutos({ history }) {
         { Header: 'Quantidade', accessor: 'quantity' },
     ];
 
-    const data = products.map(item => {
+    const data = providerProducts.map(item => {
         const bp = item.brandproduct;
         return {
             code: bp.code,
-            name: queryObject(productDetails, bp.product_id, 'name'),
-            brand: queryObject(brandDetails, bp.product_id, 'name'),
+            name: queryObject(products, bp.product_id, 'name'), //dá pra puxar do bp também
+            brand: queryObject(brandProducts, bp.id, 'brand.name'),
             price: formatPrice(bp.price),
-            category: queryObject(
-                productDetails,
-                bp.product_id,
-                'category.name'
-            ),
+            category: queryObject(products, bp.product_id, 'category.name'),
             provider: item.provider.name,
             quantity: `${queryObject(
-                stockDetails,
+                brandProducts,
                 bp.id,
-                'current_qty'
-            )} ${queryObject(productDetails, bp.product_id, 'unity.acronym')}`,
+                'stock.current_qty'
+            )} ${queryObject(products, bp.product_id, 'unity.acronym')}`,
         };
     });
 
@@ -84,7 +80,7 @@ export default function ListaProdutos({ history }) {
                 </Button>
             </div>
             <div className="table-wrapper">
-                {productDetails.length > 0 && (
+                {providerProducts.length > 0 && (
                     <Table
                         columns={headers}
                         data={data}

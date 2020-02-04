@@ -3,9 +3,10 @@ import './styles.css';
 import Button from '../Button';
 import iconApproved from 'assets/icons/approved-signal.svg';
 import iconError from 'assets/icons/error-signal.svg';
+import tempIcon from 'assets/icons/add_files.svg';
 
 export default function Modal(props) {
-    const { children, type, onClose } = props;
+    const { children, type, onClose, onConfirm } = props;
 
     const types = {
         error: {
@@ -30,6 +31,20 @@ export default function Modal(props) {
                     <br />
                     com sucesso!
                 </span>
+            ),
+        },
+        confirmation: {
+            image: tempIcon,
+            alt: 'temporário',
+            color: '#cc5730',
+            message: (
+                <>
+                    <span className="text">Tem certeza?</span>
+                    {/* talvez esse botão fique junto ao outro */}
+                    <Button onClick={onConfirm}>
+                        Confirmar
+                    </Button>
+                </>
             ),
         },
     };
