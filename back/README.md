@@ -1,49 +1,235 @@
 # Adonis API application
-
-## routes get schema example:
-/route or /route/id
-  - list os queryparams accepted to return included relations
-  - list of queryparams with required authentication permissions
-
 The query param must be sent with the value ```true```
 
-all routes below are restricted, only can be accessed by active users
-/brands or /brands/id 
-  - products, brandproducts, providerproducts
+##Brand
+schema:
+  - name: ```string```
+routes:
+  GET: /brands or /brands/id
+    accepted parameters: 
+    - fields to get by value value: ```name```
+    - relations to include: ```products, brandproducts, providerproducts```
+  POST: /brands
+    accepted body object:
+    - fields to create: 
+      ```name```
+  PUT: /brands/id
+    accepted body object:
+    - fields to update: 
+      ```name```
 
-/brandproducts or /brandproducts/id 
-  - brand, product, stock, providerproducts, providers, receivedproviderproducts
+##Brandproduct
+schema:
+  - ```price: integer```
+  - ```code: bigInt```
+  - ```brand_id: integer```
+  - ```product_id: integer```
+routes:
+  GET: /brandproducts or /brandproducts/id
+    accepted parameters: 
+    - fields to get by value value:
+      ```price, code, product_id, brand_id```
+    - relations to include: 
+      ```product, brand, stock, providerproducts, providers, receivedproviderproducts```
+  POST: /brandproducts
+    accepted body object:
+    - fields to create: 
+      ```price, code, product_id, brand_id```
+  PUT: /brandproducts/id
+    accepted body object:
+    - fields to update: 
+      ```price, code, brand_id```
 
-/categories or /categories/id 
-  - products, brandproducts
+##Category
+schema:
+  - ```name: string```
+  - ```description: string```
+routes:
+  GET: /categories or /categories/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```name, description```
+    - relations to include: 
+      ```products, brandproducts```
+  POST: /categories
+    accepted body object:
+    - fields to create: 
+      ```name, description```
+  PUT: /categories/id
+    accepted body object:
+    - fields to update: 
+      ```name, description```
 
-/locations or /locations/id 
-  - providers, providerproducts
+##Location
+schema:
+  - ```city: string```
+  - ```state: string```
+routes:
+  GET: /locations or /locations/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```city, state```
+    - relations to include: 
+      ```providerproducts, providers```
 
-/products or /products/id 
-  - category, unity, brandproducts, brands, stocks, providerproducts
+##Product
+schema:
+  - ```name: string```
+  - ```description: string```
+  - ```unity_id: integer```
+  - ```category_id: integer```
+routes:
+  GET: /products or /products/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```name, description, category_id, unity_id```
+    - relations to include: 
+      ```category, unity, brands, providerproducts, brandproducts, stocks```
+  POST: /products
+    accepted body object:
+    - fields to create: ```name, description, category_id, unity_id```
+  PUT: /products/id
+    accepted body object:
+    - fields to update: ```name, description, category_id, unity_id```
 
-/providers or /providers/id 
-  - location, providerproducts, brandproducts, receivedproviderproducts
+##Provider
+schema:
+  - ```name: string```
+  - ```contact: string```
+  - ```phone: string```
+  - ```email: string```
+  - ```location_id: integer```
+routes:
+  GET: /providers or /providers/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```name, contact, email, phone, location_id```
+    - relations to include: 
+      ```location, providerproducts, brandproducts, receivedproviderproducts```
+  POST: /providers
+    accepted body object:
+    - fields to create: ```name, contact, email, phone, location_id```
+  PUT: /providers/id
+    accepted body object:
+    - fields to update: ```name, contact, email, phone, location_id```
 
-/providerproducts or /providerproducts/id 
-  - provider, brandproduct
+##Providerproduct
+schema:
+  - ```cost_price: integer```
+  - ```brandproduct_id: integer```
+  - ```provider_id: integer```
+routes:
+  GET: /providerproducts or /providerproducts/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```cost_price, brandproduct_id, provider_id```
+    - relations to include: 
+      ```brandproduct, provider```
+  POST: /providerproducts
+    accepted body object:
+    - fields to create: ```cost_price, brandproduct_id, provider_id```
+  PUT: /providerproducts/id
+    accepted body object:
+    - fields to update: ```cost_price, provider_id```
 
-/stocks or /stocks/id 
-  - brandproduct, user
+##Stock
+schema:
+  - ```min_qty: integer```
+  - ```current_qty: integer```
+  - ```initial_qty: integer```
+  - ```brandproduct_id: integer```
+  - ```modified_by: integer```
+routes:
+  GET: /stocks or /stocks/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```min_qty, initial_qty, current_qty, brandproduct_id, modified_by```
+    - relations to include: 
+      ```brandproduct, (user)bug```
+  POST: /stocks
+    accepted body object:
+    - fields to create: ```min_qty, initial_qty, current_qty, brandproduct_id```
+  PUT: /stocks/id
+    accepted body object:
+    - fields to update: ```min_qty, initial_qty, current_qty, brandproduct_id```
 
-/unities or /unities/id 
-  - products, brandproducts
+##Unity
+schema:
+  - ```acronym: string```
+  - ```description: string```
+routes:
+  GET: /unities or /unities/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```acronym, description```
+    - relations to include: 
+      ```products, brandproducts```
 
-/users or /users/id 
-  - usertype
-  - stocks (it requires to be the owner of the stocks to see, or admin to see all the stocks)
+##User
+schema:
+  - ```active: boolean```
+  - ```name: string```
+  - ```login: string```
+  - ```email: string```
+  - ```password: string```
+  - ```usertype_id: integer```
+routes:
+  GET: /users or /users/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```active, name, login, email, usertype_id```
+    - relations to include: 
+      ```usertype, (stocks)bug```
+  POST: /users
+    accepted body object:
+    - fields to create: ```active, name, login, email, password, usertype_id```
+  PUT: /users/id
+    accepted body object:
+    - fields to update: ```name, login, password, old_password```
 
-/usertypes or /usertypes/id 
-  - users
+##Usertype
+schema:
+  - ```name: string```
+  - ```access_level: integer```
+routes:
+  GET: /usertypes or /usertypes/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```name, access_level```
+    - relations to include: 
+      ```users```
 
-/receivements or /receivements/id
-  - receivedproviderproducts, providerproducts
+##Receivement
+schema:
+  - ```description: string```
+  - ```total_value: integer```
+  - ```delivery_time: date```
+routes:
+  GET: /receivements or /receivements/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```description, delivery_time, total_value```
+    - relations to include: 
+      ```receivedproviderproducts, providerproducts```
+  POST: /receivements
+    accepted body object:
+    - fields to create: 
+      ```description, delivery_time, total_value```
+    - special value: 
+      ```receivedproviderproducts``` must be a array of Receivedproviderproduct objects
+  PUT: /receivements/id
+    accepted body object:
+    - fields to update: ```description, delivery_time```
 
-/receivedproviderproducts or /receivedproviderproducts/id
-  - receivement, providerproduct
+##Receivedproviderproduct
+schema:
+  - ```providerproduct_qty: integer```
+  - ```providerproduct_id: integer```
+  - ```receivement_id: integer```
+routes:
+  GET: /receivedproviderproducts or /receivedproviderproducts/id
+    accepted parameters: 
+    - fields to get by value value: 
+      ```receivement_id, providerproduct_id, providerproduct_qty```
+    - relations to include: 
+      ```providerproduct, receivement```
