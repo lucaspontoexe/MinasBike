@@ -1,5 +1,6 @@
 # Adonis API application
-The query param must be sent with the value ```true```
+The "relation include" query params must be sent with the value ```true```
+All the models have a field "created_at" and "updated_at" in their schemas 
 
 ##Brand
 schema:
