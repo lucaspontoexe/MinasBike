@@ -39,6 +39,14 @@ class ReceivementController {
     // validate all fields of receivedproviderproduct
     const receivedproviderproductsData = request.only(['receivedproviderproducts'])
 
+    if (!receivedproviderproductsData.receivedproviderproducts) {
+      return response.status(409).json({
+        success: false,
+        fields: ['receivedproviderproducts'],
+        message: 'Invalid field(s)'
+      })
+    }
+
     fields = [
       { providerproduct_id: Yup.number().required() },
       { providerproduct_qty: Yup.number().required() }
