@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Formik, Form, useField } from 'formik';
 import Button from 'components/Button';
 import TextBox from 'components/TextBox';
 import Error from 'components/Error';
@@ -11,17 +12,11 @@ import passwordIcon from 'assets/icons/password.svg';
 import './styles.css';
 
 export default function Login({ history }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        api.post('/sessions', {
-            email,
-            password,
-        })
+    function handleSubmit(values, { setSubmitting, setErrors }) {
+        setSubmitting(true);
+        api.post('/sessions', values)
 
             .then(response => {
                 sessionStorage.setItem('token', response.data.token);
@@ -32,55 +27,65 @@ export default function Login({ history }) {
             })
 
             .catch(err => {
-                //TODO: HIGHLIGHT DE CAMPOS
-                setError(err.response.data[0].message);
-            });
+                const { data } = err.response;
+                if (data.success === false)
+                    setErrors(
+                        data.fields.map(field => {
+                            return { [field]: data.message };
+                        })
+                    );
+            })
+            .finally(setSubmitting(false));
     }
+
+    const Input = props => {
+        const [, meta, helpers] = useField(props.name);
+        return (
+            <TextBox
+                {...props}
+                error={meta.error}
+                onChange={e => helpers.setValue(e.target.value)}
+            />
+        );
+    };
 
     return (
         <>
             {error !== '' && <Error>{error}</Error>}
-
             <div className="login-screen">
-                <form
-                    className="login-container"
+                <Formik
+                    initialValues={{ email: '', password: '' }}
                     onSubmit={handleSubmit}
-                    onChangeCapture={() => setError('')}
                 >
-                    <div className="logo-container">
-                        <img src={logo} alt="Minas Bike logo" />
-                    </div>
+                    <Form className="login-container">
+                        <div className="logo-container">
+                            <img src={logo} alt="Minas Bike logo" />
+                        </div>
+                        <Input
+                            name="email"
+                            type="email"
+                            placeholder="E-mail"
+                            required
+                            autoFocus
+                            icon={emailIcon}
+                        />
+                        <Input
+                            name="password"
+                            type="password"
+                            placeholder="Senha"
+                            required
+                            icon={passwordIcon}
+                        />
+                        <Button type="submit" color="#DC2438">
+                            Acessar
+                        </Button>
 
-                    <TextBox
-                        name="user"
-                        type="email"
-                        placeholder="E-mail"
-                        required
-                        autoFocus
-                        value={email}
-                        onChange={event => setEmail(event.target.value)}
-                        icon={emailIcon}
-                    />
-
-                    <TextBox
-                        name="password"
-                        type="password"
-                        placeholder="Senha"
-                        required
-                        value={password}
-                        onChange={event => setPassword(event.target.value)}
-                        icon={passwordIcon}
-                    />
-
-                    <Button type="submit" color="#DC2438">
-                        Acessar
-                    </Button>
-
-                    <span>
-                        Ainda não tem conta?{' '}
-                        <Link to="/cadastrar">Registre-se</Link>
-                    </span>
-                </form>
+                        <span>
+                            Ainda não tem conta?{' '}
+                            <Link to="/cadastrar">Registre-se</Link>
+                        </span>
+                    </Form>
+                </Formik>
             </div>
         </>
     );

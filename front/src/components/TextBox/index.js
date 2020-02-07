@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css';
 
 export default function TextBox(props) {
-    const { label, required, name, options, list, icon } = props;
+    const { label, required, name, options, list, icon, error } = props;
 
     function useIcon(icon) {
         if (icon) return {
@@ -21,6 +21,8 @@ export default function TextBox(props) {
                     {required && <span className="asterisco"> *</span>}
                 </label>
             )}
+
+            {error && <div className="input-error">{error}</div>}
 
             {/* copia todas as props pro input */}
             <input {...props} style={useIcon(icon)}/>
