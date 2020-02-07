@@ -282,13 +282,64 @@ accepted parameters:
 
 ## Client
 schema:
-- ```providerproduct_qty: integer```
-- ```providerproduct_id: integer```
-- ```receivement_id: integer```
+- ```name: string```
+- ```address: string```
+- ```phone: string```
+- ```email: string```
+- ```birthday: date```
 
-### GET: /receivedproviderproducts or /receivedproviderproducts/id
+### GET: /clients or /clients/id
 accepted parameters: 
 - fields to get by value value: 
-```receivement_id, providerproduct_id, providerproduct_qty```
+```name, address, phone, email, birthday```
 - relations to include: 
-```providerproduct, receivement```
+```Serviceorders, Serviceorderproducts```
+
+### POST: /clients
+accepted body object:
+- fields to create: 
+```name, address, phone, email, birthday```
+
+### PUT: /clients/id
+accepted body object:
+- fields to update: 
+```name, address, phone, email, birthday```
+
+
+## Serviceorder
+schema:
+- ```description: string```
+- ```delivery_time: date```
+- ```total_value: integer```
+- ```client_id: integer```
+
+### GET: /serviceorders or /serviceorders/id
+accepted parameters: 
+- fields to get by value value: 
+```description, delivery_time, total_value, client_id```
+- relations to include: 
+```client, serviceorderproducts, brandproducts```
+
+### POST: /serviceorders
+accepted body object:
+- fields to create: 
+```description, delivery_time, total_value, client_id```
+
+### PUT: /serviceorders/id
+accepted body object:
+- fields to update: 
+```description, delivery_time```
+
+
+## Serviceorderproduct
+schema:
+- ```brandproduct_qty: integer```
+- ```serviceorder_id: integer```
+- ```brandproduct_id: integer```
+
+### GET: /serviceorderproducts or /serviceorderproducts/id
+accepted parameters: 
+- fields to get by value value: 
+```brandproduct_qty, serviceorder_id, brandproduct_id```
+- relations to include: 
+```brandproduct, serviceorder```
