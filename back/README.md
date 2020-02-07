@@ -324,6 +324,8 @@ accepted parameters:
 accepted body object:
 - fields to create: 
 ```description, delivery_time, total_value, client_id```
+- special value: 
+```serviceorderproducts``` must be a array of Serviceorderproduct objects
 
 ### PUT: /serviceorders/id
 accepted body object:
