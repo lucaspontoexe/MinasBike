@@ -33,6 +33,14 @@ class SessionController {
       }
     }
 
+    if (!data.email) {
+      return response.status(409).json({
+        success: false,
+        fields: ['email'],
+        message: 'does not exists'
+      })
+    }
+
     const token = auth.attempt(data.email, data.password)
 
     return token

@@ -66,6 +66,14 @@ class ServiceorderController {
     // serviceorderproducts validation
     const serviceorderproductsData = request.only(['serviceorderproducts'])
 
+    if (!serviceorderproductsData.serviceorderproducts) {
+      return response.status(409).json({
+        success: false,
+        fields: ['serviceorderproducts'],
+        message: 'Invalid field(s)'
+      })
+    }
+
     fields = [
       { brandproduct_id: Yup.number().required() },
       { brandproduct_qty: Yup.number().required() }
