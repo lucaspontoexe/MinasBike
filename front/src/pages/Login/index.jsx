@@ -16,6 +16,7 @@ export default function Login({ history }) {
 
     function handleSubmit(values, { setSubmitting, setErrors }) {
         setSubmitting(true);
+        setServerError('');
         api.post('/sessions', values)
 
             .then(response => {
