@@ -14,6 +14,9 @@ const User = use('App/Models/User')
 const Usertype = use('App/Models/Usertype')
 const Receivement = use('App/Models/Receivement')
 const Receivedproviderproduct = use('App/Models/Receivedproviderproduct')
+const Client = use('App/Models/Client')
+const Serviceorder = use('App/Models/Serviceorder')
+const Serviceorderproduct = use('App/Models/Serviceorderproduct')
 
 class IndexBuilder {
   async build ({ modelName, id, data, includes }) {

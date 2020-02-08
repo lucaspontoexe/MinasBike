@@ -82,4 +82,19 @@ Route.group(() => {
   Route.get('/receivements/:id', 'ReceivementController.index')
   Route.post('/receivements', 'ReceivementController.store')
   Route.put('/receivements/:id', 'ReceivementController.update')
+  // clients
+  Route.get('/clients', 'ClientController.index')
+  Route.get('/clients/:id', 'ClientController.index')
+  Route.post('/clients', 'ClientController.store')
+  Route.put('/clients/:id', 'ClientController.update')
+  // serviceorders
+  Route.get('/serviceorders', 'ServiceorderController.index')
+  Route.get('/serviceorders/:id', 'ServiceorderController.index')
+  Route.post('/serviceorders', 'ServiceorderController.store')
+  Route.put('/serviceorders/:id', 'ServiceorderController.update')
+  // serviceorderproducts
+  Route.get('/serviceorderproducts', 'ServiceorderproductController.index')
+  Route.get('/serviceorderproducts/:id', 'ServiceorderproductController.index')
+  Route.post('/serviceorderproducts', 'ServiceorderproductController.store')
+  Route.put('/serviceorderproducts/:id', 'ServiceorderproductController.update')
 }).middleware(['auth'])
