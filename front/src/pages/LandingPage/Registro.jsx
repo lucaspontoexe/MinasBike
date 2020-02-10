@@ -12,6 +12,12 @@ import './styles.css';
 export default function NovaConta({ history }) {
     const [serverError, setServerError] = useState('');
 
+    function validate({password, password_confirmation}) {
+        const errors = {}
+        if (password !== password_confirmation) errors.password = "As senhas não coincidem"
+        return errors;
+    }
+
     function handleSubmit(values, { setSubmitting, setErrors }) {
         setSubmitting(true);
         setServerError('');
@@ -39,6 +45,7 @@ export default function NovaConta({ history }) {
                 password: '',
                 password_confirmation: '',
             }}
+            validate={validate}
             onSubmit={handleSubmit}
         >
             <Form className="login-container">
