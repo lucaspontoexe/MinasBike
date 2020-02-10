@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Formik, Form, useField } from 'formik';
+import { Formik, Form } from 'formik';
 import Button from 'components/Button';
-import TextBox from 'components/TextBox';
+import Input from './Input';
 import Error from 'components/Error';
 
 import api from 'services/api';
@@ -39,17 +39,6 @@ export default function Login({ history }) {
             })
             .finally(setSubmitting(false));
     }
-
-    const Input = props => {
-        const [, meta, helpers] = useField(props.name);
-        return (
-            <TextBox
-                {...props}
-                error={meta.error}
-                onChange={e => helpers.setValue(e.target.value)}
-            />
-        );
-    };
 
     return (
         <Formik
