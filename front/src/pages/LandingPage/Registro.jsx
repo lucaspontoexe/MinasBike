@@ -9,7 +9,7 @@ import api from 'services/api';
 import formatFieldErrors from 'utils/formatFieldErrors';
 import './styles.css';
 
-export default function NovaConta({ history }) {
+export default function Registro({ history }) {
     const [serverError, setServerError] = useState('');
 
     function validate({password, password_confirmation}) {

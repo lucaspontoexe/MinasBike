@@ -1,9 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Login from './pages/LandingPage/Login';
-import NovaConta from './pages/LandingPage/Registro';
 import Menu from './components/Menu';
+import LandingPage from 'pages/LandingPage';
 import ListaProdutos from './pages/Lista/Produtos';
 import ListaEstoque from './pages/Lista/Estoque';
 import ListaFornecedores from 'pages/Lista/Fornecedores';
@@ -18,7 +17,7 @@ export default function Routes() {
             <Menu />
             <AuthCheck />
             <Switch>
-                <Route path="/" exact component={Login} />
+                <Route path="/" exact component={LandingPage} />
 
                 <Route path="/produtos" exact component={ListaProdutos} />
                 <Route path="/produtos/novo" component={CadastroProdutos} />
@@ -28,7 +27,7 @@ export default function Routes() {
                 <Route path="/fornecedores/novo" component={CadastroFornecedor} />
 
                 <Route path="/estoque" exact component={ListaEstoque} />
-                <Route path="/cadastrar" component={NovaConta} />
+                <Route path="/cadastrar" component={LandingPage} />
             </Switch>
         </BrowserRouter>
     );

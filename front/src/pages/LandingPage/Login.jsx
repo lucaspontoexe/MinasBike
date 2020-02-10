@@ -29,6 +29,8 @@ export default function Login({ history }) {
             })
 
             .catch(err => {
+                console.log(err);
+                
                 const { data } = err.response;
                 if (data.message) setErrors(formatFieldErrors(data));
                 else setServerError('Erro interno do servidor');
