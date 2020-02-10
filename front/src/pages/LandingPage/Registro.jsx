@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import Button from 'components/Button';
 import Input from './Input';
@@ -9,12 +9,13 @@ import api from 'services/api';
 import formatFieldErrors from 'utils/formatFieldErrors';
 import './styles.css';
 
-export default function Registro({ history }) {
+function Registro({ history }) {
     const [serverError, setServerError] = useState('');
 
-    function validate({password, password_confirmation}) {
-        const errors = {}
-        if (password !== password_confirmation) errors.password = "As senhas não coincidem"
+    function validate({ password, password_confirmation }) {
+        const errors = {};
+        if (password !== password_confirmation)
+            errors.password = 'As senhas não coincidem';
         return errors;
     }
 
@@ -92,3 +93,4 @@ export default function Registro({ history }) {
         </Formik>
     );
 }
+export default withRouter(Registro);

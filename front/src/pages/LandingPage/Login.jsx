@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import Button from 'components/Button';
 import Input from './Input';
@@ -12,7 +12,7 @@ import emailIcon from 'assets/icons/email.svg';
 import passwordIcon from 'assets/icons/password.svg';
 import './styles.css';
 
-export default function Login({ history }) {
+function Login({ history }) {
     const [serverError, setServerError] = useState('');
 
     function handleSubmit(values, { setSubmitting, setErrors }) {
@@ -30,7 +30,7 @@ export default function Login({ history }) {
 
             .catch(err => {
                 console.log(err);
-                
+
                 const { data } = err.response;
                 if (data.message) setErrors(formatFieldErrors(data));
                 else setServerError('Erro interno do servidor');
@@ -75,3 +75,5 @@ export default function Login({ history }) {
         </Formik>
     );
 }
+
+export default withRouter(Login);
