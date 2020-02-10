@@ -5,6 +5,7 @@ import Button from 'components/Button';
 import Input from './Input';
 import Error from 'components/Error';
 
+import formatFieldErrors from 'utils/formatFieldErrors';
 import api from 'services/api';
 import logo from 'assets/images/logo-white.png';
 import emailIcon from 'assets/icons/email.svg';
@@ -29,12 +30,7 @@ export default function Login({ history }) {
 
             .catch(err => {
                 const { data } = err.response;
-                if (data.message)
-                    setErrors(
-                        data.fields.map(field => {
-                            return { [field]: data.message };
-                        })
-                    );
+                if (data.message) setErrors(formatFieldErrors(data));
                 else setServerError('Erro interno do servidor');
             })
             .finally(setSubmitting(false));

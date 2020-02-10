@@ -1,98 +1,87 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Formik, Form } from 'formik';
 import Button from 'components/Button';
-import TextBox from 'components/TextBox';
+import Input from './Input';
 import Error from 'components/Error';
 
 import api from 'services/api';
+import formatFieldErrors from 'utils/formatFieldErrors';
 import './styles.css';
 
 export default function NovaConta({ history }) {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [password_confirmation, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
+    const [serverError, setServerError] = useState('');
 
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        api.post('/users', {
-            name,
-            email,
-            password,
-            password_confirmation,
-            active: true,
-            usertype_id: 1,
-            login: email
-        })
+    function handleSubmit(values, { setSubmitting, setErrors }) {
+        setSubmitting(true);
+        setServerError('');
+        api.post('/users', values)
 
             .then(response => {
-                //sessionStorage.setEmail('token', response.data.token);
-                history.push('/');
+                //TODO: "tela" de confirmação
+                history.replace('/');
             })
 
             .catch(err => {
-                setError(err.response.data.error);
-            });
+                const { data } = err.response;
+                if (data.message) setErrors(formatFieldErrors(data));
+                else setServerError('Erro interno do servidor');
+            })
+
+            .finally(setSubmitting(false));
     }
 
     return (
-        <>
-            {error !== '' && <Error>{error}</Error>}
-            <div className="login-screen">
-                <form className="login-container" onSubmit={handleSubmit}>
-                    <TextBox
-                        name="name"
-                        type="text"
-                        label="Nome"
-                        placeholder="João"
-                        required
-                        autoFocus
-                        value={name}
-                        onChange={event => setName(event.target.value)}
-                    />
+        <Formik
+            initialValues={{
+                name: '',
+                email: '',
+                password: '',
+                password_confirmation: '',
+            }}
+            onSubmit={handleSubmit}
+        >
+            <Form className="login-container">
+                <Input
+                    name="name"
+                    type="text"
+                    label="Nome"
+                    placeholder="João"
+                    required
+                    autoFocus
+                />
 
-                    <TextBox
-                        name="user"
-                        type="email"
-                        label="E-mail"
-                        placeholder="user@example.com"
-                        required
-                        value={email}
-                        onChange={event => setEmail(event.target.value)}
-                    />
+                <Input
+                    name="email"
+                    type="email"
+                    label="E-mail"
+                    placeholder="user@example.com"
+                    required
+                />
 
-                    <TextBox
-                        name="password"
-                        type="password"
-                        label="Senha"
-                        placeholder="*******"
-                        required
-                        value={password}
-                        onChange={event => setPassword(event.target.value)}
-                    />
-                    <TextBox
-                        name="confirmPassword"
-                        type="password"
-                        label="Confirmar Senha"
-                        placeholder="*******"
-                        required
-                        value={password_confirmation}
-                        onChange={event =>
-                            setConfirmPassword(event.target.value)
-                        }
-                    />
-                    <Button type="submit" color="#DC2438">
-                        Registrar
-                    </Button>
+                <Input
+                    name="password"
+                    type="password"
+                    label="Senha"
+                    placeholder="*******"
+                    required
+                />
+                <Input
+                    name="password_confirmation"
+                    type="password"
+                    label="Confirmar Senha"
+                    placeholder="*******"
+                    required
+                />
+                <Button type="submit" color="#DC2438">
+                    Registrar
+                </Button>
 
-                    <span>
-                        Já possui uma conta?{' '}
-                        <Link to="/">Fazer Login</Link>
-                    </span>
-                </form>
-            </div>
-        </>
+                <span>
+                    Já possui uma conta? <Link to="/">Fazer Login</Link>
+                </span>
+                {serverError !== '' && <Error>{serverError}</Error>}
+            </Form>
+        </Formik>
     );
 }
