@@ -1,16 +1,16 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
+import Login from './pages/LandingPage/Login';
+import NovaConta from './pages/LandingPage/Registro';
+import Menu from './components/Menu';
 import ListaProdutos from './pages/Lista/Produtos';
 import ListaEstoque from './pages/Lista/Estoque';
-import Login from './pages/Login';
+import ListaFornecedores from 'pages/Lista/Fornecedores';
 import CadastroProdutos from './pages/CadastroProdutos';
-import NovaConta from './pages/NovaConta';
-import Menu from './components/Menu';
+import CadastroFornecedor from 'pages/Cadastro/Fornecedor';
 import DetalhesProduto from './pages/DetalhesProduto';
 import AuthCheck from './AuthCheck';
-import ListaFornecedores from 'pages/Lista/Fornecedores';
-import CadastroFornecedor from 'pages/Cadastro/Fornecedor';
 
 export default function Routes() {
     return (

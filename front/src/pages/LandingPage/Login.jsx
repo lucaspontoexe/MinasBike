@@ -52,41 +52,39 @@ export default function Login({ history }) {
     };
 
     return (
-        <div className="login-screen">
-            <Formik
-                initialValues={{ email: '', password: '' }}
-                onSubmit={handleSubmit}
-            >
-                <Form className="login-container">
-                    <div className="logo-container">
-                        <img src={logo} alt="Minas Bike logo" />
-                    </div>
-                    <Input
-                        name="email"
-                        type="email"
-                        placeholder="E-mail"
-                        required
-                        autoFocus
-                        icon={emailIcon}
-                    />
-                    <Input
-                        name="password"
-                        type="password"
-                        placeholder="Senha"
-                        required
-                        icon={passwordIcon}
-                    />
-                    <Button type="submit" color="#DC2438">
-                        Acessar
-                    </Button>
+        <Formik
+            initialValues={{ email: '', password: '' }}
+            onSubmit={handleSubmit}
+        >
+            <Form className="login-container">
+                <div className="logo-container">
+                    <img src={logo} alt="Minas Bike logo" />
+                </div>
+                <Input
+                    name="email"
+                    type="email"
+                    placeholder="E-mail"
+                    required
+                    autoFocus
+                    icon={emailIcon}
+                />
+                <Input
+                    name="password"
+                    type="password"
+                    placeholder="Senha"
+                    required
+                    icon={passwordIcon}
+                />
+                <Button type="submit" color="#DC2438">
+                    Acessar
+                </Button>
 
-                    <span>
-                        Ainda não tem conta?{' '}
-                        <Link to="/cadastrar">Registre-se</Link>
-                    </span>
-                </Form>
-            </Formik>
-            {serverError !== '' && <Error>{serverError}</Error>}
-        </div>
+                <span>
+                    Ainda não tem conta?{' '}
+                    <Link to="/cadastrar">Registre-se</Link>
+                </span>
+                {serverError !== '' && <Error>{serverError}</Error>}
+            </Form>
+        </Formik>
     );
 }
