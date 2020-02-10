@@ -15,7 +15,7 @@ function Registro({ history }) {
     function validate({ password, password_confirmation }) {
         const errors = {};
         if (password !== password_confirmation)
-            errors.password = 'As senhas não coincidem';
+            errors.password_confirmation = 'As senhas não coincidem';
         return errors;
     }
 
@@ -42,11 +42,13 @@ function Registro({ history }) {
         <Formik
             initialValues={{
                 name: '',
+                login: '',
                 email: '',
                 password: '',
                 password_confirmation: '',
             }}
             validate={validate}
+            validateOnChange={false}
             onSubmit={handleSubmit}
         >
             <Form className="login-container">
@@ -59,6 +61,12 @@ function Registro({ history }) {
                     autoFocus
                 />
 
+                <Input
+                    name="login"
+                    type="text"
+                    label="Login"
+                    required
+                />
                 <Input
                     name="email"
                     type="email"
