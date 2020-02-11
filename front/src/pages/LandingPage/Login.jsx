@@ -10,7 +10,6 @@ import api from 'services/api';
 import logo from 'assets/images/logo-white.png';
 import emailIcon from 'assets/icons/email.svg';
 import passwordIcon from 'assets/icons/password.svg';
-import './styles.css';
 
 function Login({ history }) {
     const [serverError, setServerError] = useState('');

@@ -7,7 +7,6 @@ import Error from 'components/Error';
 
 import api from 'services/api';
 import formatFieldErrors from 'utils/formatFieldErrors';
-import './styles.css';
 
 function Registro({ history }) {
     const [serverError, setServerError] = useState('');
