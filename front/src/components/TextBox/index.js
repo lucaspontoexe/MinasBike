@@ -2,15 +2,16 @@ import React from 'react';
 import './styles.css';
 
 export default function TextBox(props) {
-    const { label, required, name, options, list, icon } = props;
+    const { label, required, name, options, list, icon, error } = props;
 
     function useIcon(icon) {
-        if (icon) return {
-            paddingLeft: 40,
-            backgroundImage: `url(${icon})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 10,
-        };
+        if (icon)
+            return {
+                paddingLeft: 40,
+                backgroundImage: `url(${icon})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 10,
+            };
     }
 
     return (
@@ -23,7 +24,7 @@ export default function TextBox(props) {
             )}
 
             {/* copia todas as props pro input */}
-            <input {...props} style={useIcon(icon)}/>
+            <input {...props} style={useIcon(icon)} />
 
             {/* cria uma lista de opções caso necessário */}
             {list && (
@@ -33,6 +34,8 @@ export default function TextBox(props) {
                     ))}
                 </datalist>
             )}
+
+            {error && <div className="input-error">{error}</div>}
         </div>
     );
 }
