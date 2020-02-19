@@ -1,5 +1,5 @@
 export default {
-    headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-    },
-}
+  headers: {
+    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+  },
+};
