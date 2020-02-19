@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
-import useAuth from 'utils/useAuth';
+import withAuth from 'utils/withAuth';
 // import formatPrice from 'utils/formatPrice';
 import Header from 'components/Header';
 import Button from 'components/Button';
@@ -14,10 +14,10 @@ export default function ListaFornecedores({ history }) {
 
     useEffect(() => {
         function fetchData() {
-            // api.get('/providerproducts?provider', useAuth).then(res =>
+            // api.get('/providerproducts?provider', withAuth).then(res =>
             //     setPrpr(res.data)
             // );
-            api.get('/providers?location', useAuth).then(res =>
+            api.get('/providers?location', withAuth).then(res =>
                 setProviders(res.data)
             );
         }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
-import useAuth from 'utils/useAuth';
+import withAuth from 'utils/withAuth';
 import formatPrice from 'utils/formatPrice';
 import { queryObject } from 'utils/getProperty';
 import Header from 'components/Header';
@@ -19,10 +19,10 @@ export default function ListaProdutos({ history }) {
 
     async function fetchData() {
         await api
-            .get('/brandproducts?product&brand', useAuth)
+            .get('/brandproducts?product&brand', withAuth)
             .then(response => setProducts(response.data));
         await api
-            .get('/stocks?brandproduct', useAuth)
+            .get('/stocks?brandproduct', withAuth)
             .then(response => setStocks(response.data));
         // setIsLoaded(true);
     }
