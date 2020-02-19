@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from './Login';
 import Registro from './Registro';
-import './styles.css';
+import './styles.scss';
 
 export default function LandingPage({ history }) {
   return (
