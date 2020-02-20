@@ -12,67 +12,49 @@ import emailIcon from 'assets/icons/email.svg';
 import passwordIcon from 'assets/icons/password.svg';
 
 function Login({ history }) {
-    const [serverError, setServerError] = useState('');
+  const [serverError, setServerError] = useState('');
 
-    function handleSubmit(values, { setSubmitting, setErrors }) {
-        setSubmitting(true);
-        setServerError('');
-        api.post('/sessions', values)
+  function handleSubmit(values, { setSubmitting, setErrors }) {
+    setSubmitting(true);
+    setServerError('');
+    api
+      .post('/sessions', values)
 
-            .then(response => {
-                sessionStorage.setItem('token', response.data.token);
-                api.defaults.headers.common[
-                    'Authorization'
-                ] = `Bearer ${response.data.token}`;
-                history.push('/produtos');
-            })
+      .then(response => {
+        sessionStorage.setItem('token', response.data.token);
+        api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+        history.push('/produtos');
+      })
 
-            .catch(err => {
-                console.log(err);
+      .catch(err => {
+        console.log(err);
 
-                const { data } = err.response;
-                if (data.message) setErrors(formatFieldErrors(data));
-                else setServerError('Erro interno do servidor');
-            })
-            .finally(setSubmitting(false));
-    }
+        const { data } = err.response;
+        if (data.message) setErrors(formatFieldErrors(data));
+        else setServerError('Erro interno do servidor');
+      })
+      .finally(setSubmitting(false));
+  }
 
-    return (
-        <Formik
-            initialValues={{ email: '', password: '' }}
-            onSubmit={handleSubmit}
-        >
-            <Form className="login-container">
-                <div className="logo-container">
-                    <img src={logo} alt="Minas Bike logo" />
-                </div>
-                <Input
-                    name="email"
-                    type="email"
-                    placeholder="E-mail"
-                    required
-                    autoFocus
-                    icon={emailIcon}
-                />
-                <Input
-                    name="password"
-                    type="password"
-                    placeholder="Senha"
-                    required
-                    icon={passwordIcon}
-                />
-                <Button type="submit" color="#DC2438">
-                    Acessar
-                </Button>
+  return (
+    <Formik initialValues={{ email: '', password: '' }} onSubmit={handleSubmit}>
+      <Form className="login-container">
+        <div className="logo-container">
+          <img src={logo} alt="Minas Bike logo" />
+        </div>
+        <Input name="email" type="email" placeholder="E-mail" required autoFocus icon={emailIcon} />
+        <Input name="password" type="password" placeholder="Senha" required icon={passwordIcon} />
+        <Button type="submit" color="#DC2438">
+          Acessar
+        </Button>
 
-                <span>
-                    Ainda não tem conta?{' '}
-                    <Link to="/cadastrar">Registre-se</Link>
-                </span>
-                {serverError !== '' && <Error>{serverError}</Error>}
-            </Form>
-        </Formik>
-    );
+        <span>
+          Ainda não tem conta? <Link to="/cadastrar">Registre-se</Link>
+        </span>
+        {serverError !== '' && <Error>{serverError}</Error>}
+      </Form>
+    </Formik>
+  );
 }
 
 export default withRouter(Login);
