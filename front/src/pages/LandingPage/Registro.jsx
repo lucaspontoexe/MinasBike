@@ -5,11 +5,14 @@ import Button from 'components/Button';
 import Input from './Input';
 import Error from 'components/Error';
 
+import iconApproved from 'assets/icons/approved-signal.svg';
+
 import api from 'services/api';
 import formatFieldErrors from 'utils/formatFieldErrors';
 
 function Registro({ history }) {
   const [serverError, setServerError] = useState('');
+  const [isSignupDone, setIsSignupDone] = useState(false);
 
   function validate({ password, password_confirmation }) {
     const errors = {};
@@ -24,9 +27,8 @@ function Registro({ history }) {
     api
       .post('/users', values)
 
-      .then(response => {
-        //TODO: "tela" de confirmação
-        history.replace('/');
+      .then(() => {
+        setIsSignupDone(true);
       })
 
       .catch(err => {
@@ -73,6 +75,21 @@ function Registro({ history }) {
           Já possui uma conta? <Link to="/">Fazer Login</Link>
         </span>
         {serverError !== '' && <Error>{serverError}</Error>}
+
+        {isSignupDone && (
+          <div className="success">
+            <img src={iconApproved} alt="Aprovado" />
+
+            <div className="text">
+              <h2>Cadastro realizado</h2>
+              <span>O administrador irá liberar o acesso.</span>
+            </div>
+
+            <Button color="#777" type="reset" onClick={() => history.replace('/')}>
+              Voltar
+            </Button>
+          </div>
+        )}
       </Form>
     </Formik>
   );
