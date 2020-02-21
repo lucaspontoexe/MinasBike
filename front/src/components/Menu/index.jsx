@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { useAuth } from 'hooks/useAuth';
+
 import './styles.css';
 
 import logo from 'assets/images/logo.png';
@@ -11,6 +13,7 @@ import vendas from 'assets/icons/payment.svg';
 
 function Menu(props) {
   const { pathname } = props.history.location;
+  const { logout } = useAuth();
 
   const listItems = [
     { name: 'Produtos', path: '/produtos', icon: produto },
@@ -24,7 +27,7 @@ function Menu(props) {
   // TODO: mover para outro componente,
   // manter a separation of concerns funcionando
   function handleLogout() {
-    sessionStorage.clear();
+    logout();
     props.history.push('/');
   }
 

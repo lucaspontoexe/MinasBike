@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Formik, Form } from 'formik';
+import { useAuth } from 'hooks/useAuth';
+import formatFieldErrors from 'utils/formatFieldErrors';
+
 import Button from 'components/Button';
 import Input from './Input';
 import Error from 'components/Error';
-
 import iconApproved from 'assets/icons/approved-signal.svg';
 
-import api from 'services/api';
-import formatFieldErrors from 'utils/formatFieldErrors';
 
 function Registro({ history }) {
+  const auth = useAuth();
   const [serverError, setServerError] = useState('');
   const [isSignupDone, setIsSignupDone] = useState(false);
 
@@ -24,8 +25,8 @@ function Registro({ history }) {
   function handleSubmit(values, { setSubmitting, setErrors }) {
     setSubmitting(true);
     setServerError('');
-    api
-      .post('/users', values)
+    auth
+      .signUp(values)
 
       .then(() => {
         setIsSignupDone(true);

@@ -1,28 +1,27 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Formik, Form } from 'formik';
+import { useAuth } from 'hooks/useAuth';
 import Button from 'components/Button';
 import Input from './Input';
 import Error from 'components/Error';
 
 import formatFieldErrors from 'utils/formatFieldErrors';
-import api from 'services/api';
 import logo from 'assets/images/logo-white.png';
 import emailIcon from 'assets/icons/email.svg';
 import passwordIcon from 'assets/icons/password.svg';
 
 function Login({ history }) {
+  const auth = useAuth();
   const [serverError, setServerError] = useState('');
 
   function handleSubmit(values, { setSubmitting, setErrors }) {
     setSubmitting(true);
     setServerError('');
-    api
-      .post('/sessions', values)
+    auth
+      .login(values)
 
-      .then(response => {
-        sessionStorage.setItem('token', response.data.token);
-        api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+      .then(() => {
         history.push('/produtos');
       })
 
