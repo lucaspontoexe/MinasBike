@@ -36,7 +36,7 @@ function useProvideAuth() {
   }
 
   function logout() {
-    setToken(false);
+    setToken(null);
   }
 
   return { token, login, logout, signup };
