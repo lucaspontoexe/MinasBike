@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import api from 'services/api';
-import withAuth from 'utils/withAuth';
+
 
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
@@ -16,7 +16,7 @@ export default function CadastroFornecedor({ history }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    await api.post('/providers', formData, withAuth);
+    await api.post('/providers', formData);
     history.push('/fornecedores');
   }
 
