@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import api from 'services/api';
 
 // baseado em https://usehooks.com/useAuth/
@@ -15,10 +15,22 @@ export const useAuth = () => {
   return useContext(authContext);
 };
 
+function getStoredToken() {
+  return sessionStorage.getItem('token') || undefined;
+}
+
 function useProvideAuth() {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(getStoredToken);
   // TODO: persist token in sessionStorage
   // see usePersistedState();
+
+  useEffect(() => {
+    sessionStorage.setItem('token', token);
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    return () => {
+      sessionStorage.removeItem('token');
+    };
+  }, [token]);
 
   function login(values) {
     return new Promise((resolve, reject) => {
@@ -26,7 +38,6 @@ function useProvideAuth() {
         .post('/sessions', values)
         .then(({ data }) => {
           setToken(data.token);
-          api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
           resolve(data.token);
         })
         .catch(err => reject(err));
