@@ -26,7 +26,7 @@ function Registro({ history }) {
     setSubmitting(true);
     setServerError('');
     auth
-      .signUp(values)
+      .signup(values)
 
       .then(() => {
         setIsSignupDone(true);
