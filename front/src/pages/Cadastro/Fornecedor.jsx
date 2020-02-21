@@ -10,7 +10,6 @@ import LocationSelector from 'components/LocationSelector/index.jsx';
 import Modal from 'components/Modal';
 
 export default function CadastroFornecedor({ history }) {
-  //TODO: Procurar se alguma lib de form ajuda
   const [formData, setFormData] = useState({});
   const [displayModal, setDisplayModal] = useState(false);
 
@@ -23,6 +22,8 @@ export default function CadastroFornecedor({ history }) {
   function handleChange({ target }) {
     setFormData({ ...formData, [target.name]: target.value });
   }
+
+  // Formik não parece ser tão interessante pra essa página.
 
   return (
     <div className="tela tela-cadastro">
