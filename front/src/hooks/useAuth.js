@@ -1,6 +1,8 @@
 import React, { useState, useContext, createContext } from 'react';
 import api from 'services/api';
 
+// baseado em https://usehooks.com/useAuth/
+
 const authContext = createContext();
 
 export function ProvideAuth({ children }) {
