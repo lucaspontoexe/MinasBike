@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import { useAuth } from 'hooks/useAuth';
 import Button from 'components/Button';
@@ -51,6 +51,7 @@ function Login({ history }) {
           Ainda não tem conta? <Link to="/cadastrar">Registre-se</Link>
         </span>
         {serverError !== '' && <Error>{serverError}</Error>}
+        {auth.token && <Redirect to="/produtos" />}
       </Form>
     </Formik>
   );
