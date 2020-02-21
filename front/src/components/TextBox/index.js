@@ -24,7 +24,7 @@ export default function TextBox(props) {
       )}
 
       {/* copia todas as props pro input */}
-      <input {...props} style={useIcon(icon)} />
+      <input {...props} style={useIcon(icon)} className={error && 'with-error'}/>
 
       {/* cria uma lista de opções caso necessário */}
       {list && (
