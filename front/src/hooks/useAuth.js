@@ -17,6 +17,8 @@ export const useAuth = () => {
 
 function useProvideAuth() {
   const [token, setToken] = useState(null);
+  // TODO: persist token in sessionStorage
+  // see usePersistedState();
 
   function login(values) {
     return new Promise((resolve, reject) => {
