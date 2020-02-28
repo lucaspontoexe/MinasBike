@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
-import useAuth from 'utils/useAuth';
 import formatPrice from 'utils/formatPrice';
 import { queryObject } from 'utils/getProperty';
 import Header from 'components/Header';
@@ -16,11 +15,11 @@ export default function ListaProdutos({ history }) {
   useEffect(() => {
     function fetchData() {
       api
-        .get('/providerproducts?brandproduct&provider', useAuth)
+        .get('/providerproducts?brandproduct&provider')
         .then(res => setProviderProducts(res.data));
-      api.get('/products?category&brand&unity', useAuth).then(res => setProducts(res.data));
+      api.get('/products?category&brand&unity').then(res => setProducts(res.data));
       api
-        .get('/brandproducts?brand&product&stock', useAuth)
+        .get('/brandproducts?brand&product&stock')
         .then(res => setBrandProducts(res.data));
     }
     fetchData();

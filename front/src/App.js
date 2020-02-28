@@ -1,12 +1,15 @@
 import React from 'react';
+import { ProvideAuth } from 'hooks/useAuth';
 import Routes from './routes';
 import './styles.css';
 
 function App() {
   return (
-    <div className="App">
-      <Routes />
-    </div>
+    <ProvideAuth>
+      <div className="App">
+        <Routes />
+      </div>
+    </ProvideAuth>
   );
 }
 

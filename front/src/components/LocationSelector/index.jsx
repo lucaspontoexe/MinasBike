@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import api from 'services/api';
-import useAuth from 'utils/useAuth';
+
 import stateNames from './states.json';
 
 import SelectWithLabel from 'components/SelectWithLabel';
@@ -21,7 +21,6 @@ export default function LocationSelector({ onChange, required }) {
     setCurrentCity({});
     api
       .get('/locations', {
-        ...useAuth,
         params: { state: currentBRState },
       })
       .then(res =>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import api from 'services/api';
-import useAuth from 'utils/useAuth';
+
 
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
@@ -10,19 +10,20 @@ import LocationSelector from 'components/LocationSelector/index.jsx';
 import Modal from 'components/Modal';
 
 export default function CadastroFornecedor({ history }) {
-  //TODO: Procurar se alguma lib de form ajuda
   const [formData, setFormData] = useState({});
   const [displayModal, setDisplayModal] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
-    await api.post('/providers', formData, useAuth);
+    await api.post('/providers', formData);
     history.push('/fornecedores');
   }
 
   function handleChange({ target }) {
     setFormData({ ...formData, [target.name]: target.value });
   }
+
+  // Formik não parece ser tão interessante pra essa página.
 
   return (
     <div className="tela tela-cadastro">

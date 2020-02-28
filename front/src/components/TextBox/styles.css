@@ -28,6 +28,10 @@
 	border: 2px solid #999;
 }
 
+.text-box input .with-error {
+	border: 2px solid #DC2438;
+}
+
 .text-box label {
     /* display: inline; */
     margin-bottom: 5px;

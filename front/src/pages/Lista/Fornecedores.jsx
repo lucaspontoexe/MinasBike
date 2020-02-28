@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
-import useAuth from 'utils/useAuth';
-// import formatPrice from 'utils/formatPrice';
+
 import Header from 'components/Header';
 import Button from 'components/Button';
 import Table from 'components/Table';
@@ -10,14 +9,10 @@ import './styles.css';
 
 export default function ListaFornecedores({ history }) {
   const [providers, setProviders] = useState([]);
-  // const [prpr, setPrpr] = useState([]);
 
   useEffect(() => {
     function fetchData() {
-      // api.get('/providerproducts?provider', useAuth).then(res =>
-      //     setPrpr(res.data)
-      // );
-      api.get('/providers?location', useAuth).then(res => setProviders(res.data));
+      api.get('/providers?location').then(res => setProviders(res.data));
     }
     fetchData();
   }, []);
@@ -26,7 +21,6 @@ export default function ListaFornecedores({ history }) {
     { Header: 'Código', accessor: 'code' },
     { Header: 'Nome', accessor: 'name' },
     { Header: 'Contato', accessor: 'contact' },
-    // { Header: 'Preço de Custo', accessor: 'cost_price' },
     { Header: 'Cidade', accessor: 'location' },
   ];
 
@@ -35,7 +29,6 @@ export default function ListaFornecedores({ history }) {
       code: item.id,
       name: item.name,
       contact: item.contact,
-      // cost_price: formatPrice(item.cost_price),
       location: `${item.location.city}, ${item.location.state}`,
     };
   });

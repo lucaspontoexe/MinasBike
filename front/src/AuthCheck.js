@@ -1,8 +1,11 @@
 import React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
+import { useAuth } from 'hooks/useAuth';
 
 function AuthCheck() {
-  return <>{!sessionStorage.getItem('token') && <Redirect to="/" />}</>;
+  const { token } = useAuth();
+  token ? console.log('[AuthCheck]: token is ', token) : console.log('[AuthCheck]: no token');
+  return <>{!token && <Redirect to="/" />}</>;
 }
 
 export default withRouter(AuthCheck);
