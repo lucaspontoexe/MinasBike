@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { Formik, Form } from 'formik';
-import { useAuth } from 'hooks/useAuth';
-import formatFieldErrors from 'utils/formatFieldErrors';
-
+import { Link, withRouter, Prompt } from 'react-router-dom';
+import { Formik, Form, useFormikContext } from 'formik';
 import Button from 'components/Button';
 import Input from './Input';
 import Error from 'components/Error';
@@ -39,6 +36,17 @@ function Registro({ history }) {
       })
 
       .finally(setSubmitting(false));
+  }
+
+  function PromptIfDirty() {
+    // https://codesandbox.io/s/formik-x-react-router-prompt-kvxt4
+    const formik = useFormikContext();
+    return (
+      <Prompt
+        when={formik.dirty}
+        message="Há dados que não foram enviados. Deseja sair?"
+      />
+    );
   }
 
   return (
@@ -91,6 +99,7 @@ function Registro({ history }) {
             </Button>
           </div>
         )}
+        <PromptIfDirty/>
       </Form>
     </Formik>
   );
