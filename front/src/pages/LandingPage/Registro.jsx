@@ -45,7 +45,7 @@ function Registro({ history }) {
     const formik = useFormikContext();
     return (
       <Prompt
-        when={formik.dirty}
+        when={(formik.dirty && isSignupDone === false)}
         message="Há dados que não foram enviados. Deseja sair?"
       />
     );
