@@ -16,13 +16,14 @@ export const useAuth = () => {
 };
 
 function getStoredToken() {
-  return sessionStorage.getItem('token') || undefined;
+  const token = sessionStorage.getItem('token');
+  // workaround: restore token to API when loading into state
+  api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  return token || undefined;
 }
 
 function useProvideAuth() {
   const [token, setToken] = useState(getStoredToken);
-  // TODO: persist token in sessionStorage
-  // see usePersistedState();
 
   useEffect(() => {
     
