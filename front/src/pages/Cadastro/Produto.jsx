@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 // import api from 'services/api';
 import TextBox from 'components/TextBox';
 // import Button from 'components/Button';
@@ -9,38 +9,45 @@ import SelectWithLabel from 'components/SelectWithLabel';
 
 import './styles.css';
 
-export default function CadastroProduto() {
+function BPSelector(props) {
+  // props: onProductChange, onBrandChange, onBPChange
+  // load all products and brands on init
+  // more data will be loaded as the form is filled
   return (
-    <div className="tela">
-      <Header>Novo Produto</Header>
+    <Fragment>
       <fieldset>
         BP selector
         <SelectWithLabel required label="Nome do Produto" placeholder="nome do produto" />
         <SelectWithLabel required label="Nome da Marca" placeholder="nome da marca" />
       </fieldset>
       <pre>current BP: Tal Produto; ID: 1 (ou [to be created])</pre>
-      <br/>
-      
+      <br />
+    </Fragment>
+  );
+}
+
+export default function CadastroProduto() {
+  return (
+    <div className="tela">
+      <Header>Novo Produto</Header>
+      <BPSelector />
       <fieldset>
         PRODUCT STUFF
         <TextBox required label="Descrição" />
         <TextBox required label="Unidade de Medida" />
         <TextBox required label="Categoria" />
       </fieldset>
-      
       <fieldset>
         BP STUFF
         <TextBox required label="Código de Barras" />
         <TextBox required label="Preço" />
       </fieldset>
-
       <fieldset>
         STOCK STUFF <i>(requires brandproduct)</i>
         <TextBox required label="qtd. atual estoque" />
         <TextBox required label="qtd. mínima estoque" />
         <TextBox required label="qtd. inicial em estoque" />
       </fieldset>
-      
       PROVIDER STUFF
       <input placeholder="json data" />
     </div>
