@@ -8,22 +8,16 @@ export function BPSelector({ onProductChange, onBrandChange, onBPChange }) {
   const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
 
+  const formatSelectItem = item => ({ value: item.id, label: item.name });
+
   useEffect(() => {
-    api.get('/products').then(res => setProducts(res.data));
-    api.get('/brands').then(res => setBrands(res.data));
-  }, [])
-  
-  const someOptions = [
-    { value: 1, label: 'one' },
-    { value: 2, label: 'two' },
-    { value: 3, label: 'three' },
-    { value: 4, label: 'four' },
-  ];
+    api.get('/products').then(res => setProducts(res.data.map(formatSelectItem)));
+    api.get('/brands').then(res => setBrands(res.data.map(formatSelectItem)));
+  }, []);
 
-  function handleChange(value, {name}) {
-      console.log(value, name)
+  function handleChange(value, { name }) {
+    console.log(value, name);
   }
-
 
   return (
     <Fragment>
@@ -32,7 +26,7 @@ export function BPSelector({ onProductChange, onBrandChange, onBPChange }) {
         <SelectWithLabel
           name="product"
           creatable
-          options={someOptions}
+          options={brands}
           onCreateOption={console.log}
           onChange={handleChange}
           required
@@ -42,7 +36,7 @@ export function BPSelector({ onProductChange, onBrandChange, onBPChange }) {
         <SelectWithLabel
           name="brand"
           creatable
-          options={someOptions}
+          options={products}
           onCreateOption={console.log}
           onChange={handleChange}
           required
