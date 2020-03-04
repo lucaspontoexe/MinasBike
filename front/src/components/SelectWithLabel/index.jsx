@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import customStyles from './customStyles';
 import './styles.css';
 
@@ -16,17 +17,29 @@ const themeSettings = theme => ({
 });
 
 export default function SelectWithLabel(props) {
-  const { name, label } = props;
+  const { name, label, required, creatable } = props;
 
   return (
     <div className="select-wrapper">
       {label && (
         <label htmlFor={name}>
           {label}
-          {props.required && <span className="asterisco"> *</span>}
+          {required && <span className="asterisco"> *</span>}
         </label>
       )}
-      <Select styles={customStyles} theme={themeSettings} {...props} />
+
+      {creatable ? (
+        // cá estamos, repetindo props. Deve ter algum jeito de 
+        // enxugar esse código.
+        <CreatableSelect
+          formatCreateLabel={val => `Criar ${val}...`}
+          styles={customStyles}
+          theme={themeSettings}
+          {...props}
+        />
+      ) : (
+        <Select styles={customStyles} theme={themeSettings} {...props} />
+      )}
     </div>
   );
 }
