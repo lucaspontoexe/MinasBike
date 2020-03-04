@@ -10,15 +10,24 @@ import SelectWithLabel from 'components/SelectWithLabel';
 import './styles.css';
 
 function BPSelector({ onProductChange, onBrandChange, onBPChange }) {
-  // props: onProductChange, onBrandChange, onBPChange
   // load all products and brands on init
   // more data will be loaded as the form is filled
+
+  const someOptions = [
+    {value: 1, label: "one"},
+    {value: 2, label: "two"},
+    {value: 3, label: "three"},
+    {value: 4, label: "four"}
+  ];
+
   return (
     <Fragment>
       <fieldset>
         BP selector
         <SelectWithLabel
+          name="product"
           creatable
+          options={someOptions}
           onCreateOption={console.log}
           onChange={console.log}
           required
@@ -26,7 +35,9 @@ function BPSelector({ onProductChange, onBrandChange, onBPChange }) {
           placeholder="nome do produto"
         />
         <SelectWithLabel
+          name="brand"
           creatable
+          options={someOptions}
           onCreateOption={console.log}
           onChange={console.log}
           required
