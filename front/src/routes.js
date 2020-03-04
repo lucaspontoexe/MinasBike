@@ -6,7 +6,7 @@ import LandingPage from 'pages/LandingPage';
 import ListaProdutos from './pages/Lista/Produtos';
 import ListaEstoque from './pages/Lista/Estoque';
 import ListaFornecedores from 'pages/Lista/Fornecedores';
-import CadastroProdutos from './pages/CadastroProdutos';
+import CadastroProdutos from './pages/Cadastro/Produto';
 import CadastroFornecedor from 'pages/Cadastro/Fornecedor';
 import DetalhesProduto from './pages/DetalhesProduto';
 import AuthCheck from './AuthCheck';
