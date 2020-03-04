@@ -1,9 +1,10 @@
 import React from 'react';
 // import api from 'services/api';
 import TextBox from 'components/TextBox';
-// import Button from 'components/Button';
+import Button from 'components/Button';
 import Header from 'components/Header';
 import { BPSelector } from './BPSelector';
+
 export default function CadastroProduto() {
   return (
     <div className="tela">
@@ -28,6 +29,8 @@ export default function CadastroProduto() {
       </fieldset>
       PROVIDER STUFF
       <input placeholder="json data" />
+
+      <Button>POST</Button>
     </div>
   );
 }
