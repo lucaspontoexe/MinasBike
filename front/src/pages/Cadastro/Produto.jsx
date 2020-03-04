@@ -9,7 +9,7 @@ import SelectWithLabel from 'components/SelectWithLabel';
 
 import './styles.css';
 
-function BPSelector(props) {
+function BPSelector({ onProductChange, onBrandChange, onBPChange }) {
   // props: onProductChange, onBrandChange, onBPChange
   // load all products and brands on init
   // more data will be loaded as the form is filled
@@ -17,8 +17,22 @@ function BPSelector(props) {
     <Fragment>
       <fieldset>
         BP selector
-        <SelectWithLabel required label="Nome do Produto" placeholder="nome do produto" />
-        <SelectWithLabel required label="Nome da Marca" placeholder="nome da marca" />
+        <SelectWithLabel
+          creatable
+          onCreateOption={console.log}
+          onChange={console.log}
+          required
+          label="Nome do Produto"
+          placeholder="nome do produto"
+        />
+        <SelectWithLabel
+          creatable
+          onCreateOption={console.log}
+          onChange={console.log}
+          required
+          label="Nome da Marca"
+          placeholder="nome da marca"
+        />
       </fieldset>
       <pre>current BP: Tal Produto; ID: 1 (ou [to be created])</pre>
       <br />
