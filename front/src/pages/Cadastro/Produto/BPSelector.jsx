@@ -1,15 +1,16 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import SelectWithLabel from 'components/SelectWithLabel';
 import api from 'services/api';
+import { EMPTY, TO_BE_CREATED } from './idtypes.json';
 
 export function BPSelector({ onChange }) {
   // single state for each property (2nd attempt)
 
-  const initialItem = { id: -2 };
+  const initialItem = { id: EMPTY };
 
   const [brand, setBrand] = useState(initialItem);
   const [product, setProduct] = useState(initialItem);
-  const [brandproduct, setBrandproduct] = useState(initialItem);
+  const [brandproduct, setBrandproduct] = useState({ id: TO_BE_CREATED });
 
   // load all products and brands on init
   // more data will be loaded as the form is filled
@@ -29,11 +30,11 @@ export function BPSelector({ onChange }) {
 
   // search for a brandproduct
   useEffect(() => {
-    if (brand === -1 || product === -1) return;
+    if (brand === TO_BE_CREATED || product === TO_BE_CREATED) return;
 
     function formatBrandproductID(array) {
       // podia usar initialItem, mas vai chover re-renderização e requests
-      return array.length === 0 ? { id: -2 } : array[0];
+      return array.length === 0 ? { id: EMPTY } : array[0];
     }
     api
       .get('/brandproducts', { params: { brand_id: brand.id, product_id: product.id } })
@@ -46,13 +47,13 @@ export function BPSelector({ onChange }) {
   }, [brand, product, brandproduct, onChange]);
 
   function createProduct(name) {
-    const newItem = { id: -1, name };
+    const newItem = { id: TO_BE_CREATED, name };
     setProducts([...products, formatSelectItem(newItem)]);
     setProduct(newItem);
   }
 
   function createBrand(name) {
-    const newItem = { id: -1, name };
+    const newItem = { id: TO_BE_CREATED, name };
     setBrands([...brands, formatSelectItem(newItem)]);
     setBrand(newItem);
   }
@@ -88,7 +89,9 @@ export function BPSelector({ onChange }) {
         current product: {JSON.stringify(product)} <br />
         current brand: {JSON.stringify(brand)} <br />
         current BP:{' '}
-        {brandproduct.id === -1 ? '(to be created)' : JSON.stringify(brandproduct, null, 4)}
+        {brandproduct.id === TO_BE_CREATED
+          ? '(to be created)'
+          : JSON.stringify(brandproduct, null, 4)}
       </pre>
       <br />
     </Fragment>
