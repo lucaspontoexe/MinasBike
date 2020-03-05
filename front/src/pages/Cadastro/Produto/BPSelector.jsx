@@ -4,43 +4,44 @@ import api from 'services/api';
 
 export function BPSelector({ onChange }) {
   // single state for each property (2nd attempt)
-  const [brand_id, setBrandID] = useState(-1);
-  const [product_id, setProductID] = useState(-1);
-  const [brandproduct_id, setBrandproductID] = useState(-1);
+
+  const initialItem = { id: -2 };
+
+  const [brand, setBrand] = useState(initialItem);
+  const [product, setProduct] = useState(initialItem);
+  const [brandproduct, setBrandproduct] = useState(initialItem);
 
   // load all products and brands on init
   // more data will be loaded as the form is filled
   const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
 
-  
   // TODO: export whole object, not just its ID.
   // object_id -> currentObject
 
   // grab from API
   useEffect(() => {
-    const formatSelectItem = item => ({ value: item.id, label: item.name });
+    const formatSelectItem = item => ({ value: item, label: item.name });
     api.get('/products').then(res => setProducts(res.data.map(formatSelectItem)));
     api.get('/brands').then(res => setBrands(res.data.map(formatSelectItem)));
   }, []);
 
   // search for a brandproduct
   useEffect(() => {
-    if (brand_id === -1 || product_id === -1) return;
+    if (brand === -1 || product === -1) return;
 
     function formatBrandproductID(array) {
-      if (array.length === 0) return -1;
-      return array[0].id;
+      return array.length === 0 ? initialItem : array[0];
     }
     api
-      .get('/brandproducts', { params: { brand_id, product_id } })
-      .then(res => setBrandproductID(formatBrandproductID(res.data)));
-  }, [brand_id, product_id]);
+      .get('/brandproducts', { params: { brand_id: brand.id, product_id: product.id } })
+      .then(res => setBrandproduct(formatBrandproductID(res.data)));
+  }, [brand, product, initialItem]);
 
   // run onChange
   useEffect(() => {
-    onChange({ brand_id, product_id, brandproduct_id });
-  }, [brand_id, product_id, brandproduct_id, onChange]);
+    onChange({ brand, product, brandproduct });
+  }, [brand, product, brandproduct, onChange]);
 
   return (
     <Fragment>
@@ -51,7 +52,7 @@ export function BPSelector({ onChange }) {
           creatable
           options={products}
           onCreateOption={console.log}
-          onChange={({ value: id }) => setProductID(id)}
+          onChange={({ value }) => setProduct(value)}
           required
           label="Nome do Produto"
           placeholder="nome do produto"
@@ -61,16 +62,17 @@ export function BPSelector({ onChange }) {
           creatable
           options={brands}
           onCreateOption={console.log}
-          onChange={({ value: id }) => setBrandID(id)}
+          onChange={({ value }) => setBrand(value)}
           required
           label="Nome da Marca"
           placeholder="nome da marca"
         />
       </fieldset>
       <pre>
-        current product: {product_id} <br />
-        current brand: {brand_id} <br />
-        current BP: {brandproduct_id === -1 ? '(to be created)' : brandproduct_id}
+        current product: {JSON.stringify(product)} <br />
+        current brand: {JSON.stringify(brand)} <br />
+        current BP:{' '}
+        {brandproduct.id === -1 ? '(to be created)' : JSON.stringify(brandproduct, null, 4)}
       </pre>
       <br />
     </Fragment>
