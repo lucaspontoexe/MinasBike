@@ -31,12 +31,13 @@ export function BPSelector({ onChange }) {
     if (brand === -1 || product === -1) return;
 
     function formatBrandproductID(array) {
-      return array.length === 0 ? initialItem : array[0];
+      // podia usar initialItem, mas vai chover re-renderização e requests
+      return array.length === 0 ? { id: -2 } : array[0];
     }
     api
       .get('/brandproducts', { params: { brand_id: brand.id, product_id: product.id } })
       .then(res => setBrandproduct(formatBrandproductID(res.data)));
-  }, [brand, product, initialItem]);
+  }, [brand, product]);
 
   // run onChange
   useEffect(() => {
