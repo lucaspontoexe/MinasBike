@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import api from 'services/api';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
@@ -6,10 +6,12 @@ import Header from 'components/Header';
 import { BPSelector } from './BPSelector';
 
 export default function CadastroProduto() {
+  const [bpData, setBpData] = useState({})
+
   return (
     <div className="tela">
       <Header>Novo Produto</Header>
-      <BPSelector onChange={console.log}/>
+      <BPSelector onChange={setBpData}/>
       <fieldset>
         PRODUCT STUFF
         <TextBox required label="Descrição" />
