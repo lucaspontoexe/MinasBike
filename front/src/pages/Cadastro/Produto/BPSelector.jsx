@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import SelectWithLabel from 'components/SelectWithLabel';
 import api from 'services/api';
 
-export function BPSelector({ onProductChange, onBrandChange, onBPChange }) {
+export function BPSelector({ onChange }) {
   // single state for each property (2nd attempt)
   const [brand_id, setBrandID] = useState(-1);
   const [product_id, setProductID] = useState(-1);
@@ -20,6 +20,7 @@ export function BPSelector({ onProductChange, onBrandChange, onBPChange }) {
     api.get('/brands').then(res => setBrands(res.data.map(formatSelectItem)));
   }, []);
 
+  // search for a brandproduct
   useEffect(() => {
     if (brand_id === -1 || product_id === -1) return;
 
@@ -31,6 +32,11 @@ export function BPSelector({ onProductChange, onBrandChange, onBPChange }) {
       .get('/brandproducts', { params: { brand_id, product_id } })
       .then(res => setBrandproductID(formatBrandproductID(res.data)));
   }, [brand_id, product_id]);
+
+  // run onChange
+  useEffect(() => {
+    onChange({ brand_id, product_id, brandproduct_id });
+  }, [brand_id, product_id, brandproduct_id, onChange]);
 
   return (
     <Fragment>

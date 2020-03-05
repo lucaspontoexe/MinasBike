@@ -9,7 +9,7 @@ export default function CadastroProduto() {
   return (
     <div className="tela">
       <Header>Novo Produto</Header>
-      <BPSelector />
+      <BPSelector onChange={console.log}/>
       <fieldset>
         PRODUCT STUFF
         <TextBox required label="Descrição" />
