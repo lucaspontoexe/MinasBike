@@ -16,12 +16,13 @@ export function BPSelector({ onChange }) {
   const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
 
+  const formatSelectItem = item => ({ value: item, label: item.name });
+
   // TODO: export whole object, not just its ID.
   // object_id -> currentObject
 
   // grab from API
   useEffect(() => {
-    const formatSelectItem = item => ({ value: item, label: item.name });
     api.get('/products').then(res => setProducts(res.data.map(formatSelectItem)));
     api.get('/brands').then(res => setBrands(res.data.map(formatSelectItem)));
   }, []);
@@ -44,6 +45,18 @@ export function BPSelector({ onChange }) {
     onChange({ brand, product, brandproduct });
   }, [brand, product, brandproduct, onChange]);
 
+  function createProduct(name) {
+    const newItem = { id: -1, name };
+    setProducts([...products, formatSelectItem(newItem)]);
+    setProduct(newItem);
+  }
+
+  function createBrand(name) {
+    const newItem = { id: -1, name };
+    setBrands([...brands, formatSelectItem(newItem)]);
+    setBrand(newItem);
+  }
+
   return (
     <Fragment>
       <fieldset>
@@ -52,7 +65,8 @@ export function BPSelector({ onChange }) {
           name="product"
           creatable
           options={products}
-          onCreateOption={console.log}
+          onCreateOption={createProduct}
+          value={formatSelectItem(product)}
           onChange={({ value }) => setProduct(value)}
           required
           label="Nome do Produto"
@@ -62,7 +76,8 @@ export function BPSelector({ onChange }) {
           name="brand"
           creatable
           options={brands}
-          onCreateOption={console.log}
+          onCreateOption={createBrand}
+          value={formatSelectItem(brand)}
           onChange={({ value }) => setBrand(value)}
           required
           label="Nome da Marca"
