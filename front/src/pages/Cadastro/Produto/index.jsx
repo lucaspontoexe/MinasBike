@@ -27,7 +27,7 @@ export default function CadastroProduto() {
         <TextBox required label="qtd. mínima estoque" />
         <TextBox required label="qtd. inicial em estoque" />
       </fieldset>
-      PROVIDER STUFF
+      PROVIDER STUFF <i>(requires brandproduct)</i>
       <input placeholder="json data" />
 
       <Button>POST</Button>

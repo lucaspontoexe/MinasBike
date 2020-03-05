@@ -13,6 +13,10 @@ export function BPSelector({ onChange }) {
   const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
 
+  
+  // TODO: export whole object, not just its ID.
+  // object_id -> currentObject
+
   // grab from API
   useEffect(() => {
     const formatSelectItem = item => ({ value: item.id, label: item.name });
