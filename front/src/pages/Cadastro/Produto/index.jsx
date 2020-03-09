@@ -69,7 +69,6 @@ export default function CadastroProduto() {
           </>
         ) : (
           <>
-            {console.log(bpData.product)}
             <TextBox
               label="Unidade de Medida"
               required
