@@ -24,7 +24,7 @@ export function BPSelector({ onChange }) {
 
   // grab from API
   useEffect(() => {
-    api.get('/products').then(res => setProducts(res.data.map(formatSelectItem)));
+    api.get('/products?unity&category').then(res => setProducts(res.data.map(formatSelectItem)));
     api.get('/brands').then(res => setBrands(res.data.map(formatSelectItem)));
   }, []);
 

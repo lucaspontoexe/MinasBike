@@ -66,8 +66,8 @@ export default function CadastroProduto() {
         ) : (
           <>
             <TextBox disabled value={bpData.product.description} label="Descrição" />
-            <TextBox disabled value={bpData.product.unity_id} label="Unidade de Medida" />
-            <TextBox disabled value={bpData.product.category_id} label="Categoria" />
+            <TextBox disabled value={bpData.product.unity.acronym} label="Unidade de Medida" />
+            <TextBox disabled value={bpData.product.category.name} label="Categoria" />
           </>
         )}
       </fieldset>
