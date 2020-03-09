@@ -3,7 +3,12 @@ import React, { useState } from 'react';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import Header from 'components/Header';
+import SelectWithLabel from 'components/SelectWithLabel';
 import { BPSelector } from './BPSelector';
+
+// TODO: import from API
+import categories from './categories.json';
+import units from './units.json';
 
 export default function CadastroProduto() {
   const [bpData, setBpData] = useState({
@@ -15,6 +20,8 @@ export default function CadastroProduto() {
   const [productForm, setProductForm] = useState({});
   const [stockForm, setStockForm] = useState({});
   const [brandproductForm, setBrandproductForm] = useState({});
+
+  const formatSelectItem = (value, label) => ({ value, label });
 
   function handleChange(setStateHandler, { name, value }) {
     // esse vai servir mais pro BP, já que o form de produto usa os selects
@@ -29,13 +36,30 @@ export default function CadastroProduto() {
     <div className="tela">
       <Header>Novo Produto</Header>
       <BPSelector onChange={setBpData} />
-      <fieldset onChangeCapture={e => handleChange(setProductForm, e.target)}>
+      <fieldset>
         PRODUCT STUFF
         {bpData.product.id < 0 ? ( //empty?
           <>
-            <TextBox required name="description" label="Descrição" />
-            <TextBox required name="unity" label="Unidade de Medida" />
-            <TextBox required name="category" label="Categoria" />
+            <TextBox
+              required
+              label="Descrição"
+              name="description"
+              onChange={e => handleChange(setProductForm, e.target)}
+            />
+            <SelectWithLabel
+              required
+              label="Unidade de Medida"
+              options={units.map(item => formatSelectItem(item.id, item.acronym))}
+              onChange={sel => handleChange(setProductForm, { name: 'unity_id', value: sel.value })}
+            />
+            <SelectWithLabel
+              required
+              label="Categoria"
+              options={categories.map(item => formatSelectItem(item.id, item.name))}
+              onChange={sel =>
+                handleChange(setProductForm, { name: 'category_id', value: sel.value })
+              }
+            />
           </>
         ) : (
           <>

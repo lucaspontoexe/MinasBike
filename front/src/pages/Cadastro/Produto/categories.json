@@ -1,0 +1,30 @@
+[
+    {
+      "id": 1,
+      "name": "infantil",
+      "description": "Infantil (ué)",
+      "created_at": "2020-01-21 22:30:58",
+      "updated_at": "2020-01-21 22:30:58"
+    },
+    {
+      "id": 2,
+      "name": "bikes",
+      "description": "bicicletas",
+      "created_at": "2020-01-21 22:31:14",
+      "updated_at": "2020-01-21 22:31:14"
+    },
+    {
+      "id": 3,
+      "name": "motos",
+      "description": "motos cicletas",
+      "created_at": "2020-01-21 22:31:27",
+      "updated_at": "2020-01-21 22:31:27"
+    },
+    {
+      "id": 4,
+      "name": "nomeDaCategoria",
+      "description": "quem lembra",
+      "created_at": "2020-01-21 22:31:45",
+      "updated_at": "2020-01-21 22:31:45"
+    }
+  ]
