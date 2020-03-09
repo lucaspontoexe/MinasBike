@@ -12,18 +12,23 @@ export default function CadastroProduto() {
     brandproduct: { id: -1 },
   });
 
-  // const [productForm, setProductForm] = useState({});
+  const [productForm, setProductForm] = useState({});
+  const [stockForm, setStockForm] = useState({});
 
-  function handleChange(field, target) {
-    console.log(field, target.name, target.value);
-    
+  function handleChange(setStateHandler, { name, value }) {
+    // esse vai servir mais pro BP, já que o form de produto usa os selects
+    // ou adaptar os parâmetros: também serve
+    // name = param, value = autoexplicativo
+    setStateHandler(old => ({ ...old, [name]: value }));
+    console.log(name, value);
+    console.log(productForm, stockForm);
   }
 
   return (
     <div className="tela">
       <Header>Novo Produto</Header>
       <BPSelector onChange={setBpData} />
-      <fieldset onChangeCapture={e => handleChange('product', e.target)}>
+      <fieldset onChangeCapture={e => handleChange(setProductForm, e.target)}>
         PRODUCT STUFF
         {bpData.product.id < 0 ? ( //empty?
           <>
@@ -53,7 +58,7 @@ export default function CadastroProduto() {
           </>
         )}
       </fieldset>
-      <fieldset>
+      <fieldset onChangeCapture={e => handleChange(setStockForm, e.target)}>
         STOCK STUFF <i>(requires brandproduct)</i>
         <TextBox required name="current_qty" label="qtd. atual estoque" />
         <TextBox required name="min_qty" label="qtd. mínima estoque" />
