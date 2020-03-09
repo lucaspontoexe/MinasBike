@@ -14,6 +14,7 @@ export default function CadastroProduto() {
 
   const [productForm, setProductForm] = useState({});
   const [stockForm, setStockForm] = useState({});
+  const [brandproductForm, setBrandproductForm] = useState({});
 
   function handleChange(setStateHandler, { name, value }) {
     // esse vai servir mais pro BP, já que o form de produto usa os selects
@@ -21,7 +22,7 @@ export default function CadastroProduto() {
     // name = param, value = autoexplicativo
     setStateHandler(old => ({ ...old, [name]: value }));
     console.log(name, value);
-    console.log(productForm, stockForm);
+    console.log(brandproductForm, productForm, stockForm);
   }
 
   return (
@@ -44,7 +45,7 @@ export default function CadastroProduto() {
           </>
         )}
       </fieldset>
-      <fieldset>
+      <fieldset onChangeCapture={e => handleChange(setBrandproductForm, e.target)}>
         BP STUFF
         {bpData.brandproduct.id < 0 ? (
           <>
