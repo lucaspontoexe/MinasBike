@@ -41,31 +41,29 @@ export default function CadastroProduto() {
       <fieldset>
         PRODUCT STUFF
         <TextBox
-              required
-              label="Descrição"
-              name="description"
-              disabled={isProductFormDisabled}
-              value={bpData.product.description}
-              onChange={e => handleChange(setProductForm, e.target)}
-            />
-            <SelectWithLabel
-              required
-              label="Unidade de Medida"
-              disabled={isProductFormDisabled}
-              options={units.map(item => formatSelectItem(item.id, item.acronym))}
-              value={formatSelectItem(bpData.product.unity.id, bpData.product.unity.acronym)}
-              onChange={sel => handleChange(setProductForm, { name: 'unity_id', value: sel.value })}
-            />
-            <SelectWithLabel
-              required
-              label="Categoria"
-              disabled={isProductFormDisabled}
-              options={categories.map(item => formatSelectItem(item.id, item.name))}
-              value={formatSelectItem(bpData.product.category.id, bpData.product.category.name)}
-              onChange={sel =>
-                handleChange(setProductForm, { name: 'category_id', value: sel.value })
-              }
-            />
+          required
+          label="Descrição"
+          name="description"
+          disabled={isProductFormDisabled}
+          value={bpData.product.description}
+          onChange={e => handleChange(setProductForm, e.target)}
+        />
+        <SelectWithLabel
+          required
+          label="Unidade de Medida"
+          disabled={isProductFormDisabled}
+          options={units.map(item => formatSelectItem(item.id, item.acronym))}
+          value={formatSelectItem(bpData.product.unity.id, bpData.product.unity.acronym)}
+          onChange={sel => handleChange(setProductForm, { name: 'unity_id', value: sel.value })}
+        />
+        <SelectWithLabel
+          required
+          label="Categoria"
+          disabled={isProductFormDisabled}
+          options={categories.map(item => formatSelectItem(item.id, item.name))}
+          value={formatSelectItem(bpData.product.category.id, bpData.product.category.name)}
+          onChange={sel => handleChange(setProductForm, { name: 'category_id', value: sel.value })}
+        />
       </fieldset>
       <fieldset onChangeCapture={e => handleChange(setBrandproductForm, e.target)}>
         BP STUFF
