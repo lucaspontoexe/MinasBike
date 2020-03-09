@@ -10,6 +10,8 @@ import { BPSelector } from './BPSelector';
 import categories from './categories.json';
 import units from './units.json';
 
+const str = item => JSON.stringify(item, null, 2);
+
 export default function CadastroProduto() {
   const [bpData, setBpData] = useState({
     product: { id: -2 },
@@ -92,6 +94,12 @@ export default function CadastroProduto() {
       PROVIDER STUFF <i>(requires brandproduct)</i>
       <input placeholder="json data" />
       <Button>POST</Button>
+      <pre>
+        POST DATA: <br />
+        {'product form:' + str(productForm) + '\n'}
+        {'bp form:' + str(brandproductForm) + '\n'}
+        {'stock form:' + str(stockForm) + '\n'}
+      </pre>
     </div>
   );
 }
