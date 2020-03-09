@@ -71,7 +71,7 @@ export function BPSelector({ onChange }) {
           onChange={({ value }) => setProduct(value)}
           required
           label="Nome do Produto"
-          placeholder="nome do produto"
+          placeholder="Digite ou escolha um produto"
         />
         <SelectWithLabel
           name="brand"
@@ -82,7 +82,7 @@ export function BPSelector({ onChange }) {
           onChange={({ value }) => setBrand(value)}
           required
           label="Nome da Marca"
-          placeholder="nome da marca"
+          placeholder="Digite ou escolha uma marca"
         />
       </fieldset>
       <pre>

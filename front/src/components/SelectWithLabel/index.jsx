@@ -32,7 +32,7 @@ export default function SelectWithLabel(props) {
         // cá estamos, repetindo props. Deve ter algum jeito de 
         // enxugar esse código.
         <CreatableSelect
-          formatCreateLabel={val => `Criar ${val}...`}
+          formatCreateLabel={val => `Clique ou pressione ENTER para adicionar "${val}"`}
           styles={customStyles}
           theme={themeSettings}
           {...props}
