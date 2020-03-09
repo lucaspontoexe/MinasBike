@@ -31,8 +31,8 @@ export default function CadastroProduto() {
     console.log(brandproductForm, productForm, stockForm);
   }
 
-  const isProductFormDisabled = !bpData.product.id < 0;
-  const isBPFormDisabled = !bpData.brandproduct.id < 0;
+  const isProductFormDisabled = bpData.product.id >= 0;
+  const isBPFormDisabled = bpData.brandproduct.id >= 0;
 
   return (
     <div className="tela">
@@ -48,22 +48,44 @@ export default function CadastroProduto() {
           value={bpData.product.description}
           onChange={e => handleChange(setProductForm, e.target)}
         />
-        <SelectWithLabel
-          required
-          label="Unidade de Medida"
-          disabled={isProductFormDisabled}
-          options={units.map(item => formatSelectItem(item.id, item.acronym))}
-          value={formatSelectItem(bpData.product.unity.id, bpData.product.unity.acronym)}
-          onChange={sel => handleChange(setProductForm, { name: 'unity_id', value: sel.value })}
-        />
-        <SelectWithLabel
-          required
-          label="Categoria"
-          disabled={isProductFormDisabled}
-          options={categories.map(item => formatSelectItem(item.id, item.name))}
-          value={formatSelectItem(bpData.product.category.id, bpData.product.category.name)}
-          onChange={sel => handleChange(setProductForm, { name: 'category_id', value: sel.value })}
-        />
+        {!isProductFormDisabled ? (
+          <>
+            <SelectWithLabel
+              required
+              label="Unidade de Medida"
+              isDisabled={isProductFormDisabled}
+              options={units.map(item => formatSelectItem(item.id, item.acronym))}
+              onChange={sel => handleChange(setProductForm, { name: 'unity_id', value: sel.value })}
+            />
+            <SelectWithLabel
+              required
+              label="Categoria"
+              isDisabled={isProductFormDisabled}
+              options={categories.map(item => formatSelectItem(item.id, item.name))}
+              onChange={sel =>
+                handleChange(setProductForm, { name: 'category_id', value: sel.value })
+              }
+            />
+          </>
+        ) : (
+          <>
+            {console.log(bpData.product)}
+            <TextBox
+              label="Unidade de Medida"
+              required
+              disabled
+              readOnly
+              value={bpData.product.unity.acronym}
+            />
+            <TextBox
+              label="Categoria"
+              required
+              disabled
+              readOnly
+              value={bpData.product.category.name}
+            />
+          </>
+        )}
       </fieldset>
       <fieldset onChangeCapture={e => handleChange(setBrandproductForm, e.target)}>
         BP STUFF
