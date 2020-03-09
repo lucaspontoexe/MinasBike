@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // import api from 'services/api';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
@@ -31,56 +31,58 @@ export default function CadastroProduto() {
     console.log(brandproductForm, productForm, stockForm);
   }
 
+  const isProductFormDisabled = !bpData.product.id < 0;
+  const isBPFormDisabled = !bpData.brandproduct.id < 0;
+
   return (
     <div className="tela">
       <Header>Novo Produto</Header>
       <BPSelector onChange={setBpData} />
       <fieldset>
         PRODUCT STUFF
-        {bpData.product.id < 0 ? ( //empty?
-          <>
-            <TextBox
+        <TextBox
               required
               label="Descrição"
               name="description"
+              disabled={isProductFormDisabled}
+              value={bpData.product.description}
               onChange={e => handleChange(setProductForm, e.target)}
             />
             <SelectWithLabel
               required
               label="Unidade de Medida"
+              disabled={isProductFormDisabled}
               options={units.map(item => formatSelectItem(item.id, item.acronym))}
+              value={formatSelectItem(bpData.product.unity.id, bpData.product.unity.acronym)}
               onChange={sel => handleChange(setProductForm, { name: 'unity_id', value: sel.value })}
             />
             <SelectWithLabel
               required
               label="Categoria"
+              disabled={isProductFormDisabled}
               options={categories.map(item => formatSelectItem(item.id, item.name))}
+              value={formatSelectItem(bpData.product.category.id, bpData.product.category.name)}
               onChange={sel =>
                 handleChange(setProductForm, { name: 'category_id', value: sel.value })
               }
             />
-          </>
-        ) : (
-          <>
-            <TextBox disabled value={bpData.product.description} label="Descrição" />
-            <TextBox disabled value={bpData.product.unity.acronym} label="Unidade de Medida" />
-            <TextBox disabled value={bpData.product.category.name} label="Categoria" />
-          </>
-        )}
       </fieldset>
       <fieldset onChangeCapture={e => handleChange(setBrandproductForm, e.target)}>
         BP STUFF
-        {bpData.brandproduct.id < 0 ? (
-          <>
-            <TextBox required name="code" label="Código de Barras" />
-            <TextBox required name="price" label="Preço" />
-          </>
-        ) : (
-          <>
-            <TextBox disabled value={bpData.brandproduct.code} label="Código de Barras" />
-            <TextBox disabled value={bpData.brandproduct.price} label="Preço" />
-          </>
-        )}
+        <>
+          <TextBox
+            required
+            disabled={isBPFormDisabled}
+            value={bpData.brandproduct.code}
+            label="Código de Barras"
+          />
+          <TextBox
+            required
+            disabled={isBPFormDisabled}
+            value={bpData.brandproduct.price}
+            label="Preço"
+          />
+        </>
       </fieldset>
       <fieldset onChangeCapture={e => handleChange(setStockForm, e.target)}>
         STOCK STUFF <i>(requires brandproduct)</i>
