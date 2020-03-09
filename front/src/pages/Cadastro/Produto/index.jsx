@@ -12,17 +12,24 @@ export default function CadastroProduto() {
     brandproduct: { id: -1 },
   });
 
+  // const [productForm, setProductForm] = useState({});
+
+  function handleChange(field, target) {
+    console.log(field, target.name, target.value);
+    
+  }
+
   return (
     <div className="tela">
       <Header>Novo Produto</Header>
       <BPSelector onChange={setBpData} />
-      <fieldset>
+      <fieldset onChangeCapture={e => handleChange('product', e.target)}>
         PRODUCT STUFF
         {bpData.product.id < 0 ? ( //empty?
           <>
-            <TextBox required label="Descrição" />
-            <TextBox required label="Unidade de Medida" />
-            <TextBox required label="Categoria" />
+            <TextBox required name="description" label="Descrição" />
+            <TextBox required name="unity" label="Unidade de Medida" />
+            <TextBox required name="category" label="Categoria" />
           </>
         ) : (
           <>
@@ -36,8 +43,8 @@ export default function CadastroProduto() {
         BP STUFF
         {bpData.brandproduct.id < 0 ? (
           <>
-            <TextBox required label="Código de Barras" />
-            <TextBox required label="Preço" />
+            <TextBox required name="code" label="Código de Barras" />
+            <TextBox required name="price" label="Preço" />
           </>
         ) : (
           <>
@@ -48,9 +55,9 @@ export default function CadastroProduto() {
       </fieldset>
       <fieldset>
         STOCK STUFF <i>(requires brandproduct)</i>
-        <TextBox required label="qtd. atual estoque" />
-        <TextBox required label="qtd. mínima estoque" />
-        <TextBox required label="qtd. inicial em estoque" />
+        <TextBox required name="current_qty" label="qtd. atual estoque" />
+        <TextBox required name="min_qty" label="qtd. mínima estoque" />
+        <TextBox required name="max_qty_remember_change" label="qtd. inicial em estoque" />
       </fieldset>
       PROVIDER STUFF <i>(requires brandproduct)</i>
       <input placeholder="json data" />
