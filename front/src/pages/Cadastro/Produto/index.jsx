@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import api from 'services/api';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
@@ -20,15 +20,12 @@ export default function CadastroProduto() {
   });
 
   const [productForm, setProductForm] = useState({});
-  const [stockForm, setStockForm] = useState({});
   const [brandproductForm, setBrandproductForm] = useState({});
+  const [stockForm, setStockForm] = useState({});
 
   const formatSelectItem = (value, label) => ({ value, label });
 
   function handleChange(setStateHandler, { name, value }) {
-    // esse vai servir mais pro BP, já que o form de produto usa os selects
-    // ou adaptar os parâmetros: também serve
-    // name = param, value = autoexplicativo
     setStateHandler(old => ({ ...old, [name]: value }));
     console.log(name, value);
     console.log(brandproductForm, productForm, stockForm);

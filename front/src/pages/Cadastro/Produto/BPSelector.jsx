@@ -19,9 +19,6 @@ export function BPSelector({ onChange }) {
 
   const formatSelectItem = item => ({ value: item, label: item.name });
 
-  // TODO: export whole object, not just its ID.
-  // object_id -> currentObject
-
   // grab from API
   useEffect(() => {
     api.get('/products?unity&category').then(res => setProducts(res.data.map(formatSelectItem)));
