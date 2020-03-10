@@ -38,6 +38,15 @@ export default function CadastroProduto() {
     console.log(brandproductForm, productForm, stockForm);
   }
 
+  function handleSubmit() {
+    //     post sequence:
+    // 1. /products; PRODUCT STUFF + name (save ID)
+    // 2. /brands; name (save ID)
+    // 3. /brandproducts; BP STUFF + saved IDs, (save ID as well)
+    // 4. /stocks; STOCK STUFF + BP id
+    // 5. (for each entry) /providerproducts; entry + bp.id
+  }
+
   const isProductFormDisabled = bpData.product.id >= 0;
   const isBPFormDisabled = bpData.brandproduct.id >= 0;
 
@@ -118,7 +127,7 @@ export default function CadastroProduto() {
       </fieldset>
       PROVIDER STUFF <i>(requires brandproduct)</i>
       <input placeholder="json data" value={str(mockProviders)} />
-      <Button>POST</Button>
+      <Button onClick={handleSubmit}>POST</Button>
       <pre>
         POST DATA: <br />
         {'product form:' + str(productForm) + '\n'}
