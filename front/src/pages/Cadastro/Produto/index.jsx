@@ -12,6 +12,13 @@ import units from './units.json';
 
 const str = item => JSON.stringify(item, null, 2);
 
+const mockProviders = [
+  {
+    cost_price: 6994,
+    provider_id: 2,
+  },
+];
+
 export default function CadastroProduto() {
   const [bpData, setBpData] = useState({
     product: { id: -2 },
@@ -110,7 +117,7 @@ export default function CadastroProduto() {
         <TextBox required name="initial_qty" label="qtd. inicial em estoque" />
       </fieldset>
       PROVIDER STUFF <i>(requires brandproduct)</i>
-      <input placeholder="json data" />
+      <input placeholder="json data" value={str(mockProviders)} />
       <Button>POST</Button>
       <pre>
         POST DATA: <br />
