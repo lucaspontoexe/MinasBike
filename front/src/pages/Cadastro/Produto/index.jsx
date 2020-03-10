@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import api from 'services/api';
+import api from 'services/api';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import Header from 'components/Header';
@@ -38,13 +38,44 @@ export default function CadastroProduto() {
     console.log(brandproductForm, productForm, stockForm);
   }
 
-  function handleSubmit() {
+  function* apiWhynot(includes) {
+    yield api.post('/products', { ...productForm, name: bpData.product.name });
+    yield api.post('/brands', { name: bpData.brand.name });
+    yield api.post('/brandproducts', { ...brandproductForm, ...includes });
+    yield api.post('/stocks', { ...stockForm, brandproduct_id: bpData.brandproduct.id });
+    //aqui talvez não seja boa ideia usar generator function
+    mockProviders.map(item =>
+      api.post('/providerproducts', { ...item, brandproduct_id: bpData.brandproduct_id })
+    );
+  }
+
+  async function handleSubmit() {
     //     post sequence:
     // 1. /products; PRODUCT STUFF + name (save ID)
     // 2. /brands; name (save ID)
     // 3. /brandproducts; BP STUFF + saved IDs, (save ID as well)
     // 4. /stocks; STOCK STUFF + BP id
     // 5. (for each entry) /providerproducts; entry + bp.id
+
+    let newproductID, newbrandID, newBPID;
+    // const {data: productData} = await api.post('/products', { ...productForm, name: bpData.product.name });
+    api
+      .post('/products', { ...productForm, name: bpData.product.name })
+      .then(res => (newproductID = res.data.id))
+      .then(
+        api
+          .post('/brands', { name: bpData.brand.name })
+          .then(res => (newbrandID = res.data.id))
+          .then(
+            api.post('/brandproducts', {
+              ...brandproductForm,
+              brand_id: newbrandID,
+              product_id: newproductID,
+            })
+          )
+          .then(res => (newBPID = res.data.id))
+          .then(api.post('/stocks', { ...stockForm, brandproduct_id: bpData.brandproduct.id }))
+      );
   }
 
   const isProductFormDisabled = bpData.product.id >= 0;
