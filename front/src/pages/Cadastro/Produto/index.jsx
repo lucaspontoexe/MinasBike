@@ -38,15 +38,9 @@ export default function CadastroProduto() {
     console.log(brandproductForm, productForm, stockForm);
   }
 
-  function* apiWhynot(includes) {
-    yield api.post('/products', { ...productForm, name: bpData.product.name });
-    yield api.post('/brands', { name: bpData.brand.name });
-    yield api.post('/brandproducts', { ...brandproductForm, ...includes });
-    yield api.post('/stocks', { ...stockForm, brandproduct_id: bpData.brandproduct.id });
-    //aqui talvez não seja boa ideia usar generator function
-    mockProviders.map(item =>
-      api.post('/providerproducts', { ...item, brandproduct_id: bpData.brandproduct_id })
-    );
+  function postForm(endpoint, data) {
+    if (data.id >= 0) return { data };
+    return api.post(endpoint, { ...data, id: undefined });
   }
 
   async function handleSubmit() {
@@ -57,25 +51,26 @@ export default function CadastroProduto() {
     // 4. /stocks; STOCK STUFF + BP id
     // 5. (for each entry) /providerproducts; entry + bp.id
 
-    let newproductID, newbrandID, newBPID;
-    // const {data: productData} = await api.post('/products', { ...productForm, name: bpData.product.name });
-    api
-      .post('/products', { ...productForm, name: bpData.product.name })
-      .then(res => (newproductID = res.data.id))
-      .then(
-        api
-          .post('/brands', { name: bpData.brand.name })
-          .then(res => (newbrandID = res.data.id))
-          .then(
-            api.post('/brandproducts', {
-              ...brandproductForm,
-              brand_id: newbrandID,
-              product_id: newproductID,
-            })
-          )
-          .then(res => (newBPID = res.data.id))
-          .then(api.post('/stocks', { ...stockForm, brandproduct_id: bpData.brandproduct.id }))
-      );
+    Promise.all([
+      postForm('/products', productForm || bpData.product),
+      postForm('/brands', bpData.brand),
+    ])
+      .then(([productRes, brandRes]) =>
+        postForm('/brandproducts', {
+          ...brandproductForm,
+          brand_id: brandRes.data.id,
+          product_id: productRes.data.id,
+        })
+      )
+      .then(bpRes => {
+        return Promise.all([
+          api.post('/stocks', { ...stockForm, brandproduct_id: bpRes.data.id }),
+          api.post(
+            '/providerproducts',
+            mockProviders.map(item => ({ ...item, brandproduct_id: bpRes.data.id }))
+          ),
+        ]);
+      });
   }
 
   const isProductFormDisabled = bpData.product.id >= 0;
