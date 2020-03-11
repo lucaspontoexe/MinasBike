@@ -42,7 +42,7 @@ export default function CadastroProduto() {
   // dava pra juntar tudo num state só? dava.
   function postForm(endpoint, formData, selectorData) {
     if (selectorData.id >= 0) return { data: selectorData };
-    return api.post(endpoint, { ...formData, id: undefined });
+    return api.post(endpoint, { ...formData, ...selectorData, id: undefined });
   }
 
   async function handleSubmit() {
@@ -58,11 +58,15 @@ export default function CadastroProduto() {
       postForm('/brands', bpData.brand, bpData.brand),
     ])
       .then(([productRes, brandRes]) =>
-        postForm('/brandproducts', {
-          ...brandproductForm,
-          brand_id: brandRes.data.id,
-          product_id: productRes.data.id,
-        }, bpData.brandproduct)
+        postForm(
+          '/brandproducts',
+          {
+            ...brandproductForm,
+            brand_id: brandRes.data.id,
+            product_id: productRes.data.id,
+          },
+          bpData.brandproduct
+        )
       )
       .then(bpRes => {
         return Promise.all([
