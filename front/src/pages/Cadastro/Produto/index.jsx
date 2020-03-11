@@ -9,6 +9,7 @@ import { BPSelector } from './BPSelector';
 // TODO: import from API
 import categories from './categories.json';
 import units from './units.json';
+import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 
 const str = item => JSON.stringify(item, null, 2);
 
@@ -29,6 +30,8 @@ export default function CadastroProduto() {
   const [productForm, setProductForm] = useState({});
   const [brandproductForm, setBrandproductForm] = useState({});
   const [stockForm, setStockForm] = useState({});
+
+  const [errors, setErrors] = useState([{ fields: [], message: '' }]);
 
   const formatSelectItem = (value, label) => ({ value, label });
 
@@ -84,7 +87,7 @@ export default function CadastroProduto() {
           ...prprRequests,
         ]);
       })
-      .catch(err => console.log(err.response));
+      .catch(err => setErrors(formatErrorsSingleObject(err.response.data)));
   }
 
   const isProductFormDisabled = bpData.product.id >= 0;
@@ -100,6 +103,7 @@ export default function CadastroProduto() {
           required
           label="Descrição"
           name="description"
+          error={errors.description}
           disabled={isProductFormDisabled}
           value={bpData.product.description}
           onChange={e => handleChange(setProductForm, e.target)}
@@ -109,6 +113,7 @@ export default function CadastroProduto() {
             <SelectWithLabel
               required
               label="Unidade de Medida"
+              error={errors.unity_id}
               isDisabled={isProductFormDisabled}
               options={units.map(item => formatSelectItem(item.id, item.acronym))}
               onChange={sel => handleChange(setProductForm, { name: 'unity_id', value: sel.value })}
@@ -116,6 +121,7 @@ export default function CadastroProduto() {
             <SelectWithLabel
               required
               label="Categoria"
+              error={errors.category_id}
               isDisabled={isProductFormDisabled}
               options={categories.map(item => formatSelectItem(item.id, item.name))}
               onChange={sel =>
@@ -148,6 +154,7 @@ export default function CadastroProduto() {
           <TextBox
             required
             name="code"
+            error={errors.code}
             disabled={isBPFormDisabled}
             value={bpData.brandproduct.code}
             label="Código de Barras"
@@ -155,6 +162,7 @@ export default function CadastroProduto() {
           <TextBox
             required
             name="price"
+            error={errors.price}
             disabled={isBPFormDisabled}
             value={bpData.brandproduct.price}
             label="Preço"
@@ -163,12 +171,24 @@ export default function CadastroProduto() {
       </fieldset>
       <fieldset onChangeCapture={e => handleChange(setStockForm, e.target)}>
         STOCK STUFF <i>(requires brandproduct)</i>
-        <TextBox required name="current_qty" label="qtd. atual estoque" />
-        <TextBox required name="min_qty" label="qtd. mínima estoque" />
-        <TextBox required name="initial_qty" label="qtd. inicial em estoque" />
+        <TextBox
+          required
+          error={errors.current_qty}
+          name="current_qty"
+          label="qtd. atual estoque"
+        />
+        <TextBox required error={errors.min_qty} name="min_qty" label="qtd. mínima estoque" />
+        <TextBox
+          required
+          error={errors.initial_qty}
+          name="initial_qty"
+          label="qtd. inicial em estoque"
+        />
       </fieldset>
       PROVIDER STUFF <i>(requires brandproduct)</i>
-      <input placeholder="json data" value={str(mockProviders)} />
+      <input placeholder="json data" readOnly value={str(mockProviders)} />
+      <span>{errors.brandproduct_id}</span>
+      <span>{errors.provider_id}</span>
       <Button onClick={handleSubmit}>POST</Button>
       <pre>
         POST DATA: <br />
