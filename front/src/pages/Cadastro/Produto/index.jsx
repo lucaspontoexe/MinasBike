@@ -38,9 +38,11 @@ export default function CadastroProduto() {
     console.log(brandproductForm, productForm, stockForm);
   }
 
-  function postForm(endpoint, data) {
-    if (data.id >= 0) return { data };
-    return api.post(endpoint, { ...data, id: undefined });
+  // função que leva em conta tanto os dados do form quanto do select.
+  // dava pra juntar tudo num state só? dava.
+  function postForm(endpoint, formData, selectorData) {
+    if (selectorData.id >= 0) return { data: selectorData };
+    return api.post(endpoint, { ...formData, id: undefined });
   }
 
   async function handleSubmit() {
@@ -52,15 +54,15 @@ export default function CadastroProduto() {
     // 5. (for each entry) /providerproducts; entry + bp.id
 
     Promise.all([
-      postForm('/products', productForm || bpData.product),
-      postForm('/brands', bpData.brand),
+      postForm('/products', productForm, bpData.product),
+      postForm('/brands', bpData.brand, bpData.brand),
     ])
       .then(([productRes, brandRes]) =>
         postForm('/brandproducts', {
           ...brandproductForm,
           brand_id: brandRes.data.id,
           product_id: productRes.data.id,
-        })
+        }, bpData.brandproduct)
       )
       .then(bpRes => {
         return Promise.all([
@@ -133,12 +135,14 @@ export default function CadastroProduto() {
         <>
           <TextBox
             required
+            name="code"
             disabled={isBPFormDisabled}
             value={bpData.brandproduct.code}
             label="Código de Barras"
           />
           <TextBox
             required
+            name="price"
             disabled={isBPFormDisabled}
             value={bpData.brandproduct.price}
             label="Preço"
