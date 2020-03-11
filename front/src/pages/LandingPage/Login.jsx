@@ -3,7 +3,7 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import { useAuth } from 'hooks/useAuth';
 import Button from 'components/Button';
-import Input from './Input';
+import Input from 'components/FormikInput';
 import Error from 'components/Error';
 
 import formatFieldErrors from 'utils/formatFieldErrors';
