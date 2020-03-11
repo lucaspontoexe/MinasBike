@@ -69,12 +69,19 @@ export default function CadastroProduto() {
         )
       )
       .then(bpRes => {
+        // por enquanto, não dá pra mandar array no request de prpr,
+        // vamo disparar requests. rambo neles.
+
+        const prprRequests = [];
+        for (const item of mockProviders) {
+          prprRequests.push(
+            api.post('/providerproducts', { ...item, brandproduct_id: bpRes.data.id })
+          );
+        }
+
         return Promise.all([
           api.post('/stocks', { ...stockForm, brandproduct_id: bpRes.data.id }),
-          api.post(
-            '/providerproducts',
-            mockProviders.map(item => ({ ...item, brandproduct_id: bpRes.data.id }))
-          ),
+          ...prprRequests,
         ]);
       });
   }
