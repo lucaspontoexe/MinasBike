@@ -83,7 +83,8 @@ export default function CadastroProduto() {
           api.post('/stocks', { ...stockForm, brandproduct_id: bpRes.data.id }),
           ...prprRequests,
         ]);
-      });
+      })
+      .catch(err => console.log(err.response));
   }
 
   const isProductFormDisabled = bpData.product.id >= 0;
