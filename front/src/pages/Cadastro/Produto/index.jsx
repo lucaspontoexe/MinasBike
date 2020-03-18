@@ -189,7 +189,7 @@ export default function CadastroProduto() {
       PROVIDER STUFF <i>(requires brandproduct)</i>
       <input placeholder="json data" readOnly value={str(mockProviders)} />
       
-      <ProviderSelector onChange={console.log} />
+      <ProviderSelector onChange={console.log} brandproduct_id={bpData.brandproduct.id}/>
       
       <span>{errors.brandproduct_id}</span>
       <span>{errors.provider_id}</span>
