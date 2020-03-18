@@ -10,6 +10,7 @@ import { BPSelector } from './BPSelector';
 import categories from './categories.json';
 import units from './units.json';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+import ProviderSelector from './ProviderSelector';
 
 const str = item => JSON.stringify(item, null, 2);
 
@@ -187,6 +188,9 @@ export default function CadastroProduto() {
       </fieldset>
       PROVIDER STUFF <i>(requires brandproduct)</i>
       <input placeholder="json data" readOnly value={str(mockProviders)} />
+      
+      <ProviderSelector onChange={console.log} />
+      
       <span>{errors.brandproduct_id}</span>
       <span>{errors.provider_id}</span>
       <Button onClick={handleSubmit}>POST</Button>
