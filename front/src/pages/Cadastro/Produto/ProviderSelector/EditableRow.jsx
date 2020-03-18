@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 
 export default function EditableRow({
   id,
-  number: initialNumber,
-  name_id,
-  nameObjs,
+  cost_price,
+  provider_id,
+  providers,
   onRemove,
   onChange,
 }) {
   const [data, setData] = useState({
     id,
-    number: initialNumber,
-    name_id,
+    cost_price,
+    provider_id,
   });
 
   function handleChange({ name, value }) {
@@ -23,17 +23,17 @@ export default function EditableRow({
   return (
     <tr>
       <td>
-        <select name="name_id" value={name_id} onChange={e => handleChange(e.target)}>
-          {nameObjs.map(item => (
+        <select name="provider_id" value={provider_id} onChange={e => handleChange(e.target)}>
+          {providers.map(item => (
             <option key={item.id} value={item.id}>
               {item.name}
             </option>
           ))}
         </select>
       </td>
-      
+
       <td>
-        <input name="number" value={data.number} onChange={e => handleChange(e.target)} />
+        <input name="cost_price" value={data.cost_price} onChange={e => handleChange(e.target)} />
       </td>
 
       <td onClick={() => onRemove(id)}>[X]</td>

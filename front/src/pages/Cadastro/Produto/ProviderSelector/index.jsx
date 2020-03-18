@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import api from 'services/api';
 import EditableRow from './EditableRow';
 import AddRow from './AddRow';
+import Row from './Row';
 
-export default function ProviderSelector({ onChange }) {
-  const initialData = [
-    { id: 1, number: 74226, name_id: 5 },
-    { id: 2, number: 6000, name_id: 6 },
-    { id: 3, number: 5994, name_id: 7 },
-    { id: 4, number: 2997, name_id: 8 },
+export default function ProviderSelector({ brandproduct_id, onChange }) {
+  const mockpr = [
+    { id: 1, cost_price: 74226, provider_id: 5 },
+    { id: 2, cost_price: 6000, provider_id: 6 },
+    { id: 3, cost_price: 5994, provider_id: 7 },
+    { id: 4, cost_price: 2997, provider_id: 8 },
   ];
 
   const nameObjs = [
@@ -17,25 +19,43 @@ export default function ProviderSelector({ onChange }) {
     { id: 8, name: 'ala' },
   ];
 
-  const [data, setData] = useState(initialData);
+  const [providers, setProviders] = useState([]);
+  const [prpr, setPrpr] = useState([]);
 
-  const removeLine = id => setData(old => old.filter(item => item.id !== id));
-  const handleCreate = obj => setData(old => [...old, obj]);
-  const handleChange = obj => setData(old => old.map(item => (item.id === obj.id ? obj : item)));
+  const [newitems, setNewitems] = useState([]);
 
   useEffect(() => {
-    onChange(data);
-  }, [data, onChange]);
+    function fetchData() {
+      api.get('/providerproducts', {params: {provider: true, brandproduct_id}}).then(response => {
+        setProviders(response.data.map(item => item.provider));
+        setPrpr(response.data);
+      });
+    }
+    fetchData();
+  }, [brandproduct_id]);
+
+  useEffect(() => {
+    onChange(prpr);
+  }, [prpr, onChange]);
+
+  const removeLine = id => setNewitems(old => old.filter(item => item.id !== id));
+  const handleCreate = obj => setNewitems(old => [...old, obj]);
+  const handleChange = obj =>
+    setNewitems(old => old.map(item => (item.id === obj.id ? obj : item)));
 
   return (
     <div>
       <table>
         <tbody>
-          {data.map(item => (
+          {prpr.map(item => (
+            <Row {...item} providers={providers} key={`provider_${item.id}`}/>
+          ))}
+
+          {newitems.map(item => (
             <EditableRow
               {...item}
-              nameObjs={nameObjs}
-              key={item.id}
+              providers={providers}
+              key={Math.random() * -1}
               onRemove={removeLine}
               onChange={handleChange}
             />
