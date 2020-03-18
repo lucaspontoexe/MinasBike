@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 export default function EditableRow({
   id,
-  name: initialName,
   number: initialNumber,
   name_id,
   nameObjs,
@@ -11,7 +10,6 @@ export default function EditableRow({
 }) {
   const [data, setData] = useState({
     id,
-    name: initialName,
     number: initialNumber,
     name_id,
   });
@@ -33,9 +31,7 @@ export default function EditableRow({
           ))}
         </select>
       </td>
-      <td>
-        <input name="name" value={data.name} onChange={e => handleChange(e.target)} />
-      </td>
+      
       <td>
         <input name="number" value={data.number} onChange={e => handleChange(e.target)} />
       </td>

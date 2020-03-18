@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import EditableRow from './EditableRow';
 import AddRow from './AddRow';
 
-export default function ProviderSelector({onChange}) {
+export default function ProviderSelector({ onChange }) {
   const initialData = [
-    { id: 1, name: 'tá ali', number: 74226, name_id: 5 },
-    { id: 2, name: 'tá vendo', number: 6000, name_id: 6 },
-    { id: 3, name: 'olha só', number: 5994, name_id: 7 },
-    { id: 4, name: 'ala', number: 2997, name_id: 8 },
+    { id: 1, number: 74226, name_id: 5 },
+    { id: 2, number: 6000, name_id: 6 },
+    { id: 3, number: 5994, name_id: 7 },
+    { id: 4, number: 2997, name_id: 8 },
   ];
 
   const nameObjs = [
@@ -19,19 +19,13 @@ export default function ProviderSelector({onChange}) {
 
   const [data, setData] = useState(initialData);
 
-  const removeLine = id => {
-    setData(old => old.filter(item => item.id !== id));
-  };
+  const removeLine = id => setData(old => old.filter(item => item.id !== id));
+  const handleCreate = obj => setData(old => [...old, obj]);
+  const handleChange = obj => setData(old => old.map(item => (item.id === obj.id ? obj : item)));
 
-  const handleCreate = obj => {
-    setData(old => [...old, obj]);
-  };
-
-  const handleChange = obj => {
-    setData(old => old.map(item => (item.id === obj.id ? obj : item)));
-  };
-
-  useEffect(()=> {onChange(data)}, [data, onChange])
+  useEffect(() => {
+    onChange(data);
+  }, [data, onChange]);
 
   return (
     <div>
