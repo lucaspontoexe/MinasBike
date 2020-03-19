@@ -5,20 +5,6 @@ import AddRow from './AddRow';
 import Row from './Row';
 
 export default function ProviderSelector({ brandproduct_id, onChange }) {
-  const mockpr = [
-    { id: 1, cost_price: 74226, provider_id: 5 },
-    { id: 2, cost_price: 6000, provider_id: 6 },
-    { id: 3, cost_price: 5994, provider_id: 7 },
-    { id: 4, cost_price: 2997, provider_id: 8 },
-  ];
-
-  const nameObjs = [
-    { id: 5, name: 'tá ali' },
-    { id: 6, name: 'tá vendo' },
-    { id: 7, name: 'olha só' },
-    { id: 8, name: 'ala' },
-  ];
-
   const [providers, setProviders] = useState([]);
   const [prpr, setPrpr] = useState([]);
 
