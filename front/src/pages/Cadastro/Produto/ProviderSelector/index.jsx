@@ -25,13 +25,16 @@ export default function ProviderSelector({ brandproduct_id, onChange }) {
   const [newitems, setNewitems] = useState([]);
 
   useEffect(() => {
-    function fetchData() {
-      api.get('/providerproducts', {params: {provider: true, brandproduct_id}}).then(response => {
-        setProviders(response.data.map(item => item.provider));
-        setPrpr(response.data);
-      });
+    api.get('/providers').then(response => setProviders(response.data));
+  }, []);
+
+  useEffect(() => {
+    function getCurrentPRPR() {
+      api
+        .get('/providerproducts', { params: { provider: true, brandproduct_id } })
+        .then(response => setPrpr(response.data));
     }
-    fetchData();
+    getCurrentPRPR();
   }, [brandproduct_id]);
 
   useEffect(() => {
@@ -48,7 +51,7 @@ export default function ProviderSelector({ brandproduct_id, onChange }) {
       <table>
         <tbody>
           {prpr.map(item => (
-            <Row {...item} providers={providers} key={`provider_${item.id}`}/>
+            <Row {...item} providers={providers} key={`provider_${item.id}`} />
           ))}
 
           {newitems.map(item => (
@@ -63,7 +66,7 @@ export default function ProviderSelector({ brandproduct_id, onChange }) {
         </tbody>
       </table>
 
-      <AddRow nameObjs={nameObjs} onCreate={obj => handleCreate(obj)} />
+      <AddRow providers={providers} onCreate={obj => handleCreate(obj)} />
     </div>
   );
 }
