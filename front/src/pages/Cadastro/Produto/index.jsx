@@ -28,6 +28,8 @@ export default function CadastroProduto() {
     brandproduct: { id: -1 },
   });
 
+  const [prprData, setPrprData] = useState([]);
+
   const [productForm, setProductForm] = useState({});
   const [brandproductForm, setBrandproductForm] = useState({});
   const [stockForm, setStockForm] = useState({});
@@ -189,7 +191,7 @@ export default function CadastroProduto() {
       PROVIDER STUFF <i>(requires brandproduct)</i>
       <input placeholder="json data" readOnly value={str(mockProviders)} />
       
-      <ProviderSelector onChange={console.log} brandproduct_id={bpData.brandproduct.id}/>
+      <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id}/>
       
       <span>{errors.brandproduct_id}</span>
       <span>{errors.provider_id}</span>
@@ -199,6 +201,7 @@ export default function CadastroProduto() {
         {'product form:' + str(productForm) + '\n'}
         {'bp form:' + str(brandproductForm) + '\n'}
         {'stock form:' + str(stockForm) + '\n'}
+        {'prpr selector:' + str(prprData) + '\n'}
       </pre>
     </div>
   );

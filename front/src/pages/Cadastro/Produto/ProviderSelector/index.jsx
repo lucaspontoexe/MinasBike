@@ -24,8 +24,8 @@ export default function ProviderSelector({ brandproduct_id, onChange }) {
   }, [brandproduct_id]);
 
   useEffect(() => {
-    onChange(prpr);
-  }, [prpr, onChange]);
+    onChange(newitems);
+  }, [newitems, onChange]);
 
   const removeLine = id => setNewitems(old => old.filter(item => item.id !== id));
   const handleCreate = obj => setNewitems(old => [...old, obj]);
