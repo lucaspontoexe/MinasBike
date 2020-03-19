@@ -4,11 +4,8 @@ export default function AddRow(props) {
   const [provider_id, setProviderID] = useState(-1);
   const [cost_price, setCostPrice] = useState('');
 
-  
-
   return (
     <div>
-      
       <div>
         <select name="provider_id" onChange={e => setProviderID(e.target.value)}>
           {props.providers.map(item => (
@@ -18,11 +15,11 @@ export default function AddRow(props) {
           ))}
         </select>
       </div>
-      
+
       <div>
         <input name="cost_price" placeholder="48022" onChange={e => setCostPrice(e.target.value)} />
       </div>
-      
+
       <button
         onClick={() =>
           props.onCreate({
