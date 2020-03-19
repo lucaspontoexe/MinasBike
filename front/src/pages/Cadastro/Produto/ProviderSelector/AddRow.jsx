@@ -1,32 +1,34 @@
 import React, { useState } from 'react';
 
 export default function AddRow(props) {
-  const [name_id, setNameID] = useState(-1);
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [provider_id, setProviderID] = useState(-1);
+  const [cost_price, setCostPrice] = useState('');
+
+  
 
   return (
     <div>
+      
       <div>
-        <select name="name_id" onChange={e => setNameID(e.target.value)}>
-          {props.nameObjs.map(item => (
-            <option key={item.id} value={item.id}>
+        <select name="provider_id" onChange={e => setProviderID(e.target.value)}>
+          {props.providers.map(item => (
+            <option key={`addrow_pr_${item.id}`} value={item.id}>
               {item.name}
             </option>
           ))}
         </select>
-        <input name="name" placeholder="joão, te ligam" onChange={e => setName(e.target.value)} />
       </div>
+      
       <div>
-        <input name="number" placeholder="48022" onChange={e => setNumber(e.target.value)} />
+        <input name="cost_price" placeholder="48022" onChange={e => setCostPrice(e.target.value)} />
       </div>
+      
       <button
         onClick={() =>
           props.onCreate({
-            name,
-            number,
+            cost_price,
             id: Math.random() * -1,
-            name_id,
+            provider_id,
           })
         }
       >
