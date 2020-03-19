@@ -7,6 +7,7 @@ export default function Row({ provider_id, providers, cost_price }) {
     <tr>
       <td>{queryObject(providers, provider_id, 'name')}</td>
       <td>{formatPrice(cost_price)}</td>
+      <td></td>
     </tr>
   );
 }
