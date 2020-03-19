@@ -14,13 +14,6 @@ import ProviderSelector from './ProviderSelector';
 
 const str = item => JSON.stringify(item, null, 2);
 
-const mockProviders = [
-  {
-    cost_price: 6994,
-    provider_id: 2,
-  },
-];
-
 export default function CadastroProduto() {
   const [bpData, setBpData] = useState({
     product: { id: -2 },
@@ -52,12 +45,14 @@ export default function CadastroProduto() {
   }
 
   async function handleSubmit() {
-    //     post sequence:
-    // 1. /products; PRODUCT STUFF + name (save ID)
-    // 2. /brands; name (save ID)
-    // 3. /brandproducts; BP STUFF + saved IDs, (save ID as well)
-    // 4. /stocks; STOCK STUFF + BP id
-    // 5. (for each entry) /providerproducts; entry + bp.id
+    /* post sequence:
+    
+    1. /products; PRODUCT STUFF + name (save ID)
+    2. /brands; name (save ID)
+    3. /brandproducts; BP STUFF + saved IDs, (save ID as well)
+    4. /stocks; STOCK STUFF + BP id
+    5. (for each entry) /providerproducts; entry + bp.id
+    */
 
     Promise.all([
       postForm('/products', productForm, bpData.product),
@@ -79,9 +74,13 @@ export default function CadastroProduto() {
         // vamo disparar requests. rambo neles.
 
         const prprRequests = [];
-        for (const item of mockProviders) {
+        for (const item of prprData) {
           prprRequests.push(
-            api.post('/providerproducts', { ...item, brandproduct_id: bpRes.data.id })
+            api.post('/providerproducts', {
+              ...item,
+              id: undefined,
+              brandproduct_id: bpRes.data.id,
+            })
           );
         }
 
@@ -189,19 +188,17 @@ export default function CadastroProduto() {
         />
       </fieldset>
       PROVIDER STUFF <i>(requires brandproduct)</i>
-      <input placeholder="json data" readOnly value={str(mockProviders)} />
-      
-      <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id}/>
-      
-      <span>{errors.brandproduct_id}</span>
-      <span>{errors.provider_id}</span>
+      <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} />
+      <br />
+      <span>brandproduct errors: {errors.brandproduct_id}</span>
+      <span>providerproduct errors: {errors.provider_id}</span>
       <Button onClick={handleSubmit}>POST</Button>
       <pre>
         POST DATA: <br />
-        {'product form:' + str(productForm) + '\n'}
-        {'bp form:' + str(brandproductForm) + '\n'}
-        {'stock form:' + str(stockForm) + '\n'}
-        {'prpr selector:' + str(prprData) + '\n'}
+        {'product form: ' + str(productForm) + '\n'}
+        {'bp form: ' + str(brandproductForm) + '\n'}
+        {'stock form: ' + str(stockForm) + '\n'}
+        {'prpr selector: ' + str(prprData) + '\n'}
       </pre>
     </div>
   );
