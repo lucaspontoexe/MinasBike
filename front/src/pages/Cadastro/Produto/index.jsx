@@ -14,12 +14,13 @@ import ProviderSelector from './ProviderSelector';
 
 const str = item => JSON.stringify(item, null, 2);
 
+const initialBpData = {
+  product: { id: -2 },
+  brand: { id: -2 },
+  brandproduct: { id: -1 },
+};
 export default function CadastroProduto() {
-  const [bpData, setBpData] = useState({
-    product: { id: -2 },
-    brand: { id: -2 },
-    brandproduct: { id: -1 },
-  });
+  const [bpData, setBpData] = useState(initialBpData);
 
   const [prprData, setPrprData] = useState([]);
 
@@ -89,7 +90,22 @@ export default function CadastroProduto() {
           ...prprRequests,
         ]);
       })
-      .catch(err => setErrors(formatErrorsSingleObject(err.response.data)));
+      .catch(err => {
+        setErrors(formatErrorsSingleObject(err.response.data));
+        console.log(err);
+        console.log(err.response);
+        console.log(err.data);
+
+        // reset EVERYTHING
+        // não tem como resetar bpData. na verdade, o reset acontece internamente, mas
+        // o texto ainda aparece lá. portanto bpdata fica do jeito que tá
+        // e também é o mais difícil de falhar, então não deve dar problema.
+
+        // setBpData(initialBpData);
+
+        // update: resetar não é uma ideia tão interessante.
+        // a treta tá em brandproduct.
+      });
   }
 
   const isProductFormDisabled = bpData.product.id >= 0;
