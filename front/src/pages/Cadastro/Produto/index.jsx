@@ -33,8 +33,8 @@ export default function CadastroProduto() {
   // é o jeito non-flux de resolver isso.
   const [shouldBPSelectorReset, setShouldBPSelectorReset] = useState(false);
   useEffect(() => {
-    setShouldBPSelectorReset(false)
-  }, [bpData])
+    setShouldBPSelectorReset(false);
+  }, [bpData]);
 
   const formatSelectItem = (value, label) => ({ value, label });
 
@@ -51,7 +51,8 @@ export default function CadastroProduto() {
     return api.post(endpoint, { ...formData, ...selectorData, id: undefined });
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
     /* post sequence:
     
     1. /products; PRODUCT STUFF + name (save ID)
@@ -112,7 +113,7 @@ export default function CadastroProduto() {
         // update: resetar não é uma ideia tão interessante.
         // a treta tá em brandproduct.
 
-        // portanto, 
+        // portanto,
         setShouldBPSelectorReset(true);
       });
   }
@@ -123,101 +124,115 @@ export default function CadastroProduto() {
   return (
     <div className="tela">
       <Header>Novo Produto</Header>
-      <BPSelector onChange={setBpData} shouldReset={shouldBPSelectorReset}/>
-      <fieldset>
-        PRODUCT STUFF
-        <TextBox
-          required
-          label="Descrição"
-          name="description"
-          error={errors.description}
-          disabled={isProductFormDisabled}
-          value={bpData.product.description}
-          onChange={e => handleChange(setProductForm, e.target)}
-        />
-        {!isProductFormDisabled ? (
-          <>
-            <SelectWithLabel
-              required
-              label="Unidade de Medida"
-              error={errors.unity_id}
-              isDisabled={isProductFormDisabled}
-              options={units.map(item => formatSelectItem(item.id, item.acronym))}
-              onChange={sel => handleChange(setProductForm, { name: 'unity_id', value: sel.value })}
-            />
-            <SelectWithLabel
-              required
-              label="Categoria"
-              error={errors.category_id}
-              isDisabled={isProductFormDisabled}
-              options={categories.map(item => formatSelectItem(item.id, item.name))}
-              onChange={sel =>
-                handleChange(setProductForm, { name: 'category_id', value: sel.value })
-              }
-            />
-          </>
-        ) : (
-          <>
-            <TextBox
-              label="Unidade de Medida"
-              required
-              disabled
-              readOnly
-              value={bpData.product.unity.acronym}
-            />
-            <TextBox
-              label="Categoria"
-              required
-              disabled
-              readOnly
-              value={bpData.product.category.name}
-            />
-          </>
-        )}
-      </fieldset>
-      <fieldset onChangeCapture={e => handleChange(setBrandproductForm, e.target)}>
-        BP STUFF
-        <>
+      <form onSubmit={handleSubmit}>
+        <BPSelector onChange={setBpData} shouldReset={shouldBPSelectorReset} />
+        <fieldset>
+          PRODUCT STUFF
           <TextBox
             required
-            name="code"
-            error={errors.code}
-            disabled={isBPFormDisabled}
-            value={bpData.brandproduct.code}
-            label="Código de Barras"
+            label="Descrição"
+            name="description"
+            error={errors.description}
+            disabled={isProductFormDisabled}
+            value={bpData.product.description}
+            onChange={e => handleChange(setProductForm, e.target)}
+          />
+          {!isProductFormDisabled ? (
+            <>
+              <SelectWithLabel
+                required
+                label="Unidade de Medida"
+                error={errors.unity_id}
+                isDisabled={isProductFormDisabled}
+                options={units.map(item => formatSelectItem(item.id, item.acronym))}
+                onChange={sel =>
+                  handleChange(setProductForm, { name: 'unity_id', value: sel.value })
+                }
+              />
+              <SelectWithLabel
+                required
+                label="Categoria"
+                error={errors.category_id}
+                isDisabled={isProductFormDisabled}
+                options={categories.map(item => formatSelectItem(item.id, item.name))}
+                onChange={sel =>
+                  handleChange(setProductForm, { name: 'category_id', value: sel.value })
+                }
+              />
+            </>
+          ) : (
+            <>
+              <TextBox
+                label="Unidade de Medida"
+                required
+                disabled
+                readOnly
+                value={bpData.product.unity.acronym}
+              />
+              <TextBox
+                label="Categoria"
+                required
+                disabled
+                readOnly
+                value={bpData.product.category.name}
+              />
+            </>
+          )}
+        </fieldset>
+        <fieldset onChangeCapture={e => handleChange(setBrandproductForm, e.target)}>
+          BP STUFF
+          <>
+            <TextBox
+              required
+              type="number"
+              name="code"
+              error={errors.code}
+              disabled={isBPFormDisabled}
+              value={bpData.brandproduct.code}
+              label="Código de Barras"
+            />
+            <TextBox
+              required
+              type="number"
+              name="price"
+              error={errors.price}
+              disabled={isBPFormDisabled}
+              value={bpData.brandproduct.price}
+              label="Preço"
+            />
+          </>
+        </fieldset>
+        <fieldset onChangeCapture={e => handleChange(setStockForm, e.target)}>
+          STOCK STUFF <i>(requires brandproduct)</i>
+          <TextBox
+            required
+            type="number"
+            error={errors.current_qty}
+            name="current_qty"
+            label="qtd. atual estoque"
           />
           <TextBox
             required
-            name="price"
-            error={errors.price}
-            disabled={isBPFormDisabled}
-            value={bpData.brandproduct.price}
-            label="Preço"
+            type="number"
+            error={errors.min_qty}
+            name="min_qty"
+            label="qtd. mínima estoque"
           />
-        </>
-      </fieldset>
-      <fieldset onChangeCapture={e => handleChange(setStockForm, e.target)}>
-        STOCK STUFF <i>(requires brandproduct)</i>
-        <TextBox
-          required
-          error={errors.current_qty}
-          name="current_qty"
-          label="qtd. atual estoque"
-        />
-        <TextBox required error={errors.min_qty} name="min_qty" label="qtd. mínima estoque" />
-        <TextBox
-          required
-          error={errors.initial_qty}
-          name="initial_qty"
-          label="qtd. inicial em estoque"
-        />
-      </fieldset>
-      PROVIDER STUFF <i>(requires brandproduct)</i>
-      <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} />
-      <br />
-      <span>brandproduct errors: {errors.brandproduct_id}</span>
-      <span>providerproduct errors: {errors.provider_id}</span>
-      <Button onClick={handleSubmit}>POST</Button>
+          <TextBox
+            required
+            type="number"
+            error={errors.initial_qty}
+            name="initial_qty"
+            label="qtd. inicial em estoque"
+          />
+        </fieldset>
+        PROVIDER STUFF <i>(requires brandproduct)</i>
+        <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} />
+        <br />
+        <span>brandproduct errors: {errors.brandproduct_id}</span>
+        <span>providerproduct errors: {errors.provider_id}</span>
+        <Button type="submit">POST</Button>
+      </form>
       <pre>
         POST DATA: <br />
         {'product form: ' + str(productForm) + '\n'}
