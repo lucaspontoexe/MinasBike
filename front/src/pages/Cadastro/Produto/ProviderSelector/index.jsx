@@ -44,7 +44,7 @@ export default function ProviderSelector({ brandproduct_id, onChange }) {
             <EditableRow
               {...item}
               providers={providers}
-              key={Math.random() * -1}
+              key={item.id}
               onRemove={removeLine}
               onChange={handleChange}
             />

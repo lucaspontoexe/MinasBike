@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import shortid from 'shortid';
 
 export default function AddRow(props) {
   const [provider_id, setProviderID] = useState(-1);
@@ -24,7 +25,7 @@ export default function AddRow(props) {
         onClick={() =>
           props.onCreate({
             cost_price,
-            id: Math.random() * -1,
+            id: shortid.generate(),
             provider_id,
           })
         }
