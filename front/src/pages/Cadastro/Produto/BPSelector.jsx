@@ -3,10 +3,10 @@ import SelectWithLabel from 'components/SelectWithLabel';
 import api from 'services/api';
 import { EMPTY, TO_BE_CREATED } from './idtypes.json';
 
+const initialItem = { id: EMPTY };
+
 export function BPSelector({ onChange, shouldReset }) {
   // single state for each property (2nd attempt)
-
-  const initialItem = { id: EMPTY };
 
   const [brand, setBrand] = useState(initialItem);
   const [product, setProduct] = useState(initialItem);
@@ -28,11 +28,8 @@ export function BPSelector({ onChange, shouldReset }) {
   // search for a brandproduct
   useEffect(() => {
     if (brand === TO_BE_CREATED || product === TO_BE_CREATED) return;
+    const formatBrandproductID = array => (array.length === 0 ? initialItem : array[0]);
 
-    function formatBrandproductID(array) {
-      // podia usar initialItem, mas vai chover re-renderização e requests
-      return array.length === 0 ? { id: EMPTY } : array[0];
-    }
     api
       .get('/brandproducts', { params: { brand_id: brand.id, product_id: product.id } })
       .then(res => setBrandproduct(formatBrandproductID(res.data)));
@@ -45,12 +42,10 @@ export function BPSelector({ onChange, shouldReset }) {
 
   useEffect(() => {
     if (shouldReset) {
-      api
-        .get(`/products?unity&category&name=${product.name}`)
-        .then(res => setProduct(res.data[0]));
+      api.get(`/products?unity&category&name=${product.name}`).then(res => setProduct(res.data[0]));
       api.get(`/brands?name=${brand.name}`).then(res => setBrand(res.data[0]));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldReset]);
 
   function createProduct(name) {
