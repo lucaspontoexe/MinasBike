@@ -6,9 +6,10 @@ import Header from 'components/Header';
 import SelectWithLabel from 'components/SelectWithLabel';
 import { BPSelector } from './BPSelector';
 
-// TODO: import from API
-import categories from './categories.json';
-import units from './units.json';
+// can be removed safely
+import mockCategories from './categories.json';
+import mockUnits from './units.json';
+
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import ProviderSelector from './ProviderSelector';
 
@@ -20,6 +21,9 @@ const initialBpData = {
   brandproduct: { id: -1 },
 };
 export default function CadastroProduto() {
+  const [categories, setCategories] = useState(mockCategories);
+  const [units, setUnits] = useState(mockUnits);
+
   const [bpData, setBpData] = useState(initialBpData);
 
   const [prprData, setPrprData] = useState([]);
@@ -30,8 +34,15 @@ export default function CadastroProduto() {
 
   const [errors, setErrors] = useState([{ fields: [], message: '' }]);
 
+  // carrega categorias e unidades da API
+  useEffect(() => {
+    api.get('/categories').then(({ data }) => setCategories(data));
+    api.get('/unities').then(({ data }) => setUnits(data));
+  }, []);
+
   // é o jeito non-flux de resolver isso.
   const [shouldBPSelectorReset, setShouldBPSelectorReset] = useState(false);
+
   useEffect(() => {
     setShouldBPSelectorReset(false);
   }, [bpData]);
