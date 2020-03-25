@@ -3,7 +3,7 @@ import SelectWithLabel from 'components/SelectWithLabel';
 import api from 'services/api';
 import { EMPTY, TO_BE_CREATED } from './idtypes.json';
 
-export function BPSelector({ onChange }) {
+export function BPSelector({ onChange, shouldReset }) {
   // single state for each property (2nd attempt)
 
   const initialItem = { id: EMPTY };
@@ -42,6 +42,16 @@ export function BPSelector({ onChange }) {
   useEffect(() => {
     onChange({ brand, product, brandproduct });
   }, [brand, product, brandproduct, onChange]);
+
+  useEffect(() => {
+    if (shouldReset) {
+      api
+        .get(`/products?unity&category&name=${product.name}`)
+        .then(res => setProduct(res.data[0]));
+      api.get(`/brands?name=${brand.name}`).then(res => setBrand(res.data[0]));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldReset]);
 
   function createProduct(name) {
     const newItem = { id: TO_BE_CREATED, name };

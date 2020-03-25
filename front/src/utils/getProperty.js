@@ -16,6 +16,8 @@ export function queryObject(objects, where, path) {
 }
 
 function getObjectPath(obj, path) {
+  if (!path) return obj;
+  
   path = path
     .replace(/\[/g, '.')
     .replace(/]/g, '')

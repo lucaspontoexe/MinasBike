@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from 'services/api';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
@@ -29,6 +29,12 @@ export default function CadastroProduto() {
   const [stockForm, setStockForm] = useState({});
 
   const [errors, setErrors] = useState([{ fields: [], message: '' }]);
+
+  // é o jeito non-flux de resolver isso.
+  const [shouldBPSelectorReset, setShouldBPSelectorReset] = useState(false);
+  useEffect(() => {
+    setShouldBPSelectorReset(false)
+  }, [bpData])
 
   const formatSelectItem = (value, label) => ({ value, label });
 
@@ -105,6 +111,9 @@ export default function CadastroProduto() {
 
         // update: resetar não é uma ideia tão interessante.
         // a treta tá em brandproduct.
+
+        // portanto, 
+        setShouldBPSelectorReset(true);
       });
   }
 
@@ -114,7 +123,7 @@ export default function CadastroProduto() {
   return (
     <div className="tela">
       <Header>Novo Produto</Header>
-      <BPSelector onChange={setBpData} />
+      <BPSelector onChange={setBpData} shouldReset={shouldBPSelectorReset}/>
       <fieldset>
         PRODUCT STUFF
         <TextBox
