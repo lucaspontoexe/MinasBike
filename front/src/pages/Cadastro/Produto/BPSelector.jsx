@@ -1,8 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import SelectWithLabel from 'components/SelectWithLabel';
 import api from 'services/api';
-import { EMPTY, TO_BE_CREATED } from './idtypes.json';
 
+const EMPTY = -2
+const TO_BE_CREATED = -1
 const initialItem = { id: EMPTY };
 
 export function BPSelector({ onChange, shouldReset }) {
