@@ -6,10 +6,6 @@ import Header from 'components/Header';
 import SelectWithLabel from 'components/SelectWithLabel';
 import { BPSelector } from './BPSelector';
 
-// can be removed safely
-import mockCategories from './categories.json';
-import mockUnits from './units.json';
-
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import ProviderSelector from './ProviderSelector';
 
@@ -21,8 +17,8 @@ const initialBpData = {
   brandproduct: { id: -1 },
 };
 export default function CadastroProduto() {
-  const [categories, setCategories] = useState(mockCategories);
-  const [units, setUnits] = useState(mockUnits);
+  const [categories, setCategories] = useState([]);
+  const [units, setUnits] = useState([]);
 
   const [bpData, setBpData] = useState(initialBpData);
 
