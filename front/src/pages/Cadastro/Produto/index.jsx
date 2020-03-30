@@ -39,9 +39,7 @@ export default function CadastroProduto() {
   // é o jeito non-flux de resolver isso.
   const [shouldBPSelectorReset, setShouldBPSelectorReset] = useState(false);
 
-  useEffect(() => {
-    setShouldBPSelectorReset(false);
-  }, [bpData]);
+  useEffect(() => setShouldBPSelectorReset(false), [bpData]);
 
   const formatSelectItem = (value, label) => ({ value, label });
 
