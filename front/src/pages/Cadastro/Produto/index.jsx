@@ -22,7 +22,7 @@ export default function CadastroProduto() {
 
   const [bpData, setBpData] = useState(initialBpData);
 
-  const [prprData, setPrprData] = useState([]);
+  const [prprData, setPrprData] = useState({isValid: false, items: []});
 
   const [productForm, setProductForm] = useState({});
   const [brandproductForm, setBrandproductForm] = useState({});
@@ -87,7 +87,7 @@ export default function CadastroProduto() {
         // vamo disparar requests. rambo neles.
 
         const prprRequests = [];
-        for (const item of prprData) {
+        for (const item of prprData.items) {
           prprRequests.push(
             api.post('/providerproducts', {
               ...item,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
+import isArrayUnique from 'utils/isArrayUnique';
 import EditableRow from './EditableRow';
 import AddRow from './AddRow';
 import Row from './Row';
@@ -24,8 +25,16 @@ export default function ProviderSelector({ brandproduct_id, onChange }) {
   }, [brandproduct_id]);
 
   useEffect(() => {
-    onChange(newitems);
+    onChange({ items: newitems, isValid: validate(), teste: 'umdois' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newitems, onChange]);
+
+  const validate = () => {
+    const prprIDList = prpr.map(item => item.provider_id);
+    const newitemsIDList = newitems.map(item => Number(item.provider_id));
+    const temp = prprIDList.concat(newitemsIDList)
+    return isArrayUnique(temp);
+  };
 
   const removeLine = id => setNewitems(old => old.filter(item => item.id !== id));
   const handleCreate = obj => setNewitems(old => [...old, obj]);
