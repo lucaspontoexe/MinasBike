@@ -25,11 +25,11 @@ export default function ProviderSelector({ brandproduct_id, onChange }) {
   }, [brandproduct_id]);
 
   useEffect(() => {
-    onChange({ items: newitems, isValid: validate(), teste: 'umdois' });
+    onChange({ items: newitems, isValid: checkIfValid(), teste: 'umdois' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newitems, onChange]);
 
-  const validate = () => {
+  const checkIfValid = () => {
     const prprIDList = prpr.map(item => item.provider_id);
     const newitemsIDList = newitems.map(item => Number(item.provider_id));
     const temp = prprIDList.concat(newitemsIDList)
