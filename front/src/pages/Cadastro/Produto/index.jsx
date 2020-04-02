@@ -22,7 +22,7 @@ export default function CadastroProduto() {
 
   const [bpData, setBpData] = useState(initialBpData);
 
-  const [prprData, setPrprData] = useState({isValid: false, items: []});
+  const [prprData, setPrprData] = useState({ isValid: false, items: [] });
 
   const [productForm, setProductForm] = useState({});
   const [brandproductForm, setBrandproductForm] = useState({});
@@ -66,6 +66,11 @@ export default function CadastroProduto() {
     4. /stocks; STOCK STUFF + BP id
     5. (for each entry) /providerproducts; entry + bp.id
     */
+
+    if (!prprData.isValid) {
+      setErrors(e => ({ ...e, provider_id: 'invalid provider data' }));
+      return;
+    }
 
     Promise.all([
       postForm('/products', productForm, bpData.product),
