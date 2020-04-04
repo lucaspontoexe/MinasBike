@@ -29,6 +29,7 @@ export default function CadastroProduto() {
   const [stockForm, setStockForm] = useState({});
 
   const [errors, setErrors] = useState([{ fields: [], message: '' }]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // carrega categorias e unidades da API
   useEffect(() => {
@@ -71,6 +72,8 @@ export default function CadastroProduto() {
       setErrors(e => ({ ...e, provider_id: 'invalid provider data' }));
       return;
     }
+
+    setIsSubmitting(true);
 
     Promise.all([
       postForm('/products', productForm, bpData.product),
@@ -125,7 +128,8 @@ export default function CadastroProduto() {
 
         // portanto,
         setShouldBPSelectorReset(true);
-      });
+      })
+      .finally(setIsSubmitting(false));
   }
 
   const isProductFormDisabled = bpData.product.id >= 0;
@@ -245,6 +249,7 @@ export default function CadastroProduto() {
       </form>
       <pre>
         POST DATA: <br />
+        is submitting: {isSubmitting ? 'true' : 'false'}<br/>
         {'product form: ' + str(productForm) + '\n'}
         {'bp form: ' + str(brandproductForm) + '\n'}
         {'stock form: ' + str(stockForm) + '\n'}
