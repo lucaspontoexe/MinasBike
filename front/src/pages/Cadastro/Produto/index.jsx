@@ -17,7 +17,7 @@ const initialBpData = {
   brand: { id: -2 },
   brandproduct: { id: -1 },
 };
-export default function CadastroProduto() {
+export default function CadastroProduto({ history }) {
   const [categories, setCategories] = useState([]);
   const [units, setUnits] = useState([]);
 
@@ -130,7 +130,10 @@ export default function CadastroProduto() {
         // portanto,
         setShouldBPSelectorReset(true);
       })
-      .finally(setIsSubmitting(false));
+      .finally(() => {
+        setIsSubmitting(false);
+        history.push('/produtos');
+      });
   }
 
   const isProductFormDisabled = bpData.product.id >= 0;
@@ -249,11 +252,12 @@ export default function CadastroProduto() {
         <Button type="submit">POST</Button>
       </form>
 
-      {isSubmitting && <Modal type="loading"/>}
+      {isSubmitting && <Modal type="loading" />}
 
       <pre>
         POST DATA: <br />
-        is submitting: {isSubmitting ? 'true' : 'false'}<br/>
+        is submitting: {isSubmitting ? 'true' : 'false'}
+        <br />
         {'product form: ' + str(productForm) + '\n'}
         {'bp form: ' + str(brandproductForm) + '\n'}
         {'stock form: ' + str(stockForm) + '\n'}
