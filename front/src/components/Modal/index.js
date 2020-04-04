@@ -45,6 +45,12 @@ export default function Modal(props) {
         </>
       ),
     },
+    loading: {
+      image: tempIcon,
+      alt: 'temporário',
+      color: '#cc5730',
+      message: 'carregando...',
+    }
   };
 
   return (

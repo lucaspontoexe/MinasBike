@@ -3,6 +3,7 @@ import api from 'services/api';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import Header from 'components/Header';
+import Modal from 'components/Modal';
 import SelectWithLabel from 'components/SelectWithLabel';
 import { BPSelector } from './BPSelector';
 
@@ -247,6 +248,9 @@ export default function CadastroProduto() {
         <span>providerproduct errors: {errors.provider_id}</span>
         <Button type="submit">POST</Button>
       </form>
+
+      {isSubmitting && <Modal type="loading"/>}
+
       <pre>
         POST DATA: <br />
         is submitting: {isSubmitting ? 'true' : 'false'}<br/>
