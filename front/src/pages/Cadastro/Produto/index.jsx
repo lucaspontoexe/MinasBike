@@ -17,6 +17,7 @@ const initialBpData = {
   brand: { id: -2 },
   brandproduct: { id: -1 },
 };
+
 export default function CadastroProduto({ history }) {
   const [categories, setCategories] = useState([]);
   const [units, setUnits] = useState([]);
@@ -144,8 +145,8 @@ export default function CadastroProduto({ history }) {
       <Header>Novo Produto</Header>
       <form onSubmit={handleSubmit}>
         <BPSelector onChange={setBpData} shouldReset={shouldBPSelectorReset} />
-        <fieldset>
-          PRODUCT STUFF
+        <div>
+          {window.DEV_MODE && 'PRODUCT STUFF'}
           <TextBox
             required
             label="Descrição"
@@ -196,9 +197,9 @@ export default function CadastroProduto({ history }) {
               />
             </>
           )}
-        </fieldset>
-        <fieldset onChangeCapture={e => handleChange(setBrandproductForm, e.target)}>
-          BP STUFF
+        </div>
+        <div onChangeCapture={e => handleChange(setBrandproductForm, e.target)}>
+          {window.DEV_MODE && 'BP STUFF'}
           <>
             <TextBox
               required
@@ -219,9 +220,9 @@ export default function CadastroProduto({ history }) {
               label="Preço"
             />
           </>
-        </fieldset>
-        <fieldset onChangeCapture={e => handleChange(setStockForm, e.target)}>
-          STOCK STUFF <i>(requires brandproduct)</i>
+        </div>
+        <div onChangeCapture={e => handleChange(setStockForm, e.target)}>
+          {window.DEV_MODE && 'STOCK STUFF'}
           <TextBox
             required
             type="number"
@@ -243,8 +244,8 @@ export default function CadastroProduto({ history }) {
             name="initial_qty"
             label="qtd. inicial em estoque"
           />
-        </fieldset>
-        PROVIDER STUFF <i>(requires brandproduct)</i>
+        </div>
+
         <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} />
         <br />
         <span>brandproduct errors: {errors.brandproduct_id}</span>
@@ -254,15 +255,17 @@ export default function CadastroProduto({ history }) {
 
       {isSubmitting && <Modal type="loading" />}
 
-      <pre>
-        POST DATA: <br />
-        is submitting: {isSubmitting ? 'true' : 'false'}
-        <br />
-        {'product form: ' + str(productForm) + '\n'}
-        {'bp form: ' + str(brandproductForm) + '\n'}
-        {'stock form: ' + str(stockForm) + '\n'}
-        {'prpr selector: ' + str(prprData) + '\n'}
-      </pre>
+      {window.DEV_MODE && (
+        <pre>
+          POST DATA: <br />
+          is submitting: {isSubmitting ? 'true' : 'false'}
+          <br />
+          {'product form: ' + str(productForm) + '\n'}
+          {'bp form: ' + str(brandproductForm) + '\n'}
+          {'stock form: ' + str(stockForm) + '\n'}
+          {'prpr selector: ' + str(prprData) + '\n'}
+        </pre>
+      )}
     </div>
   );
 }

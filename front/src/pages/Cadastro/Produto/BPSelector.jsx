@@ -2,8 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import SelectWithLabel from 'components/SelectWithLabel';
 import api from 'services/api';
 
-const EMPTY = -2
-const TO_BE_CREATED = -1
+const EMPTY = -2;
+const TO_BE_CREATED = -1;
 const initialItem = { id: EMPTY };
 
 export function BPSelector({ onChange, shouldReset }) {
@@ -63,8 +63,8 @@ export function BPSelector({ onChange, shouldReset }) {
 
   return (
     <Fragment>
-      <fieldset>
-        BP selector
+      <div>
+        {window.DEV_MODE && 'BP selector'}
         <SelectWithLabel
           name="product"
           creatable
@@ -87,15 +87,17 @@ export function BPSelector({ onChange, shouldReset }) {
           label="Nome da Marca"
           placeholder="Digite ou escolha uma marca"
         />
-      </fieldset>
-      <pre>
-        current product: {JSON.stringify(product)} <br />
-        current brand: {JSON.stringify(brand)} <br />
-        current BP:{' '}
-        {brandproduct.id === TO_BE_CREATED
-          ? '(to be created)'
-          : JSON.stringify(brandproduct, null, 4)}
-      </pre>
+      </div>
+      {window.DEV_MODE && (
+        <pre>
+          current product: {JSON.stringify(product)} <br />
+          current brand: {JSON.stringify(brand)} <br />
+          current BP:{' '}
+          {brandproduct.id === TO_BE_CREATED
+            ? '(to be created)'
+            : JSON.stringify(brandproduct, null, 4)}
+        </pre>
+      )}
       <br />
     </Fragment>
   );
