@@ -1,17 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import Header from 'components/Header';
 import Button from 'components/Button';
+import Error from 'components/Error';
 import FormikInput from 'components/FormikInput';
+import formatFieldErrors from 'utils/formatFieldErrors';
+import api from 'services/api';
 
 export default function CadastroCliente({ history }) {
+
+  const [serverError, setServerError] = useState('');
+
+  function handleSubmit(values, { setSubmitting, setErrors }) {
+    setSubmitting(true);
+    setServerError('');
+    api.post('/clients', values)
+
+      .then(() => {
+        history.push('/clientes');
+      })
+
+      .catch(err => {
+        console.log(err);
+
+        const { data } = err.response;
+        if (data.message) setErrors(formatFieldErrors(data));
+        else setServerError('Erro interno do servidor');
+      })
+      .finally(setSubmitting(false));
+  }
+
   return (
     <div className="tela tela-cadastro">
       <Header>Cadastrar Cliente</Header>
 
       <Formik
         initialValues={{ name: '', phone: '', email: '', address: '', birthday: '' }}
-        onSubmit={console.log}
+        onSubmit={handleSubmit}
       >
         <Form>
           <FormikInput required type="text" name="name" label="Nome" />
@@ -28,6 +53,7 @@ export default function CadastroCliente({ history }) {
               Cadastrar
             </Button>
           </div>
+          {serverError !== '' && <Error>{serverError}</Error>}
         </Form>
       </Formik>
 
