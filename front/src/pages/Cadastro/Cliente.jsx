@@ -9,12 +9,16 @@ export default function CadastroCliente({ history }) {
     <div className="tela tela-cadastro">
       <Header>Cadastrar Cliente</Header>
 
-      <Formik initialValues={{ name: '', phone: '', email: '', cpf: '' }} onSubmit={console.log}>
+      <Formik
+        initialValues={{ name: '', phone: '', email: '', address: '', birthday: '' }}
+        onSubmit={console.log}
+      >
         <Form>
           <FormikInput required type="text" name="name" label="Nome" />
           <FormikInput required type="tel" name="phone" label="Telefone" />
           <FormikInput required type="email" name="email" label="E-mail" />
-          <FormikInput required name="cpf" label="CPF" />
+          <FormikInput required name="address" label="Endereço" />
+          <FormikInput required type="date" name="birthday" label="Data de Nascimento" />
 
           <div className="buttons">
             <Button type="reset" color="#DC2438" onClick={() => history.replace('/clientes')}>
