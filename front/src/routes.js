@@ -7,7 +7,7 @@ import ListaProdutos from './pages/Lista/Produtos';
 import ListaEstoque from './pages/Lista/Estoque';
 import ListaFornecedores from 'pages/Lista/Fornecedores';
 import ListaClientes from 'pages/Lista/Clientes';
-import CadastroProdutos from './pages/CadastroProdutos';
+import CadastroProduto from './pages/Cadastro/Produto';
 import CadastroFornecedor from 'pages/Cadastro/Fornecedor';
 import CadastroCliente from 'pages/Cadastro/Cliente';
 import DetalhesProduto from './pages/DetalhesProduto';
@@ -22,7 +22,7 @@ export default function Routes() {
         <Route path="/" exact component={LandingPage} />
 
         <Route path="/produtos" exact component={ListaProdutos} />
-        <Route path="/produtos/novo" component={CadastroProdutos} />
+        <Route path="/produtos/novo" component={CadastroProduto} />
         <Route path="/produtos/:code" component={DetalhesProduto} />
 
         <Route path="/fornecedores" exact component={ListaFornecedores} />
