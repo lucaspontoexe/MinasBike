@@ -10,6 +10,7 @@ import produto from 'assets/icons/produto.svg';
 import fornecedor from 'assets/icons/fornecedor.svg';
 import estoque from 'assets/icons/estoque.svg';
 import vendas from 'assets/icons/payment.svg';
+import user from 'assets/icons/user.svg';
 
 function Menu(props) {
   const { pathname } = props.history.location;
@@ -20,6 +21,8 @@ function Menu(props) {
     { name: 'Fornecedores', path: '/fornecedores', icon: fornecedor },
     { name: 'Estoque', path: '/estoque', icon: estoque },
     { name: 'Vendas', path: '/vendas', icon: vendas },
+    { name: 'Usuários', path: '/usuarios', icon: user },
+    { name: 'Clientes', path: '/clientes', icon: user },
   ];
 
   const hiddenMenuPages = ['/', '/cadastrar'];
