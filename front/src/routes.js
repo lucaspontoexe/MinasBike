@@ -9,6 +9,7 @@ import ListaFornecedores from 'pages/Lista/Fornecedores';
 import CadastroProduto from './pages/Cadastro/Produto';
 import CadastroFornecedor from 'pages/Cadastro/Fornecedor';
 import DetalhesProduto from './pages/DetalhesProduto';
+import EditarFornecedor from 'pages/Editar/Fornecedor';
 import AuthCheck from './AuthCheck';
 
 export default function Routes() {
@@ -25,6 +26,7 @@ export default function Routes() {
 
         <Route path="/fornecedores" exact component={ListaFornecedores} />
         <Route path="/fornecedores/novo" component={CadastroFornecedor} />
+        <Route path="/fornecedores/:id" component={EditarFornecedor} />
 
         <Route path="/estoque" exact component={ListaEstoque} />
         <Route path="/cadastrar" component={LandingPage} />
