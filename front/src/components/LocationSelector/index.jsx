@@ -6,9 +6,9 @@ import stateNames from './states.json';
 
 import SelectWithLabel from 'components/SelectWithLabel';
 
-export default function LocationSelector({ onChange, required }) {
+export default function LocationSelector({ initialValue, onChange, required }) {
   const [currentBRState, setCurrentBRState] = useState('');
-  const [currentCity, setCurrentCity] = useState({});
+  const [currentCity, setCurrentCity] = useState(initialValue = {});
   const [cityList, setCityList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
