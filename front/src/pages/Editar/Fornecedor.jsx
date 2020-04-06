@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from 'services/api';
 
 import Header from 'components/Header';
@@ -10,6 +10,15 @@ export default function EditarFornecedor(props, { history }) {
   const { id } = props.match.params;
   const [formData, setFormData] = useState({});
 
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [providerData, setProviderData] = useState({});
+  useEffect(() => {
+    api.get(`/providers/${id}`, { params: { location: true } }).then(response => {
+      setProviderData(response.data[0]);
+      setIsLoaded(true);
+    });
+  }, [id]);
+
   async function handleSubmit(event) {
     event.preventDefault();
     await api.put(`/providers/${id}`, formData);
@@ -20,14 +29,18 @@ export default function EditarFornecedor(props, { history }) {
     setFormData({ ...formData, [target.name]: target.value });
   }
 
-  // Formik não parece ser tão interessante pra essa página.
-
   return (
     <div className="tela tela-cadastro">
-      <Header>Novo Fornecedor</Header>
+      <Header>Editar Fornecedor</Header>
 
       <form action="#" onSubmit={handleSubmit}>
-        <TextBox name="name" label="Nome do Fornecedor" required onChange={handleChange} />
+        <TextBox
+          name="name"
+          label="Nome do Fornecedor"
+          required
+          value={providerData.name}
+          onChange={handleChange}
+        />
         <LocationSelector
           required
           onChange={value => setFormData({ ...formData, location_id: value })}
@@ -36,6 +49,7 @@ export default function EditarFornecedor(props, { history }) {
           name="contact"
           label="Nome do Contato Principal"
           required
+          value={providerData.contact}
           onChange={handleChange}
         />
         <TextBox
@@ -43,6 +57,7 @@ export default function EditarFornecedor(props, { history }) {
           label="Telefone do contato"
           type="tel"
           required
+          value={providerData.phone}
           onChange={handleChange}
         />
         <TextBox
@@ -50,6 +65,7 @@ export default function EditarFornecedor(props, { history }) {
           label="E-mail do contato principal"
           type="email"
           required
+          value={providerData.email}
           onChange={handleChange}
         />
         <div className="buttons">
@@ -60,6 +76,7 @@ export default function EditarFornecedor(props, { history }) {
             Cadastrar
           </Button>
         </div>
+        <pre>is loaded: {JSON.stringify(isLoaded)}</pre>
       </form>
     </div>
   );
