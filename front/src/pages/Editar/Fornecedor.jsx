@@ -6,7 +6,7 @@ import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import LocationSelector from 'components/LocationSelector';
 
-export default function EditarFornecedor(props, { history }) {
+export default function EditarFornecedor(props) {
   const { id } = props.match.params;
   const [formData, setFormData] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,7 +21,7 @@ export default function EditarFornecedor(props, { history }) {
   async function handleSubmit(event) {
     event.preventDefault();
     await api.put(`/providers/${id}`, { ...formData, location: undefined });
-    history.push('/fornecedores');
+    props.history.push('/fornecedores');
   }
 
   function handleChange({ target }) {
@@ -69,7 +69,7 @@ export default function EditarFornecedor(props, { history }) {
           onChange={handleChange}
         />
         <div className="buttons">
-          <Button type="reset" color="#DC2438" onClick={() => history.replace('/fornecedores')}>
+          <Button type="reset" color="#DC2438" onClick={() => props.history.replace('/fornecedores')}>
             Cancelar
           </Button>
           <Button type="submit" color="#30CC57">

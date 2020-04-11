@@ -3,7 +3,7 @@ import api from 'services/api';
 import stateNames from './states.json';
 import SelectWithLabel from 'components/SelectWithLabel';
 
-export default function LocationSelector(props, { required }) {
+export default function LocationSelector(props) {
   const [currentBRState, setCurrentBRState] = useState('');
   const [currentCity, setCurrentCity] = useState(props.initialValue || { value: '', label: '' });
   const [cityList, setCityList] = useState([]);
@@ -51,7 +51,7 @@ export default function LocationSelector(props, { required }) {
       <SelectWithLabel
         name="location_state"
         label="Estado"
-        required={required}
+        required={props.required}
         options={br_states}
         value={{ value: currentBRState, label: currentBRState }}
         onChange={opt => setCurrentBRState(opt.value)}
@@ -59,7 +59,7 @@ export default function LocationSelector(props, { required }) {
       <SelectWithLabel
         name="location_city"
         label="Cidade"
-        required={required}
+        required={props.required}
         isDisabled={currentBRState === ''}
         isLoading={isLoading}
         options={cityList}
