@@ -18,10 +18,9 @@ export default function EditarFornecedor(props, { history }) {
     });
   }, [id]);
 
-
   async function handleSubmit(event) {
     event.preventDefault();
-    await api.put(`/providers/${id}`, formData);
+    await api.put(`/providers/${id}`, { ...formData, location: undefined });
     history.push('/fornecedores');
   }
 
@@ -43,7 +42,7 @@ export default function EditarFornecedor(props, { history }) {
         />
         <LocationSelector
           required
-          initialValue={formData}
+          initialValue={formData.location}
           onChange={value => setFormData({ ...formData, location_id: value })}
         />
         <TextBox

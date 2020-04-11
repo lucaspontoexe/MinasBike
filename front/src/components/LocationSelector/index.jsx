@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-
 import api from 'services/api';
-
 import stateNames from './states.json';
-
 import SelectWithLabel from 'components/SelectWithLabel';
 
-export default function LocationSelector({ initialValue, onChange, required }) {
+export default function LocationSelector(props, { required }) {
   const [currentBRState, setCurrentBRState] = useState('');
-  const [currentCity, setCurrentCity] = useState(initialValue = {});
+  const [currentCity, setCurrentCity] = useState(props.initialValue || { value: '', label: '' });
   const [cityList, setCityList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,8 +14,20 @@ export default function LocationSelector({ initialValue, onChange, required }) {
   });
 
   useEffect(() => {
+    // tip: destructuring breaks reactivity
+    if (props.initialValue) {
+      setCurrentBRState(props.initialValue.state);
+      setCurrentCity({ value: props.initialValue.id, label: props.initialValue.city });
+    }
+    console.log('locationSelector: ', props.initialValue);
+  }, [props.initialValue]);
+
+  useEffect(() => {
     setIsLoading(true);
-    setCurrentCity({});
+
+    // todo: limpar o nome da cidade sem quebrar o initialValue
+    // setCurrentCity({});
+
     api
       .get('/locations', {
         params: { state: currentBRState },
@@ -33,6 +42,10 @@ export default function LocationSelector({ initialValue, onChange, required }) {
       .finally(setIsLoading(false));
   }, [currentBRState]);
 
+  useEffect(() => {
+    console.log(currentCity);
+  }, [currentCity]);
+
   return (
     <>
       <SelectWithLabel
@@ -40,6 +53,7 @@ export default function LocationSelector({ initialValue, onChange, required }) {
         label="Estado"
         required={required}
         options={br_states}
+        value={{ value: currentBRState, label: currentBRState }}
         onChange={opt => setCurrentBRState(opt.value)}
       />
       <SelectWithLabel
@@ -52,7 +66,7 @@ export default function LocationSelector({ initialValue, onChange, required }) {
         value={currentCity}
         onChange={opt => {
           setCurrentCity(opt);
-          onChange(opt.value);
+          props.onChange(opt.value);
         }}
       />
     </>
