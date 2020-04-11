@@ -19,7 +19,6 @@ export default function LocationSelector(props) {
       setCurrentBRState(props.initialValue.state);
       setCurrentCity({ value: props.initialValue.id, label: props.initialValue.city });
     }
-    console.log('locationSelector: ', props.initialValue);
   }, [props.initialValue]);
 
   useEffect(() => {
