@@ -35,13 +35,14 @@ export default function CadastroCliente({ history }) {
       <Header>Cadastrar Cliente</Header>
 
       <Formik
-        initialValues={{ name: '', phone: '', email: '', address: '', birthday: '' }}
+        initialValues={{ name: '', phone: '', email: '', cpf: '', address: '', birthday: '' }}
         onSubmit={handleSubmit}
       >
         <Form>
           <FormikInput required type="text" name="name" label="Nome" />
           <FormikInput required type="tel" name="phone" label="Telefone" />
           <FormikInput required type="email" name="email" label="E-mail" />
+          <FormikInput name="cpf" label="CPF" />
           <FormikInput required name="address" label="Endereço" />
           <FormikInput required type="date" name="birthday" label="Data de Nascimento" />
 
