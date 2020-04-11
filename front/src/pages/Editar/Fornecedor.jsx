@@ -9,15 +9,15 @@ import LocationSelector from 'components/LocationSelector';
 export default function EditarFornecedor(props, { history }) {
   const { id } = props.match.params;
   const [formData, setFormData] = useState({});
-
   const [isLoaded, setIsLoaded] = useState(false);
-  const [providerData, setProviderData] = useState({});
+
   useEffect(() => {
     api.get(`/providers/${id}`, { params: { location: true } }).then(response => {
-      setProviderData(response.data[0]);
+      setFormData(response.data[0]);
       setIsLoaded(true);
     });
   }, [id]);
+
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -38,18 +38,19 @@ export default function EditarFornecedor(props, { history }) {
           name="name"
           label="Nome do Fornecedor"
           required
-          value={providerData.name}
+          value={formData.name}
           onChange={handleChange}
         />
         <LocationSelector
           required
+          initialValue={formData}
           onChange={value => setFormData({ ...formData, location_id: value })}
         />
         <TextBox
           name="contact"
           label="Nome do Contato Principal"
           required
-          value={providerData.contact}
+          value={formData.contact}
           onChange={handleChange}
         />
         <TextBox
@@ -57,7 +58,7 @@ export default function EditarFornecedor(props, { history }) {
           label="Telefone do contato"
           type="tel"
           required
-          value={providerData.phone}
+          value={formData.phone}
           onChange={handleChange}
         />
         <TextBox
@@ -65,7 +66,7 @@ export default function EditarFornecedor(props, { history }) {
           label="E-mail do contato principal"
           type="email"
           required
-          value={providerData.email}
+          value={formData.email}
           onChange={handleChange}
         />
         <div className="buttons">
