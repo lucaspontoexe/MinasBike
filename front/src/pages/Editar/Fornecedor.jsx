@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
+import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
@@ -10,18 +11,31 @@ export default function EditarFornecedor(props) {
   const { id } = props.match.params;
   const [formData, setFormData] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
+  const [initialName, setInitialName] = useState('');
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     api.get(`/providers/${id}`, { params: { location: true } }).then(response => {
       setFormData(response.data[0]);
+      setInitialName(response.data[0].name);
       setIsLoaded(true);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    await api.put(`/providers/${id}`, { ...formData, location: undefined });
-    props.history.push('/fornecedores');
+
+    api
+      .put(`/providers/${id}`, {
+        ...formData,
+        location: undefined,
+        name: formData.name === initialName && undefined,
+      })
+
+      .then(props.history.push('/fornecedores'))
+
+      .catch(err => setErrors(formatErrorsSingleObject(err.response.data)));
   }
 
   function handleChange({ target }) {
@@ -37,6 +51,7 @@ export default function EditarFornecedor(props) {
           name="name"
           label="Nome do Fornecedor"
           required
+          error={errors.name}
           value={formData.name}
           onChange={handleChange}
         />
@@ -45,10 +60,14 @@ export default function EditarFornecedor(props) {
           initialValue={formData.location}
           onChange={value => setFormData({ ...formData, location_id: value })}
         />
+
+        {errors.location_id}
+
         <TextBox
           name="contact"
           label="Nome do Contato Principal"
           required
+          error={errors.contact}
           value={formData.contact}
           onChange={handleChange}
         />
@@ -57,6 +76,7 @@ export default function EditarFornecedor(props) {
           label="Telefone do contato"
           type="tel"
           required
+          error={errors.phone}
           value={formData.phone}
           onChange={handleChange}
         />
@@ -65,11 +85,16 @@ export default function EditarFornecedor(props) {
           label="E-mail do contato principal"
           type="email"
           required
+          error={errors.email}
           value={formData.email}
           onChange={handleChange}
         />
         <div className="buttons">
-          <Button type="reset" color="#DC2438" onClick={() => props.history.replace('/fornecedores')}>
+          <Button
+            type="reset"
+            color="#DC2438"
+            onClick={() => props.history.replace('/fornecedores')}
+          >
             Cancelar
           </Button>
           <Button type="submit" color="#30CC57">
