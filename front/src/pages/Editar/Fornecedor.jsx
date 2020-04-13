@@ -101,7 +101,8 @@ export default function EditarFornecedor(props) {
             Cadastrar
           </Button>
         </div>
-        <pre>is loaded: {JSON.stringify(isLoaded)}</pre>
+
+        {window.DEV_MODE && <pre>is loaded: {JSON.stringify(isLoaded)}</pre>}
       </form>
     </div>
   );
