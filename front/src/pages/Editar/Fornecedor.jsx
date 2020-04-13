@@ -61,7 +61,7 @@ export default function EditarFornecedor(props) {
           onChange={value => setFormData({ ...formData, location_id: value })}
         />
 
-        {errors.location_id}
+        {errors.location_id && <div>{errors.location_id}</div>}
 
         <TextBox
           name="contact"
