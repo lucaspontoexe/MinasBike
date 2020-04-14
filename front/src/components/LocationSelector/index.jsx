@@ -17,15 +17,17 @@ export default function LocationSelector(props) {
     // tip: destructuring breaks reactivity
     if (props.initialValue) {
       setCurrentBRState(props.initialValue.state);
-      setCurrentCity({ value: props.initialValue.id, label: props.initialValue.city });
+      
+      // dirty problems require dirty solutions
+      setTimeout(() => {
+        setCurrentCity({ value: props.initialValue.id, label: props.initialValue.city });
+      }, 400);
     }
   }, [props.initialValue]);
 
   useEffect(() => {
     setIsLoading(true);
-
-    // todo: limpar o nome da cidade sem quebrar o initialValue
-    // setCurrentCity({});
+    setCurrentCity({});
 
     api
       .get('/locations', {
