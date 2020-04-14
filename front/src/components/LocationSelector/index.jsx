@@ -53,6 +53,7 @@ export default function LocationSelector(props) {
         name="location_state"
         label="Estado"
         required={props.required}
+        isDisabled={props.disabled}
         options={br_states}
         value={{ value: currentBRState, label: currentBRState }}
         onChange={opt => setCurrentBRState(opt.value)}
@@ -61,7 +62,7 @@ export default function LocationSelector(props) {
         name="location_city"
         label="Cidade"
         required={props.required}
-        isDisabled={currentBRState === ''}
+        isDisabled={currentBRState === '' || props.disabled}
         isLoading={isLoading}
         options={cityList}
         value={currentCity}
