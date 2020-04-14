@@ -13,6 +13,8 @@ export default function EditarFornecedor(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [initialName, setInitialName] = useState('');
   const [errors, setErrors] = useState({});
+  const [canEdit, setCanEdit] = useState(false);
+  const fieldIsDisabled = !canEdit;
 
   useEffect(() => {
     api.get(`/providers/${id}`, { params: { location: true } }).then(response => {
@@ -46,17 +48,23 @@ export default function EditarFornecedor(props) {
     <div className="tela tela-cadastro">
       <Header>Editar Fornecedor</Header>
 
+      <Button color="#dc2438" onClick={() => setCanEdit(true)}>
+        Editar
+      </Button>
+
       <form action="#" onSubmit={handleSubmit}>
         <TextBox
           name="name"
           label="Nome do Fornecedor"
           required
+          disabled={fieldIsDisabled}
           error={errors.name}
           value={formData.name}
           onChange={handleChange}
         />
         <LocationSelector
           required
+          disabled={fieldIsDisabled}
           initialValue={formData.location}
           onChange={value => setFormData({ ...formData, location_id: value })}
         />
@@ -67,6 +75,7 @@ export default function EditarFornecedor(props) {
           name="contact"
           label="Nome do Contato Principal"
           required
+          disabled={fieldIsDisabled}
           error={errors.contact}
           value={formData.contact}
           onChange={handleChange}
@@ -76,6 +85,7 @@ export default function EditarFornecedor(props) {
           label="Telefone do contato"
           type="tel"
           required
+          disabled={fieldIsDisabled}
           error={errors.phone}
           value={formData.phone}
           onChange={handleChange}
@@ -85,22 +95,25 @@ export default function EditarFornecedor(props) {
           label="E-mail do contato principal"
           type="email"
           required
+          disabled={fieldIsDisabled}
           error={errors.email}
           value={formData.email}
           onChange={handleChange}
         />
-        <div className="buttons">
-          <Button
-            type="reset"
-            color="#DC2438"
-            onClick={() => props.history.replace('/fornecedores')}
-          >
-            Cancelar
-          </Button>
-          <Button type="submit" color="#30CC57">
-            Cadastrar
-          </Button>
-        </div>
+        {canEdit && (
+          <div className="buttons">
+            <Button
+              type="reset"
+              color="#DC2438"
+              onClick={() => props.history.replace('/fornecedores')}
+            >
+              Cancelar
+            </Button>
+            <Button type="submit" color="#30CC57">
+              Cadastrar
+            </Button>
+          </div>
+        )}
 
         {window.DEV_MODE && <pre>is loaded: {JSON.stringify(isLoaded)}</pre>}
       </form>
