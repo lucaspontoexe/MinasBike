@@ -86,6 +86,16 @@ export default function EditarCliente(props) {
           value={formData.email}
           onChange={handleChange}
         />
+
+        <TextBox
+          name="cpf"
+          label="CPF"
+          disabled={fieldIsDisabled}
+          error={errors.cpf}
+          value={formData.cpf}
+          onChange={handleChange}
+        />
+
         {canEdit && (
           <div className="buttons">
             <Button
