@@ -18,7 +18,14 @@ function GlobalFilter({ globalFilter, setGlobalFilter, searchText }) {
   );
 }
 
-export default function Table({ columns, data, linkTo, TopHeaderComponent, searchText }) {
+export default function Table({
+  columns,
+  data,
+  withFilter,
+  linkTo,
+  TopHeaderComponent,
+  searchText,
+}) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -39,11 +46,13 @@ export default function Table({ columns, data, linkTo, TopHeaderComponent, searc
   return (
     <>
       <div className="top-header">
-        <GlobalFilter
-          globalFilter={state.globalFilter}
-          setGlobalFilter={setGlobalFilter}
-          searchText={searchText}
-        />
+        {withFilter && (
+          <GlobalFilter
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+            searchText={searchText}
+          />
+        )}
         {TopHeaderComponent}
       </div>
       <table {...getTableProps()}>

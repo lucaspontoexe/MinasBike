@@ -51,6 +51,7 @@ export default function ListaClientes({ history }) {
           <Table
             columns={headers}
             data={data}
+            withFilter
             linkTo="clientes"
             searchText="Buscar clientes..."
             TopHeaderComponent={<TopHeader />}
