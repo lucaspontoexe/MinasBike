@@ -13,6 +13,7 @@ import CadastroCliente from 'pages/Cadastro/Cliente';
 import DetalhesProduto from './pages/DetalhesProduto';
 import EditarFornecedor from 'pages/Editar/Fornecedor';
 import AuthCheck from './AuthCheck';
+import Vendas from 'pages/Vendas';
 
 export default function Routes() {
   return (
@@ -33,6 +34,7 @@ export default function Routes() {
         <Route path="/clientes" exact component={ListaClientes} />
         <Route path="/clientes/novo" component={CadastroCliente} />
 
+        <Route path='/vendas' component={Vendas} />
         <Route path="/estoque" exact component={ListaEstoque} />
         <Route path="/cadastrar" component={LandingPage} />
       </Switch>
