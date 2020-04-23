@@ -23,6 +23,7 @@ export default function Table({
   data,
   withFilter,
   linkTo,
+  updateData,
   TopHeaderComponent,
   searchText,
 }) {
@@ -38,6 +39,7 @@ export default function Table({
     {
       columns,
       data,
+      updateData,
     },
     useGlobalFilter,
     useSortBy
