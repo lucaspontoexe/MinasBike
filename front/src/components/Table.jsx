@@ -75,6 +75,17 @@ export default function Table({
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
+          {rows.length === 0 && headerGroups.length > 0 && (
+            <tr>
+              <td
+                colSpan={headerGroups[0].headers.length}
+                style={{ textAlign: 'center ', height: 96 }}
+              >
+                Nenhum item.
+              </td>
+            </tr>
+          )}
+
           {rows.map(row => {
             prepareRow(row);
             return (
