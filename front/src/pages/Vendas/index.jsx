@@ -63,11 +63,16 @@ export default function Vendas(props) {
   );
   const [data, setData] = useState(algoData);
 
+  const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
+  const total = data.map(item => item.total).reduce(sumReducer)
+
   return (
     <div className="tela tela-vendas">
       <Header>Vendas</Header>
       BORA VENDER??? ENTÃO INVENTA!!!11
       <Table data={data} columns={algoColumns} updateData={updateData} />
+
+      total: {total}
     </div>
   );
 }
