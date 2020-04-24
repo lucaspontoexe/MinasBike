@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import Header from 'components/Header';
 import Table from 'components/Table';
+import SelectWithLabel from 'components/SelectWithLabel';
 
 export default function Vendas(props) {
   const updateData = (rowIndex, columnId, value) => {
@@ -61,6 +62,23 @@ export default function Vendas(props) {
     ],
     []
   );
+
+  function handleChange({value}) {
+    console.log(value)
+    // setData(old => old.push(value))
+    setData(old => ([ ...old, value ]))
+  }
+
+  function ProductSearch(props) {
+    return (
+      <SelectWithLabel
+        placeholder="Buscar Produtos"
+        options={data.map(item => ({ value: item, label: item.name }))}
+        onChange={handleChange}
+      />
+    );
+  }
+
   const [data, setData] = useState(algoData);
 
   const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -70,8 +88,18 @@ export default function Vendas(props) {
     <div className="tela tela-vendas">
       <Header>Vendas</Header>
       BORA VENDER??? ENTÃO INVENTA!!!11
-      <Table data={data} columns={algoColumns} updateData={updateData} />
-      total: {total}
+      <Table
+        data={data}
+        columns={algoColumns}
+        updateData={updateData}
+        TopHeaderComponent={<ProductSearch />}
+      />
+      <div>total: {total}</div>
+      <div>data da venda: AGORA</div>
+      <input type="text" placeholder="vendedor" />
+      <input type="text" placeholder="cliente" />
+      <input type="text" placeholder="prazo" />
+      <textarea name="test" id="ohman" cols="30" rows="10" defaultValue="habemus observação?" />
     </div>
   );
 }
