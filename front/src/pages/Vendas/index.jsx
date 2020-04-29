@@ -3,6 +3,7 @@ import Header from 'components/Header';
 import Table from 'components/Table';
 import SelectWithLabel from 'components/SelectWithLabel';
 import formatSelectItem from 'utils/formatSelectItem';
+import TextBox from 'components/TextBox';
 
 export default function Vendas(props) {
   const updateData = (rowIndex, columnId, value) => {
@@ -111,6 +112,17 @@ export default function Vendas(props) {
   const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
   const total = data.map(item => item.total).reduce(sumReducer, 0);
 
+  // SERVICEORDER POST SCHEMA
+
+  // POST '/serviceorder'
+  // description, delivery_time, total_value, client_id
+
+  // array of serviceorderproducts
+
+  // brandproduct_qty: integer
+  // serviceorder_id: integer
+  // brandproduct_id: integer
+
   return (
     <div className="tela tela-vendas">
       <Header>Vendas</Header>
@@ -124,16 +136,14 @@ export default function Vendas(props) {
       <div>total: {total}</div>
       <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
       <div>vendedor: [Código]</div>
-      
       <SelectWithLabel
         required
         label="Cliente"
         // error={errors.client_id}
         options={algoClients.map(item => formatSelectItem(item.id, item.name))}
       />
-
-      <input type="text" placeholder="prazo" />
-      <input type="text" placeholder="Alguma observação?" />
+      <TextBox name="delivery_time" required type="date" label="Prazo de entrega" />
+      <TextBox name="description" label="Alguma observação?" />
       {/* <textarea name="test" id="ohman" cols="30" rows="10" defaultValue="habemus observação?" /> */}
     </div>
   );
