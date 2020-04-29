@@ -12,7 +12,7 @@ export default function ListaClientes({ history }) {
 
   useEffect(() => {
     function fetchData() {
-      api.get('/clients').then((res) => setClients(res.data));
+      api.get('/clients').then(res => setClients(res.data));
     }
     fetchData();
   }, []);
@@ -27,7 +27,11 @@ export default function ListaClientes({ history }) {
   ];
 
   // id => code
-  const data = clients.map(item => ({...item, code: item.id}));
+  const data = clients.map(item => ({
+    ...item,
+    code: item.id,
+    birthday: new Date(item.birthday).toLocaleDateString(),
+  }));
 
   const TopHeader = () => (
     <Button color="#DC2438" onClick={() => {}}>
