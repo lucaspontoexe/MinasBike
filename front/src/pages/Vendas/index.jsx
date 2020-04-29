@@ -52,13 +52,13 @@ export default function Vendas(props) {
   // mock data
 
   const initialProducts = [
-    { code: 1212, name: 'eh mole', quantity: 1, price: 2600, total: 2600 },
-    { code: 3434, name: 'acontece', quantity: 2, price: 2997, total: 2600 },
+    { id: 1212, name: 'eh mole', quantity: 1, price: 2600, total: 2600 },
+    { id: 3434, name: 'acontece', quantity: 2, price: 2997, total: 2600 },
   ];
 
   const TableColumns = useMemo(
     () => [
-      { Header: 'Código', accessor: 'code' },
+      { Header: 'Código', accessor: 'id' },
       { Header: 'Produto', accessor: 'name' },
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
       { Header: 'Preço', accessor: 'price' },
