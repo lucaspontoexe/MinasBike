@@ -7,7 +7,7 @@ import TextBox from 'components/TextBox';
 
 export default function Vendas(props) {
   const updateData = (rowIndex, columnId, value) => {
-    setData(old =>
+    setProducts(old =>
       old.map((row, index) => {
         if (index === rowIndex) {
           console.log(old, rowIndex, columnId, value);
@@ -51,12 +51,12 @@ export default function Vendas(props) {
 
   // mock data
 
-  const algoData = [
+  const initialProducts = [
     { code: 1212, name: 'eh mole', quantity: 1, price: 2600, total: 2600 },
     { code: 3434, name: 'acontece', quantity: 2, price: 2997, total: 2600 },
   ];
 
-  const algoColumns = useMemo(
+  const TableColumns = useMemo(
     () => [
       { Header: 'Código', accessor: 'code' },
       { Header: 'Produto', accessor: 'name' },
@@ -67,7 +67,7 @@ export default function Vendas(props) {
     []
   );
 
-  const algoClients = [
+  const initialClients = [
     {
       id: 2,
       name: 'só pra garantir que foi',
@@ -94,23 +94,24 @@ export default function Vendas(props) {
 
   function addProduct({ value }) {
     console.log(value);
-    setData(old => [...old, value]);
+    setProducts(old => [...old, value]);
   }
 
   function ProductSearch(props) {
     return (
       <SelectWithLabel
         placeholder="Buscar Produtos"
-        options={data.map(item => ({ value: item, label: item.name }))}
+        options={products.map(item => ({ value: item, label: item.name }))}
         onChange={addProduct}
       />
-    );
+    );  
   }
 
-  const [data, setData] = useState(algoData);
+  const [products, setProducts] = useState(initialProducts);
+  const [clients, setClients] = useState(initialClients);
 
   const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
-  const total = data.map(item => item.total).reduce(sumReducer, 0);
+  const total = products.map(item => item.total).reduce(sumReducer, 0);
 
   // SERVICEORDER POST SCHEMA
 
@@ -126,10 +127,9 @@ export default function Vendas(props) {
   return (
     <div className="tela tela-vendas">
       <Header>Vendas</Header>
-      BORA VENDER??? ENTÃO INVENTA!!!11
       <Table
-        data={data}
-        columns={algoColumns}
+        data={products}
+        columns={TableColumns}
         updateData={updateData}
         TopHeaderComponent={<ProductSearch />}
       />
@@ -140,7 +140,7 @@ export default function Vendas(props) {
         required
         label="Cliente"
         // error={errors.client_id}
-        options={algoClients.map(item => formatSelectItem(item.id, item.name))}
+        options={clients.map(item => formatSelectItem(item.id, item.name))}
       />
       <TextBox name="delivery_time" required type="date" label="Prazo de entrega" />
       <TextBox name="description" label="Alguma observação?" />
