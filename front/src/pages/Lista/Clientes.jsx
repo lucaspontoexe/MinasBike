@@ -18,20 +18,16 @@ export default function ListaClientes({ history }) {
   }, []);
 
   const headers = [
-    { Header: 'Código', accessor: 'code' },
+    { Header: 'Código', accessor: 'id' },
     { Header: 'Nome', accessor: 'name' },
     { Header: 'Endereço', accessor: 'address' },
     { Header: 'Telefone', accessor: 'phone' },
     { Header: 'E-mail', accessor: 'email' },
-    { Header: 'Data de Nascimento', accessor: 'birthday' },
+    {
+      Header: 'Data de Nascimento',
+      Cell: ({ row }) => new Date(row.values.birthday).toLocaleDateString(),
+    },
   ];
-
-  // id => code
-  const data = clients.map(item => ({
-    ...item,
-    code: item.id,
-    birthday: new Date(item.birthday).toLocaleDateString(),
-  }));
 
   const TopHeader = () => (
     <Button color="#DC2438" onClick={() => {}}>
@@ -54,7 +50,7 @@ export default function ListaClientes({ history }) {
         {clients.length > 0 && (
           <Table
             columns={headers}
-            data={data}
+            data={clients}
             withFilter
             linkTo="clientes"
             searchText="Buscar clientes..."
