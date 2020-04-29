@@ -26,7 +26,7 @@ export default function ListaClientes({ history }) {
     {
       Header: 'Data de Nascimento',
       accessor: 'birthday',
-      Cell: ({ row }) => new Date(row.values.birthday).toLocaleDateString(),
+      Cell: ({ cell }) => new Date(cell.value).toLocaleDateString(),
     },
   ];
 

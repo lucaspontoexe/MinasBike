@@ -4,6 +4,7 @@ import Table from 'components/Table';
 import SelectWithLabel from 'components/SelectWithLabel';
 import formatSelectItem from 'utils/formatSelectItem';
 import TextBox from 'components/TextBox';
+import formatPrice from 'utils/formatPrice';
 
 export default function Vendas(props) {
   const updateData = (rowIndex, columnId, value) => {
@@ -61,8 +62,8 @@ export default function Vendas(props) {
       { Header: 'Código', accessor: 'id' },
       { Header: 'Produto', accessor: 'name' },
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
-      { Header: 'Preço', accessor: 'price' },
-      { Header: 'Total', accessor: 'total' },
+      { Header: 'Preço', accessor: 'price', Cell: ({ cell }) => formatPrice(cell.value) },
+      { Header: 'Total', accessor: 'total', Cell: ({ cell }) => formatPrice(cell.value) },
     ],
     []
   );
@@ -95,7 +96,6 @@ export default function Vendas(props) {
   function addProductToTable({ value: product }) {
     setTableData(old => [...old, product]);
     setProducts(old => old.filter(item => item.id !== product.id));
-    console.log(product);
   }
 
   function removeProductFromTable(product) {
@@ -110,10 +110,10 @@ export default function Vendas(props) {
         options={products.map(item => ({ value: item, label: item.name }))}
         onChange={addProductToTable}
       />
-    );  
+    );
   }
 
-  const [products, setProducts] = useState(initialProducts)
+  const [products, setProducts] = useState(initialProducts);
   const [tableData, setTableData] = useState([]);
   const [clients, setClients] = useState(initialClients);
 
@@ -140,7 +140,7 @@ export default function Vendas(props) {
         updateData={updateData}
         TopHeaderComponent={<ProductSearch />}
       />
-      <div>total: {total}</div>
+      <div>total: {formatPrice(total)}</div>
       <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
       <div>vendedor: [Código]</div>
       <SelectWithLabel
