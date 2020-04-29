@@ -7,7 +7,7 @@ import TextBox from 'components/TextBox';
 
 export default function Vendas(props) {
   const updateData = (rowIndex, columnId, value) => {
-    setProducts(old =>
+    setTableData(old =>
       old.map((row, index) => {
         if (index === rowIndex) {
           console.log(old, rowIndex, columnId, value);
@@ -92,9 +92,15 @@ export default function Vendas(props) {
 
   // fim do mock
 
-  function addProduct({ value }) {
-    console.log(value);
-    setProducts(old => [...old, value]);
+  function addProductToTable({ value: product }) {
+    setTableData(old => [...old, product]);
+    setProducts(old => old.filter(item => item.id !== product.id));
+    console.log(product);
+  }
+
+  function removeProductFromTable(product) {
+    setProducts(old => [...old, product]);
+    setTableData(old => old.filter(item => item.id !== product.id));
   }
 
   function ProductSearch(props) {
@@ -102,16 +108,17 @@ export default function Vendas(props) {
       <SelectWithLabel
         placeholder="Buscar Produtos"
         options={products.map(item => ({ value: item, label: item.name }))}
-        onChange={addProduct}
+        onChange={addProductToTable}
       />
     );  
   }
 
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState(initialProducts)
+  const [tableData, setTableData] = useState([]);
   const [clients, setClients] = useState(initialClients);
 
   const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
-  const total = products.map(item => item.total).reduce(sumReducer, 0);
+  const total = tableData.map(item => item.total).reduce(sumReducer, 0);
 
   // SERVICEORDER POST SCHEMA
 
@@ -128,7 +135,7 @@ export default function Vendas(props) {
     <div className="tela tela-vendas">
       <Header>Vendas</Header>
       <Table
-        data={products}
+        data={tableData}
         columns={TableColumns}
         updateData={updateData}
         TopHeaderComponent={<ProductSearch />}
