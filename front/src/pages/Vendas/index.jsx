@@ -65,7 +65,6 @@ export default function Vendas(props) {
 
   function handleChange({value}) {
     console.log(value)
-    // setData(old => old.push(value))
     setData(old => ([ ...old, value ]))
   }
 
@@ -95,11 +94,13 @@ export default function Vendas(props) {
         TopHeaderComponent={<ProductSearch />}
       />
       <div>total: {total}</div>
-      <div>data da venda: AGORA</div>
-      <input type="text" placeholder="vendedor" />
+      <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
+      <div>vendedor: [Código]</div>
+
       <input type="text" placeholder="cliente" />
       <input type="text" placeholder="prazo" />
-      <textarea name="test" id="ohman" cols="30" rows="10" defaultValue="habemus observação?" />
+      <input type="text" placeholder="Alguma observação?"/>
+      {/* <textarea name="test" id="ohman" cols="30" rows="10" defaultValue="habemus observação?" /> */}
     </div>
   );
 }
