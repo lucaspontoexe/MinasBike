@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import Header from 'components/Header';
 import Table from 'components/Table';
 import SelectWithLabel from 'components/SelectWithLabel';
+import formatSelectItem from 'utils/formatSelectItem';
 
 export default function Vendas(props) {
   const updateData = (rowIndex, columnId, value) => {
@@ -47,6 +48,8 @@ export default function Vendas(props) {
     return <input value={value} onChange={onChange} onBlur={onBlur} />;
   };
 
+  // mock data
+
   const algoData = [
     { code: 1212, name: 'eh mole', quantity: 1, price: 2600, total: 2600 },
     { code: 3434, name: 'acontece', quantity: 2, price: 2997, total: 2600 },
@@ -63,9 +66,34 @@ export default function Vendas(props) {
     []
   );
 
-  function handleChange({value}) {
-    console.log(value)
-    setData(old => ([ ...old, value ]))
+  const algoClients = [
+    {
+      id: 2,
+      name: 'só pra garantir que foi',
+      address: '12121',
+      phone: '40028922',
+      email: 'tiolee@som.com',
+      birthday: '2020-04-05T00:00:00.000Z',
+      created_at: '2020-04-05 21:36:02',
+      updated_at: '2020-04-05 21:36:02',
+    },
+    {
+      id: 1,
+      name: 'AGORA NÃO TEM COMO NÃO IR',
+      address: 'Casa do Caramba, Algum Lugar, SP',
+      phone: '08007778000',
+      email: 'caramba@a.b',
+      birthday: '1998-10-16T00:00:00.000Z',
+      created_at: '2020-04-05 21:10:24',
+      updated_at: '2020-04-16 01:11:18',
+    },
+  ];
+
+  // fim do mock
+
+  function addProduct({ value }) {
+    console.log(value);
+    setData(old => [...old, value]);
   }
 
   function ProductSearch(props) {
@@ -73,7 +101,7 @@ export default function Vendas(props) {
       <SelectWithLabel
         placeholder="Buscar Produtos"
         options={data.map(item => ({ value: item, label: item.name }))}
-        onChange={handleChange}
+        onChange={addProduct}
       />
     );
   }
@@ -96,10 +124,16 @@ export default function Vendas(props) {
       <div>total: {total}</div>
       <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
       <div>vendedor: [Código]</div>
+      
+      <SelectWithLabel
+        required
+        label="Cliente"
+        // error={errors.client_id}
+        options={algoClients.map(item => formatSelectItem(item.id, item.name))}
+      />
 
-      <input type="text" placeholder="cliente" />
       <input type="text" placeholder="prazo" />
-      <input type="text" placeholder="Alguma observação?"/>
+      <input type="text" placeholder="Alguma observação?" />
       {/* <textarea name="test" id="ohman" cols="30" rows="10" defaultValue="habemus observação?" /> */}
     </div>
   );
