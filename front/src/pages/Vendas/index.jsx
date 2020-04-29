@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Header from 'components/Header';
 import Table from 'components/Table';
 import SelectWithLabel from 'components/SelectWithLabel';
 import formatSelectItem from 'utils/formatSelectItem';
 import TextBox from 'components/TextBox';
 import formatPrice from 'utils/formatPrice';
+import api from 'services/api';
 
 export default function Vendas(props) {
   const updateData = (rowIndex, columnId, value) => {
@@ -49,14 +50,7 @@ export default function Vendas(props) {
 
     return <input value={value} onChange={onChange} onBlur={onBlur} />;
   };
-
-  // mock data
-
-  const initialProducts = [
-    { id: 1212, name: 'eh mole', quantity: 1, price: 2600, total: 2600 },
-    { id: 3434, name: 'acontece', quantity: 2, price: 2997, total: 2600 },
-  ];
-
+  
   const TableColumns = useMemo(
     () => [
       { Header: 'Código', accessor: 'id' },
@@ -66,8 +60,9 @@ export default function Vendas(props) {
       { Header: 'Total', accessor: 'total', Cell: ({ cell }) => formatPrice(cell.value) },
     ],
     []
-  );
-
+    );
+    // mock data
+    
   const initialClients = [
     {
       id: 2,
@@ -107,18 +102,31 @@ export default function Vendas(props) {
     return (
       <SelectWithLabel
         placeholder="Buscar Produtos"
-        options={products.map(item => ({ value: item, label: item.name }))}
+        options={products.map(item => ({ value: item, label: `${item.brand.name} ${item.product.name}` }))}
         onChange={addProductToTable}
       />
     );
   }
 
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [clients, setClients] = useState(initialClients);
 
   const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
   const total = tableData.map(item => item.total).reduce(sumReducer, 0);
+
+  useEffect(() => {   
+    const fetchData = async () => {
+      
+      const {data: products} = (await api.get('/brandproducts?brand&product'))
+      const {data: clients}  = (await api.get('/clients'))
+      setClients(clients)
+      setProducts(products)
+      console.log(products)
+
+    }
+    fetchData();
+  }, [])
 
   // SERVICEORDER POST SCHEMA
 
