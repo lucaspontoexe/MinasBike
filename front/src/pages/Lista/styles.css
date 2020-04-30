@@ -13,6 +13,9 @@
 
     position: sticky;
     top: 0px;
+
+    background: #fafafa;
+    padding: 10px;
 }
 
 .table-wrapper .top-header .text-box {
