@@ -24,6 +24,38 @@ export default function Vendas(props) {
       })
     );
   };
+
+  function addProductToTable({ value: product }) {
+    setTableData(old => [
+      ...old,
+      {
+        ...product,
+        name: `${product.product.name} ${product.brand.name}`,
+        total: product.price,
+        quantity: 1,
+      },
+    ]);
+    setProducts(old => old.filter(item => item.id !== product.id));
+  }
+
+  function removeProductFromTable(product) {
+    setProducts(old => [...old, product]);
+    setTableData(old => old.filter(item => item.id !== product.id));
+  }
+
+  function ProductSearch() {
+    return (
+      <SelectWithLabel
+        placeholder="Buscar Produtos"
+        options={products.map(item => ({
+          value: item,
+          label: `${item.product.name} ${item.brand.name}`,
+        }))}
+        onChange={addProductToTable}
+      />
+    );
+  }
+
   // Quantidade tá editável, mas ainda tem coisa hardcoded
   const EditableCell = ({
     cell: { value: initialValue },
@@ -50,7 +82,24 @@ export default function Vendas(props) {
 
     return <input value={value} onChange={onChange} onBlur={onBlur} />;
   };
-  
+
+  const [products, setProducts] = useState([]);
+  const [tableData, setTableData] = useState([]);
+  const [clients, setClients] = useState([]);
+
+  const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
+  const total = tableData.map(item => item.total).reduce(sumReducer, 0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: products } = await api.get('/brandproducts?brand&product');
+      const { data: clients } = await api.get('/clients');
+      setClients(clients);
+      setProducts(products);
+    };
+    fetchData();
+  }, []);
+
   const TableColumns = useMemo(
     () => [
       { Header: 'Código', accessor: 'id' },
@@ -60,74 +109,7 @@ export default function Vendas(props) {
       { Header: 'Total', accessor: 'total', Cell: ({ cell }) => formatPrice(cell.value) },
     ],
     []
-    );
-    // mock data
-    
-  const initialClients = [
-    {
-      id: 2,
-      name: 'só pra garantir que foi',
-      address: '12121',
-      phone: '40028922',
-      email: 'tiolee@som.com',
-      birthday: '2020-04-05T00:00:00.000Z',
-      created_at: '2020-04-05 21:36:02',
-      updated_at: '2020-04-05 21:36:02',
-    },
-    {
-      id: 1,
-      name: 'AGORA NÃO TEM COMO NÃO IR',
-      address: 'Casa do Caramba, Algum Lugar, SP',
-      phone: '08007778000',
-      email: 'caramba@a.b',
-      birthday: '1998-10-16T00:00:00.000Z',
-      created_at: '2020-04-05 21:10:24',
-      updated_at: '2020-04-16 01:11:18',
-    },
-  ];
-
-  // fim do mock
-
-  function addProductToTable({ value: product }) {
-    setTableData(old => [...old, product]);
-    setProducts(old => old.filter(item => item.id !== product.id));
-  }
-
-  function removeProductFromTable(product) {
-    setProducts(old => [...old, product]);
-    setTableData(old => old.filter(item => item.id !== product.id));
-  }
-
-  function ProductSearch(props) {
-    return (
-      <SelectWithLabel
-        placeholder="Buscar Produtos"
-        options={products.map(item => ({ value: item, label: `${item.brand.name} ${item.product.name}` }))}
-        onChange={addProductToTable}
-      />
-    );
-  }
-
-  const [products, setProducts] = useState([]);
-  const [tableData, setTableData] = useState([]);
-  const [clients, setClients] = useState(initialClients);
-
-  const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
-  const total = tableData.map(item => item.total).reduce(sumReducer, 0);
-
-  useEffect(() => {   
-    const fetchData = async () => {
-      
-      const {data: products} = (await api.get('/brandproducts?brand&product'))
-      const {data: clients}  = (await api.get('/clients'))
-      setClients(clients)
-      setProducts(products)
-      console.log(products)
-
-    }
-    fetchData();
-  }, [])
-
+  );
   // SERVICEORDER POST SCHEMA
 
   // POST '/serviceorder'
