@@ -128,19 +128,17 @@ export default function Vendas(props) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const obj = { ...formData, total_value: total };
-    console.log(obj);
+    const products = tableData.map(item => ({
+      brandproduct_qty: item.quantity,
+      brandproduct_id: item.id,
+    }));
+
+    const obj = { ...formData, total_value: total, serviceorderproducts: products };
+    api
+      .post('/serviceorders', obj)
+      .then(response => console.log('deu bom', response))
+      .catch(response => console.log('deu ruim', response));
   }
-  // SERVICEORDER POST SCHEMA
-
-  // POST '/serviceorder'
-  // description, delivery_time, total_value, client_id
-
-  // array of serviceorderproducts
-
-  // brandproduct_qty: integer
-  // serviceorder_id: integer
-  // brandproduct_id: integer
 
   return (
     <div className="tela tela-vendas">
