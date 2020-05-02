@@ -173,7 +173,7 @@ export default function Vendas(props) {
         <TextBox name="description" label="Alguma observação?" onChange={handleInputChange} />
 
         <div className="buttons">
-          <Button type="reset" color="#DC2438" onClick={() => props.history.pop()}>
+          <Button type="reset" color="#DC2438" onClick={() => props.history.replace('/produtos')}>
             Voltar
           </Button>
           <Button type="submit" color="#30CC57">
