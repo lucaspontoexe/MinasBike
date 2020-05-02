@@ -7,6 +7,7 @@ import SelectWithLabel from 'components/SelectWithLabel';
 
 import formatSelectItem from 'utils/formatSelectItem';
 import formatPrice from 'utils/formatPrice';
+import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import api from 'services/api';
 
 export default function Vendas(props) {
@@ -98,6 +99,8 @@ export default function Vendas(props) {
     client_id: 0,
   });
 
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     const fetchData = async () => {
       const { data: products } = await api.get('/brandproducts?brand&product');
@@ -136,8 +139,11 @@ export default function Vendas(props) {
     const obj = { ...formData, total_value: total, serviceorderproducts: products };
     api
       .post('/serviceorders', obj)
-      .then(response => console.log('deu bom', response))
-      .catch(response => console.log('deu ruim', response));
+      .then(response => {
+        console.log('deu bom', response);
+        props.history.push('/produtos');
+      })
+      .catch(err => setErrors(formatErrorsSingleObject(err.response.data)));
   }
 
   return (
@@ -149,6 +155,9 @@ export default function Vendas(props) {
         updateData={updateData}
         TopHeaderComponent={<ProductSearch />}
       />
+      
+      {errors.serviceorderproducts && <div class="error">{errors.serviceorderproducts}</div>}
+
       <div>total: {formatPrice(total)}</div>
       <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
       <div>vendedor: [Código]</div>
@@ -157,7 +166,7 @@ export default function Vendas(props) {
         <SelectWithLabel
           required
           label="Cliente"
-          // error={errors.client_id}
+          error={errors.client_id}
           options={clients.map(item => formatSelectItem(item.id, item.name))}
           onChange={data => handleChange({ client_id: data.value })}
         />
@@ -166,9 +175,15 @@ export default function Vendas(props) {
           required
           type="date"
           label="Prazo de entrega"
+          error={errors.delivery_time}
           onChange={handleInputChange}
         />
-        <TextBox name="description" label="Alguma observação?" onChange={handleInputChange} />
+        <TextBox
+          name="description"
+          label="Alguma observação?"
+          onChange={handleInputChange}
+          error={errors.description}
+        />
 
         <div className="buttons">
           <Button type="reset" color="#DC2438" onClick={() => props.history.replace('/produtos')}>
