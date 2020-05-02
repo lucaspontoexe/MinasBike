@@ -1,9 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Header from 'components/Header';
 import Table from 'components/Table';
-import SelectWithLabel from 'components/SelectWithLabel';
-import formatSelectItem from 'utils/formatSelectItem';
 import TextBox from 'components/TextBox';
+import Button from 'components/Button';
+import SelectWithLabel from 'components/SelectWithLabel';
+
+import formatSelectItem from 'utils/formatSelectItem';
 import formatPrice from 'utils/formatPrice';
 import api from 'services/api';
 
@@ -38,10 +40,10 @@ export default function Vendas(props) {
     setProducts(old => old.filter(item => item.id !== product.id));
   }
 
-  function removeProductFromTable(product) {
-    setProducts(old => [...old, product]);
-    setTableData(old => old.filter(item => item.id !== product.id));
-  }
+  // function removeProductFromTable(product) {
+  //   setProducts(old => [...old, product]);
+  //   setTableData(old => old.filter(item => item.id !== product.id));
+  // }
 
   function ProductSearch() {
     return (
@@ -56,7 +58,6 @@ export default function Vendas(props) {
     );
   }
 
-  // Quantidade tá editável, mas ainda tem coisa hardcoded
   const EditableCell = ({
     cell: { value: initialValue },
     row: { index },
@@ -90,6 +91,13 @@ export default function Vendas(props) {
   const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
   const total = tableData.map(item => item.total).reduce(sumReducer, 0);
 
+  const [formData, setFormData] = useState({
+    description: '',
+    delivery_time: '',
+    total_value: 0,
+    client_id: 0,
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       const { data: products } = await api.get('/brandproducts?brand&product');
@@ -110,6 +118,19 @@ export default function Vendas(props) {
     ],
     []
   );
+
+  function handleChange(newData) {
+    setFormData(old => ({ ...old, ...newData }));
+  }
+
+  const handleInputChange = e => handleChange({ [e.target.name]: e.target.value });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const obj = { ...formData, total_value: total };
+    console.log(obj);
+  }
   // SERVICEORDER POST SCHEMA
 
   // POST '/serviceorder'
@@ -133,15 +154,33 @@ export default function Vendas(props) {
       <div>total: {formatPrice(total)}</div>
       <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
       <div>vendedor: [Código]</div>
-      <SelectWithLabel
-        required
-        label="Cliente"
-        // error={errors.client_id}
-        options={clients.map(item => formatSelectItem(item.id, item.name))}
-      />
-      <TextBox name="delivery_time" required type="date" label="Prazo de entrega" />
-      <TextBox name="description" label="Alguma observação?" />
-      {/* <textarea name="test" id="ohman" cols="30" rows="10" defaultValue="habemus observação?" /> */}
+
+      <form onSubmit={handleSubmit}>
+        <SelectWithLabel
+          required
+          label="Cliente"
+          // error={errors.client_id}
+          options={clients.map(item => formatSelectItem(item.id, item.name))}
+          onChange={data => handleChange({ client_id: data.value })}
+        />
+        <TextBox
+          name="delivery_time"
+          required
+          type="date"
+          label="Prazo de entrega"
+          onChange={handleInputChange}
+        />
+        <TextBox name="description" label="Alguma observação?" onChange={handleInputChange} />
+
+        <div className="buttons">
+          <Button type="reset" color="#DC2438" onClick={() => props.history.pop()}>
+            Voltar
+          </Button>
+          <Button type="submit" color="#30CC57">
+            Cadastrar
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }
