@@ -4,8 +4,8 @@ import Table from 'components/Table';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import SelectWithLabel from 'components/SelectWithLabel';
-import EditableCell from 'components/EditableCell';
-import PriceCell from 'components/PriceCell';
+import EditableCell from 'components/Table/EditableCell';
+import PriceCell from 'components/Table/PriceCell';
 
 import formatSelectItem from 'utils/formatSelectItem';
 import formatPrice from 'utils/formatPrice';
