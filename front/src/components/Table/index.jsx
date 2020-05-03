@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTable, useSortBy, useGlobalFilter } from 'react-table';
-import TextBox from './TextBox';
+import TextBox from 'components/TextBox';
 
 import searchIcon from 'assets/icons/search.svg';
 
