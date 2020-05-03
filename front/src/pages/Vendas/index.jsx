@@ -5,6 +5,7 @@ import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import SelectWithLabel from 'components/SelectWithLabel';
 import EditableCell from 'components/EditableCell';
+import PriceCell from 'components/PriceCell';
 
 import formatSelectItem from 'utils/formatSelectItem';
 import formatPrice from 'utils/formatPrice';
@@ -91,8 +92,8 @@ export default function Vendas(props) {
       { Header: 'Código', accessor: 'id' },
       { Header: 'Produto', accessor: 'name' },
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
-      { Header: 'Preço', accessor: 'price', Cell: ({ cell }) => formatPrice(cell.value) },
-      { Header: 'Total', accessor: 'total', Cell: ({ cell }) => formatPrice(cell.value) },
+      { Header: 'Preço', accessor: 'price', Cell: PriceCell },
+      { Header: 'Total', accessor: 'total', Cell: PriceCell },
     ],
     []
   );
