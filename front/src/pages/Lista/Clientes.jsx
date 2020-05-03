@@ -4,6 +4,7 @@ import api from 'services/api';
 import Header from 'components/Header';
 import Button from 'components/Button';
 import Table from 'components/Table';
+import DateCell from 'components/Table/DateCell';
 
 import './styles.css';
 
@@ -26,7 +27,7 @@ export default function ListaClientes({ history }) {
     {
       Header: 'Data de Nascimento',
       accessor: 'birthday',
-      Cell: ({ cell }) => new Date(cell.value).toLocaleDateString(),
+      Cell: DateCell,
     },
   ];
 
