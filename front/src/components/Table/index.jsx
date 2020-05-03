@@ -81,7 +81,7 @@ export default function Table({
                 colSpan={headerGroups[0].headers.length}
                 style={{ textAlign: 'center ', height: 96 }}
               >
-                Nenhum item.
+                Nenhum item
               </td>
             </tr>
           )}
