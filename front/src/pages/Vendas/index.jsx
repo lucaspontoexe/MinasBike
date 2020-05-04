@@ -112,7 +112,7 @@ export default function Vendas(props) {
       brandproduct_id: item.id,
     }));
 
-    const obj = { ...formData, total_value: total, serviceorderproducts: products };
+    const obj = { ...formData, total_value: totalWithDiscount, serviceorderproducts: products };
     api
       .post('/serviceorders', obj)
       .then(response => {
@@ -121,6 +121,15 @@ export default function Vendas(props) {
       })
       .catch(err => setErrors(formatErrorsSingleObject(err.response.data)));
   }
+
+  const [discount, setDiscount] = useState(0);
+
+  function applyDiscount(value) {
+    if (value < 0) setDiscount(0);
+    else if (value > 100) setDiscount(100);
+    else setDiscount(value);
+  }
+  const totalWithDiscount = total * (1 - discount / 100);
 
   return (
     <div className="tela tela-vendas">
@@ -135,8 +144,18 @@ export default function Vendas(props) {
       {errors.serviceorderproducts && <div class="error">{errors.serviceorderproducts}</div>}
 
       <div>total: {formatPrice(total)}</div>
+      <div>total com desconto: {formatPrice(totalWithDiscount)}</div>
       <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
       <div>vendedor: [Código]</div>
+
+      <TextBox
+        label="Desconto (%)"
+        type="number"
+        min={0}
+        max={100}
+        value={discount}
+        onChange={e => applyDiscount(Number(e.target.value))}
+      />
 
       <form onSubmit={handleSubmit}>
         <SelectWithLabel
