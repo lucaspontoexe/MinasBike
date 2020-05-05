@@ -21,6 +21,7 @@ function Menu(props) {
     { name: 'Fornecedores', path: '/fornecedores', icon: fornecedor },
     { name: 'Estoque', path: '/estoque', icon: estoque },
     { name: 'Vendas', path: '/vendas', icon: vendas },
+    { name: 'Recebimentos', path: '/recebimentos', icon: vendas },
     { name: 'Usuários', path: '/usuarios', icon: user },
     { name: 'Clientes', path: '/clientes', icon: user },
   ];
