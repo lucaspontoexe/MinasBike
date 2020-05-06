@@ -18,35 +18,31 @@ export default function Recebimentos(props) {
       old.map((row, index) => {
         if (index === rowIndex) {
           console.log(old, rowIndex, columnId, value);
-          return {
+          let temp = {
             ...old[rowIndex],
             [columnId]: value,
-            // if columnid == quantity
-            total: Number(old[rowIndex].price) * Number(value),
           };
+
+          return { ...temp, total: Number(temp.quantity) * Number(temp.price) };
         }
         return row;
       })
     );
   };
 
-  function addProductToTable({ value: product }) {
+  function addProduct({ value: prpr }) {
     setTableData(old => [
       ...old,
       {
-        ...product,
-        name: `${product.product.name} ${product.brand.name}`,
-        total: product.price,
+        ...prpr,
+        // name: `${product.product.name} ${product.brand.name}`,
+        name: prpr.id,
+        price: prpr.cost_price,
+        total: prpr.cost_price,
         quantity: 1,
       },
     ]);
-    setProducts(old => old.filter(item => item.id !== product.id));
   }
-
-  // function removeProductFromTable(product) {
-  //   setProducts(old => [...old, product]);
-  //   setTableData(old => old.filter(item => item.id !== product.id));
-  // }
 
   function ProductSearch() {
     return (
@@ -54,9 +50,10 @@ export default function Recebimentos(props) {
         placeholder="Adicionar Produtos"
         options={products.map(item => ({
           value: item,
-          label: `${item.product.name} ${item.brand.name}`,
+          // label: `${item.product.name} ${item.brand.name}`,
+          label: item.brandproduct_id
         }))}
-        onChange={addProductToTable}
+        onChange={addProduct}
       />
     );
   }
@@ -64,6 +61,7 @@ export default function Recebimentos(props) {
   const [products, setProducts] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [clients, setClients] = useState([]);
+  const [providers, setProviders] = useState([]);
 
   const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
   const total = tableData.map(item => item.total).reduce(sumReducer, 0);
@@ -80,9 +78,11 @@ export default function Recebimentos(props) {
   useEffect(() => {
     const fetchData = async () => {
       const { data: products } = await api.get('/brandproducts?brand&product');
+      const { data: providers } = await api.get('/providers?providerproducts');
       const { data: clients } = await api.get('/clients');
       setClients(clients);
       setProducts(products);
+      setProviders(providers);
     };
     fetchData();
   }, []);
@@ -92,7 +92,7 @@ export default function Recebimentos(props) {
       { Header: 'Código', accessor: 'id' },
       { Header: 'Produto', accessor: 'name' },
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
-      { Header: 'Preço', accessor: 'price', Cell: PriceCell },
+      { Header: 'Preço', accessor: 'price', Cell: EditableCell },
       { Header: 'Total', accessor: 'total', Cell: PriceCell },
     ],
     []
@@ -128,11 +128,11 @@ export default function Recebimentos(props) {
 
       <SelectWithLabel
         placeholder="Buscar Fornecedor"
-        // options={products.map(item => ({
-        //   value: item,
-        //   label: `${item.product.name} ${item.brand.name}`,
-        // }))}
-        // onChange={addProductToTable}
+        options={providers.map(item => ({
+          value: item,
+          label: item.name,
+        }))}
+        onChange={({value: provider}) => setProducts(provider.providerproducts)}
       />
 
       <Table
@@ -142,11 +142,13 @@ export default function Recebimentos(props) {
         TopHeaderComponent={<ProductSearch />}
       />
 
-      {errors.receivedproviderproducts && <div class="error">{errors.receivedproviderproducts}</div>}
+      {errors.receivedproviderproducts && (
+        <div class="error">{errors.receivedproviderproducts}</div>
+      )}
 
       <div>total: {formatPrice(total)}</div>
-      <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
-      <div>vendedor: [Código]</div>
+      <div>data da compra: {`${new Date().toLocaleDateString()}`}</div>
+      <div>vendedor: provavelmente não tem, vai o fornecedor</div>
 
       <form onSubmit={handleSubmit}>
         <SelectWithLabel

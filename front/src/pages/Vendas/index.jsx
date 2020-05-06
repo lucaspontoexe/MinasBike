@@ -18,12 +18,12 @@ export default function Vendas(props) {
       old.map((row, index) => {
         if (index === rowIndex) {
           console.log(old, rowIndex, columnId, value);
-          return {
+          let temp = {
             ...old[rowIndex],
             [columnId]: value,
-            // if columnid == quantity
-            total: Number(old[rowIndex].price) * Number(value),
           };
+
+          return { ...temp, total: Number(temp.quantity) * Number(temp.price) };
         }
         return row;
       })
