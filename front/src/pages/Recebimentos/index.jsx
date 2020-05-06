@@ -149,7 +149,6 @@ export default function Recebimentos(props) {
 
       <div>total: {formatPrice(total)}</div>
       <div>data da compra: {`${new Date().toLocaleDateString()}`}</div>
-      <div>vendedor: provavelmente não tem, vai o fornecedor</div>
 
       <form onSubmit={handleSubmit}>
         <TextBox
