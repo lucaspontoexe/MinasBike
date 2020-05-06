@@ -12,8 +12,11 @@ import CadastroFornecedor from 'pages/Cadastro/Fornecedor';
 import CadastroCliente from 'pages/Cadastro/Cliente';
 import DetalhesProduto from './pages/DetalhesProduto';
 import EditarFornecedor from 'pages/Editar/Fornecedor';
+import EditarCliente from 'pages/Editar/Cliente';
+
 import Vendas from 'pages/Vendas';
 import Recebimentos from 'pages/Recebimentos';
+
 import AuthCheck from './AuthCheck';
 
 export default function Routes() {
@@ -34,6 +37,7 @@ export default function Routes() {
 
         <Route path="/clientes" exact component={ListaClientes} />
         <Route path="/clientes/novo" component={CadastroCliente} />
+        <Route path="/clientes/:id" component={EditarCliente} />
 
         <Route path='/vendas' component={Vendas} />
         <Route path='/recebimentos' component={Recebimentos} />
