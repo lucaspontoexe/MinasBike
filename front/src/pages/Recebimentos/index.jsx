@@ -109,8 +109,8 @@ export default function Recebimentos(props) {
     e.preventDefault();
 
     const products = tableData.map(item => ({
-      brandproduct_qty: item.quantity,
-      brandproduct_id: item.id,
+      providerproduct_qty: item.quantity,
+      providerproduct_id: item.id,
     }));
 
     const obj = { ...formData, total_value: total, receivedproviderproducts: products };
