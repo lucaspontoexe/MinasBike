@@ -9,6 +9,7 @@ import PriceCell from 'components/Table/PriceCell';
 
 import formatPrice from 'utils/formatPrice';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+import { queryObject } from 'utils/getProperty';
 import api from 'services/api';
 
 export default function Recebimentos(props) {
@@ -34,8 +35,10 @@ export default function Recebimentos(props) {
       ...old,
       {
         ...prpr,
-        // name: `${product.product.name} ${product.brand.name}`,
-        name: prpr.id,
+        name:
+          queryObject(brandproducts, prpr.id, 'product.name') +
+          ' ' +
+          queryObject(brandproducts, prpr.id, 'brand.name'),
         price: prpr.cost_price,
         total: prpr.cost_price,
         quantity: 1,
@@ -47,17 +50,19 @@ export default function Recebimentos(props) {
     return (
       <SelectWithLabel
         placeholder="Adicionar Produtos"
-        options={products.map(item => ({
+        options={providerproducts.map(item => ({
           value: item,
-          // label: `${item.product.name} ${item.brand.name}`,
-          label: item.brandproduct_id,
+          label:
+            queryObject(brandproducts, item.id, 'product.name') +
+            ' ' +
+            queryObject(brandproducts, item.id, 'brand.name'),
         }))}
         onChange={addProduct}
       />
     );
   }
-
-  const [products, setProducts] = useState([]);
+  const [brandproducts, setBrandproducts] = useState([]);
+  const [providerproducts, setProviderproducts] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [providers, setProviders] = useState([]);
 
@@ -77,7 +82,7 @@ export default function Recebimentos(props) {
     const fetchData = async () => {
       const { data: products } = await api.get('/brandproducts?brand&product');
       const { data: providers } = await api.get('/providers?providerproducts');
-      setProducts(products);
+      setBrandproducts(products);
       setProviders(providers);
     };
     fetchData();
@@ -128,7 +133,7 @@ export default function Recebimentos(props) {
           value: item,
           label: item.name,
         }))}
-        onChange={({ value: provider }) => setProducts(provider.providerproducts)}
+        onChange={({ value: provider }) => setProviderproducts(provider.providerproducts)}
       />
 
       <Table
