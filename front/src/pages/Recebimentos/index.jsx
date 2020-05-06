@@ -7,7 +7,6 @@ import SelectWithLabel from 'components/SelectWithLabel';
 import EditableCell from 'components/Table/EditableCell';
 import PriceCell from 'components/Table/PriceCell';
 
-import formatSelectItem from 'utils/formatSelectItem';
 import formatPrice from 'utils/formatPrice';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import api from 'services/api';
@@ -51,7 +50,7 @@ export default function Recebimentos(props) {
         options={products.map(item => ({
           value: item,
           // label: `${item.product.name} ${item.brand.name}`,
-          label: item.brandproduct_id
+          label: item.brandproduct_id,
         }))}
         onChange={addProduct}
       />
@@ -60,7 +59,6 @@ export default function Recebimentos(props) {
 
   const [products, setProducts] = useState([]);
   const [tableData, setTableData] = useState([]);
-  const [clients, setClients] = useState([]);
   const [providers, setProviders] = useState([]);
 
   const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -79,8 +77,6 @@ export default function Recebimentos(props) {
     const fetchData = async () => {
       const { data: products } = await api.get('/brandproducts?brand&product');
       const { data: providers } = await api.get('/providers?providerproducts');
-      const { data: clients } = await api.get('/clients');
-      setClients(clients);
       setProducts(products);
       setProviders(providers);
     };
@@ -132,7 +128,7 @@ export default function Recebimentos(props) {
           value: item,
           label: item.name,
         }))}
-        onChange={({value: provider}) => setProducts(provider.providerproducts)}
+        onChange={({ value: provider }) => setProducts(provider.providerproducts)}
       />
 
       <Table
@@ -151,13 +147,6 @@ export default function Recebimentos(props) {
       <div>vendedor: provavelmente não tem, vai o fornecedor</div>
 
       <form onSubmit={handleSubmit}>
-        <SelectWithLabel
-          required
-          label="Cliente"
-          error={errors.client_id}
-          options={clients.map(item => formatSelectItem(item.id, item.name))}
-          onChange={data => handleChange({ client_id: data.value })}
-        />
         <TextBox
           name="delivery_time"
           required
