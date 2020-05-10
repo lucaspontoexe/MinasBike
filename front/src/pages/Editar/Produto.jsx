@@ -17,6 +17,7 @@ const initialState = {
   cost_price: 0,
   current_qty: 0,
   errors: {},
+  brands: [],
   brandproducts: [],
   categories: [],
 };
@@ -26,7 +27,7 @@ function reducer(state, action) {
     case 'text-change':
       return { ...state, [action.property.name]: action.property.value };
     case 'select-change':
-      return { ...state, [action.property]: action.value };
+      return { ...state, [action.name]: action.property };
     case 'api-fetch':
       return { ...state, [action.property]: action.value };
     default:
@@ -37,8 +38,8 @@ function reducer(state, action) {
 
 export default function EditarProduto(props) {
   const { id } = props.match.params;
-  const [canEdit, setCanEdit] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [canEdit, setCanEdit] = useState(false);
 
   async function fetchFromAPI() {
     try {
@@ -75,7 +76,9 @@ export default function EditarProduto(props) {
           label="Categoria"
           error={state.errors.category_id}
           options={state.categories.map(item => formatSelectItem(item.id, item.name))}
-          // onChange={sel => handleChange(setProductForm, { name: 'category_id', value: sel.value })}
+          onChange={option =>
+            dispatch({ type: 'select-change', name: 'category_id', property: option.value })
+          }
         />
 
         {/* brand */}
@@ -85,8 +88,10 @@ export default function EditarProduto(props) {
           name="brand_id"
           label="Marca"
           error={state.errors.brand_id}
-          // options={categories.map(item => formatSelectItem(item.id, item.name))}
-          // onChange={sel => handleChange(setProductForm, { name: 'category_id', value: sel.value })}
+          options={state.brands.map(item => formatSelectItem(item.id, item.name))}
+          onChange={option =>
+            dispatch({ type: 'select-change', name: 'brand_id', property: option.value })
+          }
         />
 
         {/* brandproduct */}
@@ -95,8 +100,9 @@ export default function EditarProduto(props) {
           disabled={!canEdit}
           name="code"
           label="Código de Barras"
-          // onChange={handleInputChange}
-          // error={errors.description}
+          error={state.errors.code}
+          value={state.code}
+          onChange={event => dispatch({ type: 'text-change', property: event.target })}
         />
 
         <TextBox
@@ -104,8 +110,9 @@ export default function EditarProduto(props) {
           disabled={!canEdit}
           name="cost_price"
           label="Preço de Custo"
-          // onChange={handleInputChange}
-          // error={errors.description}
+          error={state.errors.description}
+          value={state.description}
+          onChange={event => dispatch({ type: 'text-change', property: event.target })}
         />
 
         {/* stock */}
@@ -114,8 +121,9 @@ export default function EditarProduto(props) {
           disabled={!canEdit}
           name="current_qty"
           label="Quantidade atual de estoque"
-          // onChange={handleInputChange}
-          // error={errors.description}
+          error={state.errors.current_qty}
+          value={state.current_qty}
+          onChange={event => dispatch({ type: 'text-change', property: event.target })}
         />
         {/* provider */}
         <ProviderSelector brandproduct_id={1} onChange={console.log} />
