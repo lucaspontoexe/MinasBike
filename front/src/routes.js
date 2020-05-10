@@ -18,6 +18,7 @@ import Vendas from 'pages/Vendas';
 import Recebimentos from 'pages/Recebimentos';
 
 import AuthCheck from './AuthCheck';
+import EditarProduto from 'pages/Editar/Produto';
 
 export default function Routes() {
   return (
@@ -29,7 +30,7 @@ export default function Routes() {
 
         <Route path="/produtos" exact component={ListaProdutos} />
         <Route path="/produtos/novo" component={CadastroProduto} />
-        <Route path="/produtos/:code" component={DetalhesProduto} />
+        <Route path="/produtos/:code" component={EditarProduto} />
 
         <Route path="/fornecedores" exact component={ListaFornecedores} />
         <Route path="/fornecedores/novo" component={CadastroFornecedor} />
