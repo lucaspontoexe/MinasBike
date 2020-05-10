@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import api from 'services/api';
+import formatSelectItem from 'utils/formatSelectItem';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 
 import Header from 'components/Header';
@@ -8,9 +9,47 @@ import Button from 'components/Button';
 import SelectWithLabel from 'components/SelectWithLabel';
 import ProviderSelector from 'pages/Cadastro/Produto/ProviderSelector';
 
+const initialState = {
+  name: '',
+  category_id: '',
+  brand_id: '',
+  code: '',
+  cost_price: 0,
+  current_qty: 0,
+  errors: {},
+  brandproducts: [],
+  categories: [],
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'text-change':
+      return { ...state, [action.property.name]: action.property.value };
+    case 'select-change':
+      return { ...state, [action.property]: action.value };
+    case 'api-fetch':
+      return { ...state, [action.property]: action.value };
+    default:
+      console.log(state, action);
+      break;
+  }
+}
+
 export default function EditarProduto(props) {
   const { id } = props.match.params;
   const [canEdit, setCanEdit] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  async function fetchFromAPI() {
+    try {
+      const { data: brandproducts } = api.get('/brandproducts/1?brand&product&stock');
+      const { data: categories } = api.get('/categories');
+      dispatch({ type: 'api-fetch', property: 'brandproducts', value: brandproducts });
+      dispatch({ type: 'api-fetch', property: 'categories', value: categories });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="tela tela-cadastro">
@@ -25,16 +64,17 @@ export default function EditarProduto(props) {
           disabled={!canEdit}
           name="name"
           label="Nome do Produto"
-          // onChange={handleInputChange}
-          // error={errors.description}
+          error={state.errors.description}
+          value={state.name}
+          onChange={event => dispatch({ type: 'text-change', property: event.target })}
         />
         <SelectWithLabel
           required
           isDisabled={!canEdit}
-          name="category"
+          name="category_id"
           label="Categoria"
-          // error={errors.category_id}
-          // options={categories.map(item => formatSelectItem(item.id, item.name))}
+          error={state.errors.category_id}
+          options={state.categories.map(item => formatSelectItem(item.id, item.name))}
           // onChange={sel => handleChange(setProductForm, { name: 'category_id', value: sel.value })}
         />
 
@@ -42,9 +82,9 @@ export default function EditarProduto(props) {
         <SelectWithLabel
           required
           isDisabled={!canEdit}
-          name="brand"
+          name="brand_id"
           label="Marca"
-          // error={errors.category_id}
+          error={state.errors.brand_id}
           // options={categories.map(item => formatSelectItem(item.id, item.name))}
           // onChange={sel => handleChange(setProductForm, { name: 'category_id', value: sel.value })}
         />
