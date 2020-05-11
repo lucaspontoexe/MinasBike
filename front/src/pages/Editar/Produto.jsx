@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import api from 'services/api';
 import formatSelectItem from 'utils/formatSelectItem';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
@@ -16,7 +16,11 @@ const initialState = {
   code: '',
   cost_price: 0,
   current_qty: 0,
+  providerproducts: [],
   errors: {},
+};
+
+const initialAPIState = {
   brands: [],
   brandproducts: [],
   categories: [],
@@ -28,29 +32,33 @@ function reducer(state, action) {
       return { ...state, [action.property.name]: action.property.value };
     case 'select-change':
       return { ...state, [action.name]: action.property };
-    case 'api-fetch':
-      return { ...state, [action.property]: action.value };
+    case 'provider-change':
+      return { ...state, providerproducts: action.items };
+    case 'post-error':
+      break;
+
     default:
       console.log(state, action);
-      break;
+      return state;
   }
 }
 
 export default function EditarProduto(props) {
   const { id } = props.match.params;
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [apiData, setApiData] = useState(initialAPIState);
   const [canEdit, setCanEdit] = useState(false);
 
-  async function fetchFromAPI() {
-    try {
-      const { data: brandproducts } = api.get('/brandproducts/1?brand&product&stock');
-      const { data: categories } = api.get('/categories');
-      dispatch({ type: 'api-fetch', property: 'brandproducts', value: brandproducts });
-      dispatch({ type: 'api-fetch', property: 'categories', value: categories });
-    } catch (error) {
-      console.log(error);
-    }
+  async function fetchData() {
+    const { data: brandproducts } = await api.get('/brandproducts/1?brand&product&stock');
+    const { data: categories } = await api.get('/categories');
+    const { data: brands } = await api.get('/brands');
+    setApiData({ brandproducts, categories, brands });
   }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="tela tela-cadastro">
@@ -75,7 +83,7 @@ export default function EditarProduto(props) {
           name="category_id"
           label="Categoria"
           error={state.errors.category_id}
-          options={state.categories.map(item => formatSelectItem(item.id, item.name))}
+          options={apiData.categories.map(item => formatSelectItem(item.id, item.name))}
           onChange={option =>
             dispatch({ type: 'select-change', name: 'category_id', property: option.value })
           }
@@ -88,7 +96,7 @@ export default function EditarProduto(props) {
           name="brand_id"
           label="Marca"
           error={state.errors.brand_id}
-          options={state.brands.map(item => formatSelectItem(item.id, item.name))}
+          options={apiData.brands.map(item => formatSelectItem(item.id, item.name))}
           onChange={option =>
             dispatch({ type: 'select-change', name: 'brand_id', property: option.value })
           }
@@ -126,7 +134,10 @@ export default function EditarProduto(props) {
           onChange={event => dispatch({ type: 'text-change', property: event.target })}
         />
         {/* provider */}
-        <ProviderSelector brandproduct_id={1} onChange={console.log} />
+        <ProviderSelector
+          brandproduct_id={1}
+          onChange={({ items }) => dispatch({ type: 'provider-change', items })}
+        />
       </form>
       canedit: {JSON.stringify(canEdit)}
     </div>
