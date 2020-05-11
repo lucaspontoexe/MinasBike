@@ -80,7 +80,7 @@ export default function EditarProduto(props) {
 
   return (
     <div className="tela tela-cadastro">
-      <Header>Editar Produto {code}</Header>
+      <Header>Detalhes do Produto {code}</Header>
       {!canEdit && (
         <Button color="#dc2438" onClick={() => setCanEdit(true)}>
           Editar
@@ -116,6 +116,8 @@ export default function EditarProduto(props) {
         {/* brand */}
         <SelectWithLabel
           required
+          creatable
+          formatCreateLabel={() => 'Clique ou pressione ENTER para renomear esta marca'}
           isDisabled={!canEdit}
           name="brand_id"
           label="Marca"
@@ -171,6 +173,17 @@ export default function EditarProduto(props) {
           />
         )}
       </form>
+
+      <p>data de cadastro: {apiData.brandproduct.created_at}</p>
+      <p>última alteração: {apiData.brandproduct.updated_at}</p>
+
+      {/* where? */}
+      <ul>
+        descubra:
+        <li>quantidade vendida</li>
+        <li>custo total do estoque atual</li>
+        <li>usuário que realizou o cadastro/alteração</li>
+      </ul>
     </div>
   );
 }
