@@ -1,7 +1,7 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import api from 'services/api';
 import formatSelectItem from 'utils/formatSelectItem';
-import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+// import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
@@ -31,6 +31,8 @@ function reducer(state, action) {
   switch (action.type) {
     case 'text-change':
       return { ...state, [action.property.name]: action.property.value };
+    case 'number-change':
+      return { ...state, [action.property.name]: Number(action.property.value) };
     case 'select-change':
       return { ...state, [action.name]: action.property };
     case 'provider-change':
@@ -144,7 +146,7 @@ export default function EditarProduto(props) {
           label="Preço"
           error={state.errors.description}
           value={state.price}
-          onChange={event => dispatch({ type: 'text-change', property: event.target })}
+          onChange={event => dispatch({ type: 'number-change', property: event.target })}
         />
 
         {/* stock */}
@@ -155,7 +157,7 @@ export default function EditarProduto(props) {
           label="Quantidade atual de estoque"
           error={state.errors.current_qty}
           value={state.current_qty}
-          onChange={event => dispatch({ type: 'text-change', property: event.target })}
+          onChange={event => dispatch({ type: 'number-change', property: event.target })}
         />
         {/* provider */}
         <div className="pseudo-label">Fornecedores</div>
