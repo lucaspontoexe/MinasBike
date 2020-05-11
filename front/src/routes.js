@@ -10,7 +10,6 @@ import ListaClientes from 'pages/Lista/Clientes';
 import CadastroProduto from './pages/Cadastro/Produto';
 import CadastroFornecedor from 'pages/Cadastro/Fornecedor';
 import CadastroCliente from 'pages/Cadastro/Cliente';
-import DetalhesProduto from './pages/DetalhesProduto';
 import EditarFornecedor from 'pages/Editar/Fornecedor';
 import EditarCliente from 'pages/Editar/Cliente';
 

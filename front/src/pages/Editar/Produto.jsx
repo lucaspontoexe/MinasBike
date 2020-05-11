@@ -8,11 +8,12 @@ import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import SelectWithLabel from 'components/SelectWithLabel';
 import ProviderSelector from 'pages/Cadastro/Produto/ProviderSelector';
+import { queryObject } from 'utils/getProperty';
 
 const initialState = {
   name: '',
-  category_id: '',
-  brand_id: '',
+  category_id: 0,
+  brand_id: 0,
   code: '',
   price: 0,
   current_qty: 0,
@@ -35,13 +36,15 @@ function reducer(state, action) {
     case 'provider-change':
       return { ...state, providerproducts: action.items };
     case 'fetch-initial-data':
-    console.log(action)  
-    return {
+      return {
         ...state,
         ...action.data,
         product: undefined,
         brand: undefined,
+        stock: undefined,
         name: action.data.product.name,
+        category_id: action.data.product.category_id,
+        current_qty: action.data.stock.current_qty,
       };
     case 'post-error':
       break;
@@ -59,15 +62,17 @@ export default function EditarProduto(props) {
   const [canEdit, setCanEdit] = useState(false);
 
   async function fetchData() {
-    const { data: brandproducts } = await api.get(`/brandproducts/?code=${code}&brand&product&stock`);
-    const { data: categories } =    await api.get('/categories');
-    const { data: brands } =        await api.get('/brands');
+    const { data: brandproducts } = await api.get(
+      `/brandproducts/?code=${code}&brand&product&stock`
+    );
+    const { data: categories } = await api.get('/categories');
+    const { data: brands } = await api.get('/brands');
     setApiData({ categories, brands });
     dispatch({ type: 'fetch-initial-data', data: brandproducts[0] });
   }
 
   useEffect(() => {
-    fetchData()
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -94,6 +99,10 @@ export default function EditarProduto(props) {
           name="category_id"
           label="Categoria"
           error={state.errors.category_id}
+          value={formatSelectItem(
+            state.category_id,
+            queryObject(apiData.categories, state.category_id, 'name')
+          )}
           options={apiData.categories.map(item => formatSelectItem(item.id, item.name))}
           onChange={option =>
             dispatch({ type: 'select-change', name: 'category_id', property: option.value })
@@ -107,6 +116,10 @@ export default function EditarProduto(props) {
           name="brand_id"
           label="Marca"
           error={state.errors.brand_id}
+          value={formatSelectItem(
+            state.brand_id,
+            queryObject(apiData.brands, state.brand_id, 'name')
+          )}
           options={apiData.brands.map(item => formatSelectItem(item.id, item.name))}
           onChange={option =>
             dispatch({ type: 'select-change', name: 'brand_id', property: option.value })
@@ -128,9 +141,9 @@ export default function EditarProduto(props) {
           required
           disabled={!canEdit}
           name="price"
-          label="Preço de Custo"
+          label="Preço"
           error={state.errors.description}
-          value={state.description}
+          value={state.price}
           onChange={event => dispatch({ type: 'text-change', property: event.target })}
         />
 
