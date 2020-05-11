@@ -14,7 +14,7 @@ const initialState = {
   category_id: '',
   brand_id: '',
   code: '',
-  cost_price: 0,
+  price: 0,
   current_qty: 0,
   providerproducts: [],
   errors: {},
@@ -22,7 +22,7 @@ const initialState = {
 
 const initialAPIState = {
   brands: [],
-  brandproducts: [],
+  brandproduct: {},
   categories: [],
 };
 
@@ -34,6 +34,15 @@ function reducer(state, action) {
       return { ...state, [action.name]: action.property };
     case 'provider-change':
       return { ...state, providerproducts: action.items };
+    case 'fetch-initial-data':
+    console.log(action)  
+    return {
+        ...state,
+        ...action.data,
+        product: undefined,
+        brand: undefined,
+        name: action.data.product.name,
+      };
     case 'post-error':
       break;
 
@@ -44,25 +53,27 @@ function reducer(state, action) {
 }
 
 export default function EditarProduto(props) {
-  const { id } = props.match.params;
+  const { code } = props.match.params;
   const [state, dispatch] = useReducer(reducer, initialState);
   const [apiData, setApiData] = useState(initialAPIState);
   const [canEdit, setCanEdit] = useState(false);
 
   async function fetchData() {
-    const { data: brandproducts } = await api.get('/brandproducts/1?brand&product&stock');
-    const { data: categories } = await api.get('/categories');
-    const { data: brands } = await api.get('/brands');
-    setApiData({ brandproducts, categories, brands });
+    const { data: brandproducts } = await api.get(`/brandproducts/?code=${code}&brand&product&stock`);
+    const { data: categories } =    await api.get('/categories');
+    const { data: brands } =        await api.get('/brands');
+    setApiData({ categories, brands });
+    dispatch({ type: 'fetch-initial-data', data: brandproducts[0] });
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="tela tela-cadastro">
-      <Header>Editar Produto {id}</Header>
+      <Header>Editar Produto {code}</Header>
       <Button color="#dc2438" onClick={() => setCanEdit(true)}>
         Editar
       </Button>
@@ -116,7 +127,7 @@ export default function EditarProduto(props) {
         <TextBox
           required
           disabled={!canEdit}
-          name="cost_price"
+          name="price"
           label="Preço de Custo"
           error={state.errors.description}
           value={state.description}
