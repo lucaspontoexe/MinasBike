@@ -67,7 +67,7 @@ export default function EditarProduto(props) {
     );
     const { data: categories } = await api.get('/categories');
     const { data: brands } = await api.get('/brands');
-    setApiData({ categories, brands });
+    setApiData({ categories, brands, brandproduct: brandproducts[0] });
     dispatch({ type: 'fetch-initial-data', data: brandproducts[0] });
   }
 
@@ -158,10 +158,12 @@ export default function EditarProduto(props) {
           onChange={event => dispatch({ type: 'text-change', property: event.target })}
         />
         {/* provider */}
-        <ProviderSelector
-          brandproduct_id={1}
-          onChange={({ items }) => dispatch({ type: 'provider-change', items })}
-        />
+        {apiData.brandproduct.id && (
+          <ProviderSelector
+            brandproduct_id={apiData.brandproduct.id}
+            onChange={({ items }) => dispatch({ type: 'provider-change', items })}
+          />
+        )}
       </form>
       canedit: {JSON.stringify(canEdit)}
     </div>
