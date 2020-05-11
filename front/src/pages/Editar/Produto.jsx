@@ -1,14 +1,15 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import api from 'services/api';
 import formatSelectItem from 'utils/formatSelectItem';
+import formatAPIDateTime from 'utils/formatAPIDateTime';
 // import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+import { queryObject } from 'utils/getProperty';
 
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import SelectWithLabel from 'components/SelectWithLabel';
 import ProviderSelector from 'pages/Cadastro/Produto/ProviderSelector';
-import { queryObject } from 'utils/getProperty';
 
 const initialState = {
   name: '',
@@ -174,8 +175,8 @@ export default function EditarProduto(props) {
         )}
       </form>
 
-      <p>data de cadastro: {apiData.brandproduct.created_at}</p>
-      <p>última alteração: {apiData.brandproduct.updated_at}</p>
+      <p>data de cadastro: {formatAPIDateTime(apiData.brandproduct.created_at)}</p>
+      <p>última alteração: {formatAPIDateTime(apiData.brandproduct.updated_at)}</p>
 
       {/* where? */}
       <ul>
