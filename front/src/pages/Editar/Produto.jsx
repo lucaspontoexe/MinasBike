@@ -42,9 +42,6 @@ function reducer(state, action) {
       return {
         ...state,
         ...action.data,
-        product: undefined,
-        brand: undefined,
-        stock: undefined,
         name: action.data.product.name,
         category_id: action.data.product.category_id,
         current_qty: action.data.stock.current_qty,
@@ -177,13 +174,13 @@ export default function EditarProduto(props) {
 
       <p>data de cadastro: {formatAPIDateTime(apiData.brandproduct.created_at)}</p>
       <p>última alteração: {formatAPIDateTime(apiData.brandproduct.updated_at)}</p>
-
+      <p>código do usuário que realizou o cadastro/alteração: {state.stock?.modified_by}</p>
+      
       {/* where? */}
       <ul>
         descubra:
         <li>quantidade vendida</li>
         <li>custo total do estoque atual</li>
-        <li>usuário que realizou o cadastro/alteração</li>
       </ul>
     </div>
   );
