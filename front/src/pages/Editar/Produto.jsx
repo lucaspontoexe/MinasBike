@@ -81,9 +81,11 @@ export default function EditarProduto(props) {
   return (
     <div className="tela tela-cadastro">
       <Header>Editar Produto {code}</Header>
-      <Button color="#dc2438" onClick={() => setCanEdit(true)}>
-        Editar
-      </Button>
+      {!canEdit && (
+        <Button color="#dc2438" onClick={() => setCanEdit(true)}>
+          Editar
+        </Button>
+      )}
       <form action="#">
         {/* product stuff */}
         <TextBox
@@ -169,7 +171,6 @@ export default function EditarProduto(props) {
           />
         )}
       </form>
-      canedit: {JSON.stringify(canEdit)}
     </div>
   );
 }

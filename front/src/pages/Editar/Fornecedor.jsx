@@ -48,9 +48,11 @@ export default function EditarFornecedor(props) {
     <div className="tela tela-cadastro">
       <Header>Editar Fornecedor</Header>
 
-      <Button color="#dc2438" onClick={() => setCanEdit(true)}>
-        Editar
-      </Button>
+      {!canEdit && (
+        <Button color="#dc2438" onClick={() => setCanEdit(true)}>
+          Editar
+        </Button>
+      )}
 
       <form action="#" onSubmit={handleSubmit}>
         <TextBox
