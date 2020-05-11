@@ -5,11 +5,13 @@ import EditableRow from './EditableRow';
 import AddRow from './AddRow';
 import Row from './Row';
 
-export default function ProviderSelector({ brandproduct_id, onChange }) {
+export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo = true }) {
   const [providers, setProviders] = useState([]);
   const [prpr, setPrpr] = useState([]);
 
   const [newitems, setNewitems] = useState([]);
+
+  // rule two = regra especial 2 do trello.
 
   useEffect(() => {
     api.get('/providers').then(response => setProviders(response.data));
@@ -19,10 +21,10 @@ export default function ProviderSelector({ brandproduct_id, onChange }) {
     function getCurrentPRPR() {
       api
         .get('/providerproducts', { params: { provider: true, brandproduct_id } })
-        .then(response => setPrpr(response.data));
+        .then(response => (useRuleTwo ? setPrpr(response.data) : setNewitems(response.data)));
     }
     getCurrentPRPR();
-  }, [brandproduct_id]);
+  }, [brandproduct_id, useRuleTwo]);
 
   useEffect(() => {
     onChange({ items: newitems, isValid: checkIfValid(), teste: 'umdois' });
