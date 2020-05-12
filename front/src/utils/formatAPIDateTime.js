@@ -1,4 +1,5 @@
 export default (input = '') => {
-    const date = new Date(input)
-    return `${date.toLocaleDateString()} ${input.split(' ')[1]}`;
+    // append z to convert to local time
+    const date = new Date(`${input}Z`)
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 }
