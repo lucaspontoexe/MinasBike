@@ -15,6 +15,7 @@ const initialState = {
   name: '',
   category_id: 0,
   brand_id: 0,
+  brand_new_name: '',
   code: '',
   price: 0,
   current_qty: 0,
@@ -38,6 +39,10 @@ function reducer(state, action) {
       return { ...state, [action.name]: action.property };
     case 'provider-change':
       return { ...state, providerproducts: action.items };
+    case 'brand-change':
+      return { ...state, brand_id: action.id, brand_new_name: '' };
+    case 'brand-rename':
+      return { ...state, brand_new_name: action.name };
     case 'fetch-initial-data':
       return {
         ...state,
@@ -122,13 +127,18 @@ export default function EditarProduto(props) {
           error={state.errors.brand_id}
           value={formatSelectItem(
             state.brand_id,
-            queryObject(apiData.brands, state.brand_id, 'name')
+            state.brand_new_name === ''
+              ? queryObject(apiData.brands, state.brand_id, 'name')
+              : state.brand_new_name
           )}
           options={apiData.brands.map(item => formatSelectItem(item.id, item.name))}
-          onChange={option =>
-            dispatch({ type: 'select-change', name: 'brand_id', property: option.value })
-          }
+          onChange={option => dispatch({ type: 'brand-change', id: option.value })}
+          onCreateOption={name => dispatch({ type: 'brand-rename', name })}
         />
+
+        {state.brand_new_name && (
+          <div className="warning">A marca será renomeada para todos os outros produtos</div>
+        )}
 
         {/* brandproduct */}
         <TextBox
@@ -175,7 +185,7 @@ export default function EditarProduto(props) {
       <p>data de cadastro: {formatAPIDateTime(apiData.brandproduct.created_at)}</p>
       <p>última alteração: {formatAPIDateTime(apiData.brandproduct.updated_at)}</p>
       <p>código do usuário que realizou o cadastro/alteração: {state.stock?.modified_by}</p>
-      
+
       {/* where? */}
       <ul>
         descubra:
