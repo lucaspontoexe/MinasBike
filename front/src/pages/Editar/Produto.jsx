@@ -81,6 +81,78 @@ export default function EditarProduto(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    /*
+    enviar:
+    
+    /products/id
+    name (diffing aqui)
+    category_id
+    (tem description, mas não aparece no card)
+    
+    /brands/id [condicional, caso tenham renomeado a marca]
+    name
+    
+    /brandproducts/id
+    agora que eu percebi algo: a lógica do nome do produto 
+    vai acabar tendo que ser a mesma da marca. mas por enquanto,
+    code
+    price
+    brand_id [caso a marca não tenha sido renomeada]
+    
+    acabei de ver:
+    current_qty não é editável. depois tem que desfazer isso.
+    
+    for entry of providerproducts:
+    put /providerproducts/entry.id
+    cost_price 
+    provider_id
+    
+    */
+    const brandproduct_id = apiData.brandproduct.id;
+    const productNameChanged = state.name !== apiData.brandproduct?.product.name;
+
+    console.log('bp id: ', brandproduct_id);
+    console.log('product name changed: ', productNameChanged);
+    console.log('brand new name: ', state.brand_new_name);
+
+    try {
+      productNameChanged &&
+        api.put(`/products/${apiData.brandproduct.product_id}`, { name: state.name });
+
+      state.brand_new_name &&
+        api.put(`/brands/${apiData.brandproduct.brand_id}`, { name: state.brand_new_name });
+
+      api.put(`/brandproducts/${brandproduct_id}`, {
+        code: state.code,
+        price: state.price,
+      });
+
+      const prprRequests = state.providerproducts.map(item =>
+        isNaN(item.id)
+          ? api.post(`/providerproducts/`, {
+              brandproduct_id: apiData.brandproduct.id,
+              cost_price: item.cost_price,
+              provider_id: item.provider_id,
+            })
+          : api.put(`/providerproducts/${item.id}`, {
+              cost_price: item.cost_price,
+              provider_id: item.provider_id,
+            })
+      );
+      
+      
+
+      Promise.all(prprRequests);
+    } catch (error) {
+      console.log('PUT ERROR: ', error);
+    }
+
+    // global promise.all? TODO: catch.
+  }
+
   return (
     <div className="tela tela-cadastro">
       <Header>Detalhes do Produto {code}</Header>
@@ -89,7 +161,7 @@ export default function EditarProduto(props) {
           Editar
         </Button>
       )}
-      <form action="#">
+      <form onSubmit={handleSubmit}>
         {/* product stuff */}
         <TextBox
           required
@@ -179,6 +251,16 @@ export default function EditarProduto(props) {
             onChange={({ items }) => dispatch({ type: 'provider-change', items })}
             useRuleTwo={false}
           />
+        )}
+        {canEdit && (
+          <div className="buttons">
+            <Button type="reset" color="#DC2438" onClick={() => props.history.replace('/produtos')}>
+              Cancelar
+            </Button>
+            <Button type="submit" color="#30CC57">
+              Cadastrar
+            </Button>
+          </div>
         )}
       </form>
 
