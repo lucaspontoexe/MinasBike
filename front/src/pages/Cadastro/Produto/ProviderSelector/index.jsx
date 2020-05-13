@@ -54,6 +54,17 @@ export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo
           </tr>
         </thead>
         <tbody>
+          {newitems.length === 0 && prpr.length === 0 && (
+            <tr>
+              <td
+                colSpan={newitems.length > 0 ? 3 : 2}
+                style={{ textAlign: 'center ', height: 96 }}
+              >
+                Nenhum item
+              </td>
+            </tr>
+          )}
+
           {prpr.map(item => (
             <Row
               {...item}
