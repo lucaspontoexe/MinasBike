@@ -245,7 +245,7 @@ export default function CadastroProduto({ history }) {
           />
         </div>
 
-        <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} />
+        <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} useRuleTwo/>
         <br />
         <span>brandproduct errors: {errors.brandproduct_id}</span>
         <span>providerproduct errors: {errors.provider_id}</span>
