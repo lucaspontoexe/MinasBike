@@ -6,7 +6,7 @@ import Table from 'components/Table';
 
 import './styles.css';
 
-export default function ListaClientes({ history }) {
+export default function ListaClientes() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -20,7 +20,11 @@ export default function ListaClientes({ history }) {
     { Header: 'Nome', accessor: 'name' },
     { Header: 'E-mail', accessor: 'email' },
     { Header: 'Cargo', accessor: 'usertype_name' },
-    { Header: 'Situação', accessor: 'active' },
+    {
+      Header: 'Situação',
+      accessor: 'active',
+      Cell: ({ cell }) => (cell.value ? 'Ativo' : 'Inativo'),
+    },
   ];
 
   const data = users.map(user => ({ ...user, usertype_name: user.usertype.name }));
