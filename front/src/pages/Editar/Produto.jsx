@@ -2,7 +2,7 @@ import React, { useState, useReducer, useEffect } from 'react';
 import api from 'services/api';
 import formatSelectItem from 'utils/formatSelectItem';
 import formatAPIDateTime from 'utils/formatAPIDateTime';
-// import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import { queryObject } from 'utils/getProperty';
 
 import Header from 'components/Header';
@@ -51,8 +51,8 @@ function reducer(state, action) {
         category_id: action.data.product.category_id,
         current_qty: action.data.stock.current_qty,
       };
-    case 'post-error':
-      break;
+    case 'submit-error':
+      return { ...state, errors: formatErrorsSingleObject(action.error.response.data) };
 
     default:
       console.log(state, action);
@@ -120,41 +120,40 @@ export default function EditarProduto(props) {
     console.log('product name changed: ', productNameChanged);
     console.log('brand new name: ', state.brand_new_name);
 
-    try {
+    const prprRequests = state.providerproducts.map(item =>
+      isNaN(item.id)
+        ? api.post(`/providerproducts/`, {
+            brandproduct_id: apiData.brandproduct.id,
+            cost_price: item.cost_price,
+            provider_id: item.provider_id,
+          })
+        : api.put(`/providerproducts/${item.id}`, {
+            provider_id:
+              // diff de provider_id
+              apiData.providerproducts.filter(
+                apiItem => apiItem.provider_id === item.provider_id && apiItem.id === item.id
+              ).length > 0
+                ? undefined
+                : item.provider_id,
+            cost_price: item.cost_price,
+          })
+    );
+    const requests = [
       productNameChanged &&
-        api.put(`/products/${apiData.brandproduct.product_id}`, { name: state.name });
+        api.put(`/products/${apiData.brandproduct.product_id}`, { name: state.name }),
 
       state.brand_new_name &&
-        api.put(`/brands/${apiData.brandproduct.brand_id}`, { name: state.brand_new_name });
+        api.put(`/brands/${apiData.brandproduct.brand_id}`, { name: state.brand_new_name }),
 
       api.put(`/brandproducts/${brandproduct_id}`, {
         code: state.code,
         price: state.price,
-      });
+      }),
+    ];
 
-      const prprRequests = state.providerproducts.map(item =>
-        isNaN(item.id)
-          ? api.post(`/providerproducts/`, {
-              brandproduct_id: apiData.brandproduct.id,
-              cost_price: item.cost_price,
-              provider_id: item.provider_id,
-            })
-          : api.put(`/providerproducts/${item.id}`, {
-              provider_id:
-                // diff de provider_id
-                apiData.providerproducts.filter(
-                  apiItem => apiItem.provider_id === item.provider_id && apiItem.id === item.id
-                ).length > 0
-                  ? undefined
-                  : item.provider_id,
-              cost_price: item.cost_price,
-            })
-      );
-
-      Promise.all(prprRequests);
-    } catch (error) {
-      console.log('PUT ERROR: ', error);
-    }
+    Promise.all([...requests, ...prprRequests])
+      .then(props.history.push('/produtos'))
+      .catch(error => dispatch({ type: 'submit-error', error }));
   }
 
   return (
