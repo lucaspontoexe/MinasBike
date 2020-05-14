@@ -72,7 +72,9 @@ export default function EditarProduto(props) {
     );
     const { data: categories } = await api.get('/categories');
     const { data: brands } = await api.get('/brands');
-    setApiData({ categories, brands, brandproduct: brandproducts[0] });
+    // longe do ideal
+    const { data: prpr } = await api.get('/providerproducts');
+    setApiData({ categories, brands, brandproduct: brandproducts[0], providerproducts: prpr });
     dispatch({ type: 'fetch-initial-data', data: brandproducts[0] });
   }
 
@@ -138,19 +140,21 @@ export default function EditarProduto(props) {
               provider_id: item.provider_id,
             })
           : api.put(`/providerproducts/${item.id}`, {
+              provider_id:
+                // diff de provider_id
+                apiData.providerproducts.filter(
+                  apiItem => apiItem.provider_id === item.provider_id && apiItem.id === item.id
+                ).length > 0
+                  ? undefined
+                  : item.provider_id,
               cost_price: item.cost_price,
-              provider_id: item.provider_id,
             })
       );
-      
-      
 
       Promise.all(prprRequests);
     } catch (error) {
       console.log('PUT ERROR: ', error);
     }
-
-    // global promise.all? TODO: catch.
   }
 
   return (
