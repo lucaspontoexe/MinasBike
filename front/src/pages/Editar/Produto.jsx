@@ -271,12 +271,16 @@ export default function EditarProduto(props) {
       <p>última alteração: {formatAPIDateTime(apiData.brandproduct.updated_at)}</p>
       <p>código do usuário que realizou o cadastro/alteração: {state.stock?.modified_by}</p>
 
-      {/* where? */}
-      <ul>
-        descubra:
-        <li>quantidade vendida</li>
-        <li>custo total do estoque atual</li>
-      </ul>
+      {
+        /* where? */
+        window.DEV_MODE && (
+          <ul>
+            descubra:
+            <li>quantidade vendida</li>
+            <li>custo total do estoque atual</li>
+          </ul>
+        )
+      }
     </div>
   );
 }
