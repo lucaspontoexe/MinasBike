@@ -261,7 +261,7 @@ export default function EditarProduto(props) {
               Cancelar
             </Button>
             <Button type="submit" color="#30CC57">
-              Cadastrar
+              Salvar
             </Button>
           </div>
         )}
