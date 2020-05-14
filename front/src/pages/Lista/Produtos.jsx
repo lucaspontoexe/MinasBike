@@ -39,7 +39,7 @@ export default function ListaProdutos({ history }) {
     const bp = item.brandproduct;
     return {
       code: bp.code,
-      name: queryObject(products, bp.product_id, 'name'), //dá pra puxar do bp também
+      name: queryObject(products, bp.product_id, 'name'), // dá pra puxar do bp também
       brand: queryObject(brandProducts, bp.id, 'brand.name'),
       price: formatPrice(bp.price),
       category: queryObject(products, bp.product_id, 'category.name'),
@@ -77,6 +77,7 @@ export default function ListaProdutos({ history }) {
           <Table
             columns={headers}
             data={data}
+            withFilter
             linkTo="produtos"
             searchText="Buscar produtos..."
             TopHeaderComponent={<TopHeader />}

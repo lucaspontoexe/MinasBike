@@ -14,6 +14,7 @@ import DetalhesProduto from './pages/DetalhesProduto';
 import EditarFornecedor from 'pages/Editar/Fornecedor';
 import EditarCliente from 'pages/Editar/Cliente';
 import AuthCheck from './AuthCheck';
+import Vendas from 'pages/Vendas';
 
 export default function Routes() {
   return (
@@ -35,6 +36,7 @@ export default function Routes() {
         <Route path="/clientes/novo" component={CadastroCliente} />
         <Route path="/clientes/:id" component={EditarCliente} />
 
+        <Route path='/vendas' component={Vendas} />
         <Route path="/estoque" exact component={ListaEstoque} />
         <Route path="/cadastrar" component={LandingPage} />
       </Switch>

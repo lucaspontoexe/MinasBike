@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
+import formatSelectItem from 'utils/formatSelectItem';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import Header from 'components/Header';
@@ -43,8 +44,6 @@ export default function CadastroProduto({ history }) {
   const [shouldBPSelectorReset, setShouldBPSelectorReset] = useState(false);
 
   useEffect(() => setShouldBPSelectorReset(false), [bpData]);
-
-  const formatSelectItem = (value, label) => ({ value, label });
 
   function handleChange(setStateHandler, { name, value }) {
     setStateHandler(old => ({ ...old, [name]: value }));
