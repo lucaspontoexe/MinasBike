@@ -7,12 +7,12 @@ import SelectWithLabel from 'components/SelectWithLabel';
 import EditableCell from 'components/Table/EditableCell';
 import PriceCell from 'components/Table/PriceCell';
 
-import formatSelectItem from 'utils/formatSelectItem';
 import formatPrice from 'utils/formatPrice';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+import { queryObject } from 'utils/getProperty';
 import api from 'services/api';
 
-export default function Vendas(props) {
+export default function Recebimentos(props) {
   const updateData = (rowIndex, columnId, value) => {
     setTableData(old =>
       old.map((row, index) => {
@@ -30,40 +30,41 @@ export default function Vendas(props) {
     );
   };
 
-  function addProductToTable({ value: product }) {
+  function addProduct({ value: prpr }) {
     setTableData(old => [
       ...old,
       {
-        ...product,
-        name: `${product.product.name} ${product.brand.name}`,
-        total: product.price,
+        ...prpr,
+        name:
+          queryObject(brandproducts, prpr.id, 'product.name') +
+          ' ' +
+          queryObject(brandproducts, prpr.id, 'brand.name'),
+        price: prpr.cost_price,
+        total: prpr.cost_price,
         quantity: 1,
       },
     ]);
-    setProducts(old => old.filter(item => item.id !== product.id));
   }
-
-  // function removeProductFromTable(product) {
-  //   setProducts(old => [...old, product]);
-  //   setTableData(old => old.filter(item => item.id !== product.id));
-  // }
 
   function ProductSearch() {
     return (
       <SelectWithLabel
-        placeholder="Buscar Produtos"
-        options={products.map(item => ({
+        placeholder="Adicionar Produtos"
+        options={providerproducts.map(item => ({
           value: item,
-          label: `${item.product.name} ${item.brand.name}`,
+          label:
+            queryObject(brandproducts, item.id, 'product.name') +
+            ' ' +
+            queryObject(brandproducts, item.id, 'brand.name'),
         }))}
-        onChange={addProductToTable}
+        onChange={addProduct}
       />
     );
   }
-
-  const [products, setProducts] = useState([]);
+  const [brandproducts, setBrandproducts] = useState([]);
+  const [providerproducts, setProviderproducts] = useState([]);
   const [tableData, setTableData] = useState([]);
-  const [clients, setClients] = useState([]);
+  const [providers, setProviders] = useState([]);
 
   const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
   const total = tableData.map(item => item.total).reduce(sumReducer, 0);
@@ -80,9 +81,9 @@ export default function Vendas(props) {
   useEffect(() => {
     const fetchData = async () => {
       const { data: products } = await api.get('/brandproducts?brand&product');
-      const { data: clients } = await api.get('/clients');
-      setClients(clients);
-      setProducts(products);
+      const { data: providers } = await api.get('/providers?providerproducts');
+      setBrandproducts(products);
+      setProviders(providers);
     };
     fetchData();
   }, []);
@@ -92,7 +93,7 @@ export default function Vendas(props) {
       { Header: 'Código', accessor: 'id' },
       { Header: 'Produto', accessor: 'name' },
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
-      { Header: 'Preço', accessor: 'price', Cell: PriceCell },
+      { Header: 'Preço', accessor: 'price', Cell: EditableCell },
       { Header: 'Total', accessor: 'total', Cell: PriceCell },
     ],
     []
@@ -108,13 +109,13 @@ export default function Vendas(props) {
     e.preventDefault();
 
     const products = tableData.map(item => ({
-      brandproduct_qty: item.quantity,
-      brandproduct_id: item.id,
+      providerproduct_qty: item.quantity,
+      providerproduct_id: item.id,
     }));
 
-    const obj = { ...formData, total_value: totalWithDiscount, serviceorderproducts: products };
+    const obj = { ...formData, total_value: total, receivedproviderproducts: products };
     api
-      .post('/serviceorders', obj)
+      .post('/receivements', obj)
       .then(response => {
         console.log('deu bom', response);
         props.history.push('/produtos');
@@ -122,18 +123,19 @@ export default function Vendas(props) {
       .catch(err => setErrors(formatErrorsSingleObject(err.response.data)));
   }
 
-  const [discount, setDiscount] = useState(0);
-
-  function applyDiscount(value) {
-    if (value < 0) setDiscount(0);
-    else if (value > 100) setDiscount(100);
-    else setDiscount(value);
-  }
-  const totalWithDiscount = total * (1 - discount / 100);
-
   return (
     <div className="tela tela-vendas">
-      <Header>Vendas</Header>
+      <Header>Recebimentos</Header>
+
+      <SelectWithLabel
+        placeholder="Buscar Fornecedor"
+        options={providers.map(item => ({
+          value: item,
+          label: item.name,
+        }))}
+        onChange={({ value: provider }) => setProviderproducts(provider.providerproducts)}
+      />
+
       <Table
         data={tableData}
         columns={TableColumns}
@@ -141,30 +143,14 @@ export default function Vendas(props) {
         TopHeaderComponent={<ProductSearch />}
       />
 
-      {errors.serviceorderproducts && <div class="error">{errors.serviceorderproducts}</div>}
+      {errors.receivedproviderproducts && (
+        <div class="error">{errors.receivedproviderproducts}</div>
+      )}
 
       <div>total: {formatPrice(total)}</div>
-      <div>total com desconto: {formatPrice(totalWithDiscount)}</div>
-      <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
-      <div>vendedor: [Código]</div>
-
-      <TextBox
-        label="Desconto (%)"
-        type="number"
-        min={0}
-        max={100}
-        value={discount}
-        onChange={e => applyDiscount(Number(e.target.value))}
-      />
+      <div>data da compra: {`${new Date().toLocaleDateString()}`}</div>
 
       <form onSubmit={handleSubmit}>
-        <SelectWithLabel
-          required
-          label="Cliente"
-          error={errors.client_id}
-          options={clients.map(item => formatSelectItem(item.id, item.name))}
-          onChange={data => handleChange({ client_id: data.value })}
-        />
         <TextBox
           name="delivery_time"
           required
