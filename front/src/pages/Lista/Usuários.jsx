@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import usertypeNames from 'utils/usertype_names';
 import api from 'services/api';
 
 import Header from 'components/Header';
@@ -27,7 +28,7 @@ export default function ListaUsuários() {
     },
   ];
 
-  const data = users.map(user => ({ ...user, usertype_name: user.usertype.name }));
+  const data = users.map(user => ({ ...user, usertype_name: usertypeNames[user.usertype.name] }));
 
   return (
     <div className="tela tela--lista">
