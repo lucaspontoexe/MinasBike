@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
+import formatSelectItem from 'utils/formatSelectItem';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import Header from 'components/Header';
@@ -43,8 +44,6 @@ export default function CadastroProduto({ history }) {
   const [shouldBPSelectorReset, setShouldBPSelectorReset] = useState(false);
 
   useEffect(() => setShouldBPSelectorReset(false), [bpData]);
-
-  const formatSelectItem = (value, label) => ({ value, label });
 
   function handleChange(setStateHandler, { name, value }) {
     setStateHandler(old => ({ ...old, [name]: value }));
@@ -246,7 +245,7 @@ export default function CadastroProduto({ history }) {
           />
         </div>
 
-        <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} />
+        <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} useRuleTwo/>
         <br />
         <span>brandproduct errors: {errors.brandproduct_id}</span>
         <span>providerproduct errors: {errors.provider_id}</span>

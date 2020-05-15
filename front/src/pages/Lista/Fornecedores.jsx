@@ -55,6 +55,7 @@ export default function ListaFornecedores({ history }) {
           <Table
             columns={headers}
             data={data}
+            withFilter
             linkTo="fornecedores"
             searchText="Buscar fornecedores..."
             TopHeaderComponent={<TopHeader />}

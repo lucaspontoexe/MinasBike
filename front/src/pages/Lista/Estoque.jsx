@@ -18,9 +18,7 @@ export default function ListaProdutos({ history }) {
   }, []);
 
   async function fetchData() {
-    await api
-      .get('/brandproducts?product&brand')
-      .then(response => setProducts(response.data));
+    await api.get('/brandproducts?product&brand').then(response => setProducts(response.data));
     await api.get('/stocks?brandproduct').then(response => setStocks(response.data));
     // setIsLoaded(true);
   }
@@ -57,7 +55,7 @@ export default function ListaProdutos({ history }) {
           </Button>
         </div>
 
-        <Table columns={headers} data={data} linkTo="produtos" />
+        <Table columns={headers} data={data} withFilter linkTo="produtos" />
       </div>
     </div>
   );

@@ -1,41 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import api from 'services/api';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+import api from 'services/api';
 
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
-import LocationSelector from 'components/LocationSelector';
 
-export default function EditarFornecedor(props) {
+export default function EditarCliente(props) {
   const { id } = props.match.params;
   const [formData, setFormData] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
-  const [initialName, setInitialName] = useState('');
   const [errors, setErrors] = useState({});
   const [canEdit, setCanEdit] = useState(false);
   const fieldIsDisabled = !canEdit;
 
   useEffect(() => {
-    api.get(`/providers/${id}`, { params: { location: true } }).then(response => {
+    api.get(`/clients/${id}`).then(response => {
       setFormData(response.data[0]);
-      setInitialName(response.data[0].name);
       setIsLoaded(true);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    api
-      .put(`/providers/${id}`, {
-        ...formData,
-        location: undefined,
-        name: formData.name === initialName && undefined,
-      })
+    console.log(formData);
 
-      .then(props.history.push('/fornecedores'))
+    api
+      .put(`/clients/${id}`, formData)
+
+      .then(props.history.push('/clientes'))
 
       .catch(err => setErrors(formatErrorsSingleObject(err.response.data)));
   }
@@ -46,7 +40,7 @@ export default function EditarFornecedor(props) {
 
   return (
     <div className="tela tela-cadastro">
-      <Header>Editar Fornecedor</Header>
+      <Header>Editar Cliente</Header>
 
       {!canEdit && (
         <Button color="#dc2438" onClick={() => setCanEdit(true)}>
@@ -57,34 +51,26 @@ export default function EditarFornecedor(props) {
       <form action="#" onSubmit={handleSubmit}>
         <TextBox
           name="name"
-          label="Nome do Fornecedor"
+          label="Nome"
           required
           disabled={fieldIsDisabled}
           error={errors.name}
           value={formData.name}
           onChange={handleChange}
         />
-        <LocationSelector
-          required
-          disabled={fieldIsDisabled}
-          initialValue={formData.location}
-          onChange={value => setFormData({ ...formData, location_id: value })}
-        />
-
-        {errors.location_id && <div>{errors.location_id}</div>}
 
         <TextBox
-          name="contact"
-          label="Nome do Contato Principal"
+          name="address"
+          label="Endereço"
           required
           disabled={fieldIsDisabled}
-          error={errors.contact}
-          value={formData.contact}
+          error={errors.address}
+          value={formData.address}
           onChange={handleChange}
         />
         <TextBox
           name="phone"
-          label="Telefone do contato"
+          label="Telefone"
           type="tel"
           required
           disabled={fieldIsDisabled}
@@ -94,7 +80,7 @@ export default function EditarFornecedor(props) {
         />
         <TextBox
           name="email"
-          label="E-mail do contato principal"
+          label="E-mail"
           type="email"
           required
           disabled={fieldIsDisabled}
@@ -102,6 +88,16 @@ export default function EditarFornecedor(props) {
           value={formData.email}
           onChange={handleChange}
         />
+
+        <TextBox
+          name="cpf"
+          label="CPF"
+          disabled={fieldIsDisabled}
+          error={errors.cpf}
+          value={formData.cpf}
+          onChange={handleChange}
+        />
+
         {canEdit && (
           <div className="buttons">
             <Button

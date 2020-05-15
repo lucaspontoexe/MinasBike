@@ -1,0 +1,1 @@
+export default ({ cell }) => new Date(cell.value).toLocaleDateString()

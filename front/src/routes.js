@@ -10,9 +10,14 @@ import ListaClientes from 'pages/Lista/Clientes';
 import CadastroProduto from './pages/Cadastro/Produto';
 import CadastroFornecedor from 'pages/Cadastro/Fornecedor';
 import CadastroCliente from 'pages/Cadastro/Cliente';
-import DetalhesProduto from './pages/DetalhesProduto';
 import EditarFornecedor from 'pages/Editar/Fornecedor';
+import EditarCliente from 'pages/Editar/Cliente';
+
+import Vendas from 'pages/Vendas';
+import Recebimentos from 'pages/Recebimentos';
+
 import AuthCheck from './AuthCheck';
+import EditarProduto from 'pages/Editar/Produto';
 
 export default function Routes() {
   return (
@@ -24,7 +29,7 @@ export default function Routes() {
 
         <Route path="/produtos" exact component={ListaProdutos} />
         <Route path="/produtos/novo" component={CadastroProduto} />
-        <Route path="/produtos/:code" component={DetalhesProduto} />
+        <Route path="/produtos/:code" component={EditarProduto} />
 
         <Route path="/fornecedores" exact component={ListaFornecedores} />
         <Route path="/fornecedores/novo" component={CadastroFornecedor} />
@@ -32,7 +37,10 @@ export default function Routes() {
 
         <Route path="/clientes" exact component={ListaClientes} />
         <Route path="/clientes/novo" component={CadastroCliente} />
+        <Route path="/clientes/:id" component={EditarCliente} />
 
+        <Route path='/vendas' component={Vendas} />
+        <Route path='/recebimentos' component={Recebimentos} />
         <Route path="/estoque" exact component={ListaEstoque} />
         <Route path="/cadastrar" component={LandingPage} />
       </Switch>

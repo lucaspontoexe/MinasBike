@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import shortid from 'shortid';
 
 export default function AddRow(props) {
   const [provider_id, setProviderID] = useState(-1);
   const [cost_price, setCostPrice] = useState('');
+
+  useEffect(() => {
+    setProviderID(props.providers[0]?.id);
+  }, [props.providers]);
 
   return (
     <div>
@@ -21,7 +25,8 @@ export default function AddRow(props) {
         <input name="cost_price" placeholder="48022" onChange={e => setCostPrice(e.target.value)} />
       </div>
 
-      <button type="button"
+      <button
+        type="button"
         onClick={() =>
           props.onCreate({
             cost_price,

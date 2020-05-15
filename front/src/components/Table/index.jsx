@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTable, useSortBy, useGlobalFilter } from 'react-table';
-import TextBox from './TextBox';
+import TextBox from 'components/TextBox';
 
 import searchIcon from 'assets/icons/search.svg';
 
@@ -18,7 +18,15 @@ function GlobalFilter({ globalFilter, setGlobalFilter, searchText }) {
   );
 }
 
-export default function Table({ columns, data, linkTo, TopHeaderComponent, searchText }) {
+export default function Table({
+  columns,
+  data,
+  withFilter,
+  linkTo,
+  updateData,
+  TopHeaderComponent,
+  searchText,
+}) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -31,6 +39,7 @@ export default function Table({ columns, data, linkTo, TopHeaderComponent, searc
     {
       columns,
       data,
+      updateData,
     },
     useGlobalFilter,
     useSortBy
@@ -39,11 +48,13 @@ export default function Table({ columns, data, linkTo, TopHeaderComponent, searc
   return (
     <>
       <div className="top-header">
-        <GlobalFilter
-          globalFilter={state.globalFilter}
-          setGlobalFilter={setGlobalFilter}
-          searchText={searchText}
-        />
+        {withFilter && (
+          <GlobalFilter
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+            searchText={searchText}
+          />
+        )}
         {TopHeaderComponent}
       </div>
       <table {...getTableProps()}>
@@ -64,6 +75,17 @@ export default function Table({ columns, data, linkTo, TopHeaderComponent, searc
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
+          {rows.length === 0 && headerGroups.length > 0 && (
+            <tr>
+              <td
+                colSpan={headerGroups[0].headers.length}
+                style={{ textAlign: 'center ', height: 96 }}
+              >
+                Nenhum item
+              </td>
+            </tr>
+          )}
+
           {rows.map(row => {
             prepareRow(row);
             return (
