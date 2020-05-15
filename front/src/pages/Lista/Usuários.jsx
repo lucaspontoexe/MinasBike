@@ -6,7 +6,7 @@ import Table from 'components/Table';
 
 import './styles.css';
 
-export default function ListaClientes() {
+export default function ListaUsuários() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
