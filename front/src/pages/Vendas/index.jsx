@@ -48,14 +48,6 @@ export default function Vendas(props) {
     setTableData(old => old.filter(item => item.id !== product.id));
   }
 
-  function RemoveItemCell(data) {
-    return (
-      <button style={{ minWidth: 20 }} onClick={() => removeProductFromTable(data.row.original)}>
-        X
-      </button>
-    );
-  }
-
   function ProductSearch() {
     return (
       <SelectWithLabel
@@ -102,7 +94,18 @@ export default function Vendas(props) {
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
       { Header: 'Preço', accessor: 'price', Cell: PriceCell },
       { Header: 'Total', accessor: 'total', Cell: PriceCell },
-      { Header: 'Remover', id: 'remove', Cell: RemoveItemCell },
+      {
+        Header: 'Remover',
+        id: 'remove',
+        Cell: data => (
+          <button
+            style={{ minWidth: 20 }}
+            onClick={() => removeProductFromTable(data.row.original)}
+          >
+            X
+          </button>
+        ),
+      },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
