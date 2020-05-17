@@ -238,13 +238,11 @@ export default function EditarProduto(props) {
 
         {/* stock */}
         <TextBox
-          required
-          disabled={!canEdit}
+          disabled
+          readOnly
           name="current_qty"
           label="Quantidade atual de estoque"
-          error={state.errors.current_qty}
           value={state.current_qty}
-          onChange={event => dispatch({ type: 'number-change', property: event.target })}
         />
         {/* provider */}
         <div className="pseudo-label">Fornecedores</div>
