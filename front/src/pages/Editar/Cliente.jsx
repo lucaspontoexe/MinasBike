@@ -42,14 +42,15 @@ export default function EditarCliente(props) {
 
   return (
     <div className="tela tela-editar">
-      <Header>
-        Editar Cliente
+      <div className="extra-header">
+        <Header>Editar Cliente</Header>
+
         {!canEdit && (
           <Button color="#dc2438" onClick={() => setCanEdit(true)}>
             Editar
           </Button>
         )}
-      </Header>
+      </div>
 
       <form action="#" onSubmit={handleSubmit}>
         <TextBox

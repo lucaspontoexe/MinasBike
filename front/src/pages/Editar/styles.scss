@@ -1,10 +1,24 @@
-.detalhes-produto .tela-editar {
-  form {
-    margin: 60px;
-    display: flex;
-  }
+ .tela-editar {
 
-  .text-box {
-    margin: 10px 0px;
-  }
-}
+   margin-left: 340px !important;
+   margin-top: 10vh;
+   padding-right: 120px;
+
+   .extra-header {
+     display: flex;
+     justify-content: space-between;
+
+     header,
+     button {
+       margin: 0;
+     }
+
+     button {
+       height: 60px;
+     }
+   }
+
+   .text-box {
+     margin: 10px 0px;
+   }
+ }

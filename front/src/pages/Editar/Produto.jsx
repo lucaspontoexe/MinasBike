@@ -160,12 +160,15 @@ export default function EditarProduto(props) {
 
   return (
     <div className="tela tela-editar">
-      <Header>Detalhes do Produto {code}</Header>
-      {!canEdit && (
-        <Button color="#dc2438" onClick={() => setCanEdit(true)}>
-          Editar
-        </Button>
-      )}
+      <div className="extra-header">
+        <Header>Detalhes do Produto {code}</Header>
+        {!canEdit && (
+          <Button color="#dc2438" onClick={() => setCanEdit(true)}>
+            Editar
+          </Button>
+        )}
+      </div>
+
       <form onSubmit={handleSubmit}>
         {/* product stuff */}
         <TextBox
