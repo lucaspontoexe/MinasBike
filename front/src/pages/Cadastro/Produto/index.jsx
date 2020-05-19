@@ -144,6 +144,8 @@ export default function CadastroProduto({ history }) {
       <Header>Novo Produto</Header>
       <form onSubmit={handleSubmit}>
         <BPSelector onChange={setBpData} shouldReset={shouldBPSelectorReset} />
+        <span>{errors.brandproduct_id}</span>
+
         <div>
           {window.DEV_MODE && 'PRODUCT STUFF'}
           <TextBox
@@ -227,28 +229,27 @@ export default function CadastroProduto({ history }) {
             type="number"
             error={errors.current_qty}
             name="current_qty"
-            label="qtd. atual estoque"
+            label="Quantidade Atual em Estoque"
           />
           <TextBox
             required
             type="number"
             error={errors.min_qty}
             name="min_qty"
-            label="qtd. mínima estoque"
+            label="Quantidade Mínima de Estoque"
           />
           <TextBox
             required
             type="number"
             error={errors.initial_qty}
             name="initial_qty"
-            label="qtd. inicial em estoque"
+            label="Quantidade Inicial em Estoque"
           />
         </div>
 
-        <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} useRuleTwo/>
-        <br />
-        <span>brandproduct errors: {errors.brandproduct_id}</span>
+        <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} useRuleTwo/>        
         <span>providerproduct errors: {errors.provider_id}</span>
+        
         <Button type="submit">POST</Button>
       </form>
 
