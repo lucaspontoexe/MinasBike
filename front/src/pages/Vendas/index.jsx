@@ -146,7 +146,7 @@ export default function Vendas(props) {
       <div>total: {formatPrice(total)}</div>
       <div>total com desconto: {formatPrice(totalWithDiscount)}</div>
       <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
-      <div>vendedor: [Código]</div>
+      {/* <div>vendedor: [Código]</div> */}
 
       <TextBox
         label="Desconto (%)"
