@@ -6,6 +6,8 @@ import Header from 'components/Header';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 
+import './styles.scss';
+
 export default function EditarCliente(props) {
   const { id } = props.match.params;
   const [formData, setFormData] = useState({});
@@ -39,14 +41,15 @@ export default function EditarCliente(props) {
   }
 
   return (
-    <div className="tela tela-cadastro">
-      <Header>Editar Cliente</Header>
-
-      {!canEdit && (
-        <Button color="#dc2438" onClick={() => setCanEdit(true)}>
-          Editar
-        </Button>
-      )}
+    <div className="tela tela-editar">
+      <Header>
+        Editar Cliente
+        {!canEdit && (
+          <Button color="#dc2438" onClick={() => setCanEdit(true)}>
+            Editar
+          </Button>
+        )}
+      </Header>
 
       <form action="#" onSubmit={handleSubmit}>
         <TextBox

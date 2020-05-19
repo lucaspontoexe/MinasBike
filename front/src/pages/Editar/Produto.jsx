@@ -11,6 +11,8 @@ import Button from 'components/Button';
 import SelectWithLabel from 'components/SelectWithLabel';
 import ProviderSelector from 'pages/Cadastro/Produto/ProviderSelector';
 
+import './styles.scss';
+
 const initialState = {
   name: '',
   category_id: 0,
@@ -157,7 +159,7 @@ export default function EditarProduto(props) {
   }
 
   return (
-    <div className="tela tela-cadastro">
+    <div className="tela tela-editar">
       <Header>Detalhes do Produto {code}</Header>
       {!canEdit && (
         <Button color="#dc2438" onClick={() => setCanEdit(true)}>

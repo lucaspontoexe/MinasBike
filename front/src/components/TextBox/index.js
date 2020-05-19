@@ -36,6 +36,7 @@ export default function TextBox(props) {
       )}
 
       {error && <div className="input-error">{error}</div>}
+      {error && <div className="input-warning">{error}</div>}
     </div>
   );
 }

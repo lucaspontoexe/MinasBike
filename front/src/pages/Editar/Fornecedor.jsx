@@ -7,6 +7,8 @@ import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import LocationSelector from 'components/LocationSelector';
 
+import './styles.scss';
+
 export default function EditarFornecedor(props) {
   const { id } = props.match.params;
   const [formData, setFormData] = useState({});
@@ -45,7 +47,7 @@ export default function EditarFornecedor(props) {
   }
 
   return (
-    <div className="tela tela-cadastro">
+    <div className="tela tela-editar">
       <Header>Editar Fornecedor</Header>
 
       {!canEdit && (
