@@ -34,6 +34,12 @@ table {
     padding: 20px;
   }
 
+  th .table-head-cell {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+  }
+
   td {
     border-bottom: 1px solid #aaa;
   }
