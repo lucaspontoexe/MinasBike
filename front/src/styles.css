@@ -24,3 +24,9 @@ span.asterisco {
     font-weight: bold;
     font-size: 1.2em;
 }
+
+.buttons {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}

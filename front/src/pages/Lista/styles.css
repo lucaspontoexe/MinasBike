@@ -21,9 +21,3 @@
 .table-wrapper .top-header .text-box {
     width: 480px;
 }
-
-.buttons {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-}
