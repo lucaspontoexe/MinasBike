@@ -1,0 +1,45 @@
+table {
+  width: 100%;
+  margin-top: 24px;
+  margin-bottom: 80px;
+  border-collapse: collapse;
+  border-radius: 5px 5px 0px 0px;
+  overflow: hidden;
+  font-size: 18px;
+
+  thead>tr {
+    background: #dc2438;
+    color: white;
+  }
+
+  tbody {
+
+    tr:nth-child(even) {
+      background: #fff;
+    }
+
+    tr:nth-child(odd) {
+      background: #f0f0f0;
+    }
+
+
+  }
+
+  tr {
+    height: 48px;
+  }
+
+  th,
+  td {
+    padding: 20px;
+  }
+
+  td {
+    border-bottom: 1px solid #aaa;
+  }
+
+  td a {
+    color: black;
+  }
+
+}

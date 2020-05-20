@@ -5,6 +5,8 @@ import TextBox from 'components/TextBox';
 
 import searchIcon from 'assets/icons/search.svg';
 
+import './styles.scss';
+
 function GlobalFilter({ globalFilter, setGlobalFilter, searchText }) {
   return (
     <TextBox
