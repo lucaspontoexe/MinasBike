@@ -48,4 +48,15 @@ table {
     color: black;
   }
 
+  input.editable-cell {
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 20px;
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+    background-image:  url('../../assets/icons/edit.svg');
+    background-repeat: no-repeat;
+    background-position: 10px;
+    font-size: 18px;
+  }
 }
