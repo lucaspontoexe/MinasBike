@@ -69,7 +69,7 @@ export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo
               {...item}
               providers={providers}
               key={`provider_${item.id}`}
-              displayExtraCell={newitems.length > 0}
+              displayExtraCell
             />
           ))}
 
