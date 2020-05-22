@@ -36,7 +36,9 @@ export default function EditableRow({
         <input name="cost_price" value={data.cost_price} onChange={e => handleChange(e.target)} />
       </td>
 
-      <td onClick={() => onRemove(id)}>[X]</td>
+      <td>
+        <button onClick={() => onRemove(id)}>Remover</button>
+      </td>
     </tr>
   );
 }

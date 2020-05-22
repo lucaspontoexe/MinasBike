@@ -50,16 +50,13 @@ export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo
           <tr>
             <th>Nome</th>
             <th>Preço de Custo</th>
-            {newitems.length > 0 && <th>Remover</th>}
+            <th>Ação</th>
           </tr>
         </thead>
         <tbody>
           {newitems.length === 0 && prpr.length === 0 && (
             <tr>
-              <td
-                colSpan={newitems.length > 0 ? 3 : 2}
-                style={{ textAlign: 'center ', height: 96 }}
-              >
+              <td colSpan={3} style={{ textAlign: 'center ', height: 96 }}>
                 Nenhum item
               </td>
             </tr>
@@ -84,9 +81,8 @@ export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo
             />
           ))}
         </tbody>
-      <AddRow providers={providers} onCreate={obj => handleCreate(obj)} />
+        <AddRow providers={providers} onCreate={obj => handleCreate(obj)} />
       </table>
-
     </div>
   );
 }
