@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
+import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import formatSelectItem from 'utils/formatSelectItem';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
@@ -7,9 +8,9 @@ import Header from 'components/Header';
 import Modal from 'components/Modal';
 import SelectWithLabel from 'components/SelectWithLabel';
 import { BPSelector } from './BPSelector';
-
-import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import ProviderSelector from './ProviderSelector';
+
+import '../styles.scss';
 
 const str = item => JSON.stringify(item, null, 2);
 
@@ -140,7 +141,7 @@ export default function CadastroProduto({ history }) {
   const isBPFormDisabled = bpData.brandproduct.id >= 0;
 
   return (
-    <div className="tela">
+    <div className="tela tela-cadastro">
       <Header>Novo Produto</Header>
       <form onSubmit={handleSubmit}>
         <BPSelector onChange={setBpData} shouldReset={shouldBPSelectorReset} />
@@ -247,10 +248,16 @@ export default function CadastroProduto({ history }) {
           />
         </div>
 
-        <ProviderSelector onChange={setPrprData} brandproduct_id={bpData.brandproduct.id} useRuleTwo/>        
-        <span>providerproduct errors: {errors.provider_id}</span>
-        
-        <Button type="submit">POST</Button>
+        <ProviderSelector
+          onChange={setPrprData}
+          brandproduct_id={bpData.brandproduct.id}
+          useRuleTwo
+        />
+        {errors.provider_id && <span className="error">Erro: {errors.provider_id}</span>}
+
+        <Button color="rgb(48, 204, 87)" type="submit">
+          Cadastrar
+        </Button>
       </form>
 
       {isSubmitting && <Modal type="loading" />}
