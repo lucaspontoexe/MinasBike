@@ -37,7 +37,7 @@ export default function EditableRow({
       </td>
 
       <td>
-        <button onClick={() => onRemove(id)}>Remover</button>
+        <button className="remove" onClick={() => onRemove(id)}>Remover</button>
       </td>
     </tr>
   );

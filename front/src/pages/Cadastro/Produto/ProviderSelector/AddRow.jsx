@@ -25,12 +25,13 @@ export default function AddRow(props) {
         <td>
           <input
             name="cost_price"
-            placeholder="48022"
+            placeholder="Insira o preço de custo"
             onChange={e => setCostPrice(e.target.value)}
           />
         </td>
         <td>
           <button
+            className="add"
             type="button"
             onClick={() =>
               props.onCreate({

@@ -4,6 +4,7 @@ import isArrayUnique from 'utils/isArrayUnique';
 import EditableRow from './EditableRow';
 import AddRow from './AddRow';
 import Row from './Row';
+import './styles.scss';
 
 export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo = true }) {
   const [providers, setProviders] = useState([]);
@@ -44,8 +45,9 @@ export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo
     setNewitems(old => old.map(item => (item.id === obj.id ? obj : item)));
 
   return (
-    <div>
-      <table>
+    <div className="prpr-selector">
+      <div className="pseudo-label">Fornecedores</div>
+      <table className="prpr-table">
         <thead>
           <tr>
             <th>Nome</th>

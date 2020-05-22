@@ -1,0 +1,41 @@
+.prpr-selector {
+
+  margin-top: 24px;
+
+
+  .pseudo-label {
+    margin-bottom: 10px;
+
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 14px;
+    color: #3d3d3d;
+  }
+
+  table {
+    margin-top: 0px;
+
+    td {
+      text-align: center;
+    }
+
+    select,
+    input {
+      width: 100%;
+    }
+
+    button {
+      width: 80%;
+
+      &.add {
+        background: rgb(78, 223, 114);
+      }
+
+      &.remove {
+        background: #aaa;
+      }
+    }
+  }
+
+}

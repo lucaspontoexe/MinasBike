@@ -252,7 +252,6 @@ export default function EditarProduto(props) {
           onChange={event => dispatch({ type: 'number-change', property: event.target })}
         />
         {/* provider */}
-        <div className="pseudo-label">Fornecedores</div>
         {apiData.brandproduct.id && (
           <ProviderSelector
             brandproduct_id={apiData.brandproduct.id}
