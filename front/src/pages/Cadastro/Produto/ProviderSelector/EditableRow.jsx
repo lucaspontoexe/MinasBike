@@ -33,11 +33,18 @@ export default function EditableRow({
       </td>
 
       <td>
-        <input name="cost_price" value={data.cost_price} onChange={e => handleChange(e.target)} />
+        <input
+          className="editable-cell"
+          name="cost_price"
+          value={data.cost_price}
+          onChange={e => handleChange(e.target)}
+        />
       </td>
 
       <td>
-        <button className="remove" onClick={() => onRemove(id)}>Remover</button>
+        <button className="remove" onClick={() => onRemove(id)}>
+          Remover
+        </button>
       </td>
     </tr>
   );
