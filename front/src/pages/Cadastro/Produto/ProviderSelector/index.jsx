@@ -84,9 +84,9 @@ export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo
             />
           ))}
         </tbody>
+      <AddRow providers={providers} onCreate={obj => handleCreate(obj)} />
       </table>
 
-      <AddRow providers={providers} onCreate={obj => handleCreate(obj)} />
     </div>
   );
 }

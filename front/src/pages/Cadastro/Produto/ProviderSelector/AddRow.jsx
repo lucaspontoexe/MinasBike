@@ -10,8 +10,8 @@ export default function AddRow(props) {
   }, [props.providers]);
 
   return (
-    <div>
-      <div>
+    <tfoot>
+      <td>
         <select name="provider_id" onChange={e => setProviderID(e.target.value)}>
           {props.providers.map(item => (
             <option key={`addrow_pr_${item.id}`} value={item.id}>
@@ -19,24 +19,25 @@ export default function AddRow(props) {
             </option>
           ))}
         </select>
-      </div>
+      </td>
 
-      <div>
+      <td>
         <input name="cost_price" placeholder="48022" onChange={e => setCostPrice(e.target.value)} />
-      </div>
-
-      <button
-        type="button"
-        onClick={() =>
-          props.onCreate({
-            cost_price,
-            id: shortid.generate(),
-            provider_id,
-          })
-        }
-      >
-        add
-      </button>
-    </div>
+      </td>
+      <td>
+        <button
+          type="button"
+          onClick={() =>
+            props.onCreate({
+              cost_price,
+              id: shortid.generate(),
+              provider_id,
+            })
+          }
+        >
+          add
+        </button>
+      </td>
+    </tfoot>
   );
 }
