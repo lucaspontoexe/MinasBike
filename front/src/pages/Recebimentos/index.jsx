@@ -12,6 +12,8 @@ import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import { queryObject } from 'utils/getProperty';
 import api from 'services/api';
 
+import '../CompraVenda.scss';
+
 export default function Recebimentos(props) {
   const updateData = (rowIndex, columnId, value) => {
     setTableData(old =>
@@ -124,7 +126,7 @@ export default function Recebimentos(props) {
   }
 
   return (
-    <div className="tela tela-vendas">
+    <div className="tela tela-compra-venda">
       <Header>Recebimentos</Header>
 
       <SelectWithLabel

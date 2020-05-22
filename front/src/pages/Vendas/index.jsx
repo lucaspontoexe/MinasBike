@@ -12,6 +12,8 @@ import formatPrice from 'utils/formatPrice';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import api from 'services/api';
 
+import '../CompraVenda.scss';
+
 export default function Vendas(props) {
   const updateData = (rowIndex, columnId, value) => {
     setTableData(old =>
@@ -132,7 +134,7 @@ export default function Vendas(props) {
   const totalWithDiscount = total * (1 - discount / 100);
 
   return (
-    <div className="tela tela-vendas">
+    <div className="tela tela-compra-venda">
       <Header>Vendas</Header>
       <Table
         data={tableData}
