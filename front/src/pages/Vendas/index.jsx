@@ -145,9 +145,12 @@ export default function Vendas(props) {
 
       {errors.serviceorderproducts && <div class="error">{errors.serviceorderproducts}</div>}
 
-      <div>total: {formatPrice(total)}</div>
-      <div>total com desconto: {formatPrice(totalWithDiscount)}</div>
-      <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
+      <div>Subtotal: {formatPrice(total)}</div>
+      <div className="text-box">
+        <label htmlFor="total">Total (com desconto)</label>
+        <input disabled readonly value={formatPrice(totalWithDiscount)} className="total" />
+      </div>
+      <div>Data da venda: {`${new Date().toLocaleDateString()}`}</div>
       {/* <div>vendedor: [Código]</div> */}
 
       <TextBox

@@ -149,8 +149,12 @@ export default function Recebimentos(props) {
         <div class="error">{errors.receivedproviderproducts}</div>
       )}
 
-      <div>total: {formatPrice(total)}</div>
-      <div>data da compra: {`${new Date().toLocaleDateString()}`}</div>
+      <div className="text-box">
+        <label htmlFor="total">Total</label>
+        <input disabled readonly value={formatPrice(total)} className="total" />
+      </div>
+
+      <div>Data da compra: {`${new Date().toLocaleDateString()}`}</div>
 
       <form onSubmit={handleSubmit}>
         <TextBox
