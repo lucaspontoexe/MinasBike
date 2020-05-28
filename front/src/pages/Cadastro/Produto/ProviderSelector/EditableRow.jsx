@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import devlog from 'utils/devlog';
 
 export default function EditableRow({
   id,
@@ -15,7 +16,7 @@ export default function EditableRow({
   });
 
   function handleChange({ name, value }) {
-    console.log(name, value);
+    devlog(name, value);
     setData({ ...data, [name]: value });
     onChange({ ...data, [name]: value });
   }

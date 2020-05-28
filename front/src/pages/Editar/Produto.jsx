@@ -4,6 +4,7 @@ import formatSelectItem from 'utils/formatSelectItem';
 import formatAPIDateTime from 'utils/formatAPIDateTime';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import { queryObject } from 'utils/getProperty';
+import devlog from 'utils/devlog';
 
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
@@ -38,7 +39,6 @@ function reducer(state, action) {
     case 'number-change':
       return { ...state, [action.property.name]: Number(action.property.value) };
     case 'price-change':
-      console.log(action)
       return { ...state, price: Number(action.value) };
     case 'select-change':
       return { ...state, [action.name]: action.property };
@@ -60,7 +60,7 @@ function reducer(state, action) {
       return { ...state, errors: formatErrorsSingleObject(action.error.response.data) };
 
     default:
-      console.log(state, action);
+      devlog(state, action);
       return state;
   }
 }
@@ -121,9 +121,9 @@ export default function EditarProduto(props) {
     const brandproduct_id = apiData.brandproduct.id;
     const productNameChanged = state.name !== apiData.brandproduct?.product.name;
 
-    console.log('bp id: ', brandproduct_id);
-    console.log('product name changed: ', productNameChanged);
-    console.log('brand new name: ', state.brand_new_name);
+    devlog('bp id: ', brandproduct_id);
+    devlog('product name changed: ', productNameChanged);
+    devlog('brand new name: ', state.brand_new_name);
 
     const prprRequests = state.providerproducts.map(item =>
       isNaN(item.id)

@@ -6,6 +6,7 @@ import Button from 'components/Button';
 import Input from 'components/FormikInput';
 import Error from 'components/Error';
 
+import devlog from 'utils/devlog';
 import formatFieldErrors from 'utils/formatFieldErrors';
 import logo from 'assets/images/logo-white.png';
 import emailIcon from 'assets/icons/email.svg';
@@ -26,7 +27,7 @@ function Login({ history }) {
       })
 
       .catch(err => {
-        console.log(err);
+        devlog(err);
 
         const { data } = err.response;
         if (data.message) setErrors(formatFieldErrors(data));

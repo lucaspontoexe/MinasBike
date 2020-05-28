@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from 'services/api';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import formatSelectItem from 'utils/formatSelectItem';
+import devlog from 'utils/devlog';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import Header from 'components/Header';
@@ -48,8 +49,8 @@ export default function CadastroProduto({ history }) {
 
   function handleChange(setStateHandler, { name, value }) {
     setStateHandler(old => ({ ...old, [name]: value }));
-    console.log(name, value);
-    console.log(brandproductForm, productForm, stockForm);
+    devlog(name, value);
+    devlog(brandproductForm, productForm, stockForm);
   }
 
   // função que leva em conta tanto os dados do form quanto do select.
@@ -114,9 +115,7 @@ export default function CadastroProduto({ history }) {
       })
       .catch(err => {
         setErrors(formatErrorsSingleObject(err.response.data));
-        console.log(err);
-        console.log(err.response);
-        console.log(err.data);
+        devlog(err);
 
         // reset EVERYTHING
         // não tem como resetar bpData. na verdade, o reset acontece internamente, mas

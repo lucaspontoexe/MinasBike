@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+import devlog from 'utils/devlog';
 import api from 'services/api';
 
 import Header from 'components/Header';
@@ -26,7 +27,7 @@ export default function EditarCliente(props) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    console.log(formData);
+    devlog(formData);
 
     api
       .put(`/clients/${id}`, formData)
