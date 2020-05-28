@@ -37,6 +37,9 @@ function reducer(state, action) {
       return { ...state, [action.property.name]: action.property.value };
     case 'number-change':
       return { ...state, [action.property.name]: Number(action.property.value) };
+    case 'price-change':
+      console.log(action)
+      return { ...state, price: Number(action.value) };
     case 'select-change':
       return { ...state, [action.name]: action.property };
     case 'provider-change':
@@ -235,10 +238,11 @@ export default function EditarProduto(props) {
           required
           disabled={!canEdit}
           name="price"
+          type="currency"
           label="Preço"
           error={state.errors.description}
           value={state.price}
-          onChange={event => dispatch({ type: 'number-change', property: event.target })}
+          onChange={price => dispatch({ type: 'price-change', value: price })}
         />
 
         {/* stock */}

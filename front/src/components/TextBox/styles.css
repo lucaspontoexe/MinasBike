@@ -21,6 +21,7 @@
 
 .text-box input:disabled {
     background-color: #ddd;
+    background-blend-mode: overlay;
     cursor: not-allowed;
 }
 
