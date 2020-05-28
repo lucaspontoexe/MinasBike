@@ -23,6 +23,15 @@ const EditableCell = ({
     setValue(initialValue);
   }, [initialValue]);
 
-  return <input value={value} type="number" onChange={onChange} onBlur={onBlur} className="editable-cell" />;
+  return (
+    <input
+      value={value}
+      type="number"
+      min="0"
+      onChange={onChange}
+      onBlur={onBlur}
+      className="editable-cell"
+    />
+  );
 };
 export default EditableCell;
