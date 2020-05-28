@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import devlog from 'utils/devlog';
+import CurrencyInput from 'components/CurrencyInput';
 
 export default function EditableRow({
   id,
@@ -34,11 +35,11 @@ export default function EditableRow({
       </td>
 
       <td>
-        <input
-          className="editable-cell"
+        <CurrencyInput
+          className="editable-price-cell"
           name="cost_price"
           value={data.cost_price}
-          onChange={e => handleChange(e.target)}
+          onChange={value => handleChange({name: 'cost_price', value})}
         />
       </td>
 
