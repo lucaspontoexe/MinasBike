@@ -4,6 +4,7 @@ import Table from 'components/Table';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import SelectWithLabel from 'components/SelectWithLabel';
+import EditablePriceCell from 'components/Table/EditablePriceCell';
 import EditableCell from 'components/Table/EditableCell';
 import PriceCell from 'components/Table/PriceCell';
 
@@ -95,7 +96,7 @@ export default function Recebimentos(props) {
       { Header: 'Código', accessor: 'id' },
       { Header: 'Produto', accessor: 'name' },
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
-      { Header: 'Preço', accessor: 'price', Cell: EditableCell },
+      { Header: 'Preço', accessor: 'price', Cell: EditablePriceCell },
       { Header: 'Total', accessor: 'total', Cell: PriceCell },
     ],
     []
@@ -151,7 +152,7 @@ export default function Recebimentos(props) {
 
       <div className="text-box">
         <label htmlFor="total">Total</label>
-        <input disabled readonly value={formatPrice(total)} className="total" />
+        <input disabled readOnly value={formatPrice(total)} className="total" />
       </div>
 
       <div>Data da compra: {`${new Date().toLocaleDateString()}`}</div>

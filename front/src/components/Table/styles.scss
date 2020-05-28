@@ -54,9 +54,24 @@ table {
     padding-right: 20px;
     border: 0;
     background-color: rgba(0, 0, 0, 0);
-    background-image:  url('../../assets/icons/edit.svg');
+    background-image: url('../../assets/icons/edit.svg');
     background-repeat: no-repeat;
     background-position: 10px;
     font-size: 18px;
   }
+
+  input.editable-price-cell {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 20px;
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+    background-image:
+      url('../../assets/icons/edit.svg'),
+      url('../../assets/icons/R$.svg');
+    background-position: 10px, 40px;
+    background-repeat: no-repeat;
+    font-size: 18px;
+  }
+
 }
