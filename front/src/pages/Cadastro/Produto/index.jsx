@@ -17,7 +17,7 @@ const str = item => JSON.stringify(item, null, 2);
 const initialBpData = {
   product: { id: -2 },
   brand: { id: -2 },
-  brandproduct: { id: -1 },
+  brandproduct: { id: -1, price: 5 },
 };
 
 export default function CadastroProduto({ history }) {
@@ -200,26 +200,29 @@ export default function CadastroProduto({ history }) {
             </>
           )}
         </div>
-        <div onChangeCapture={e => handleChange(setBrandproductForm, e.target)}>
+        <div>
           {window.DEV_MODE && 'BP STUFF'}
           <>
             <TextBox
               required
               type="number"
+              min="0"
               name="code"
               error={errors.code}
               disabled={isBPFormDisabled}
               value={bpData.brandproduct.code}
               label="Código de Barras"
+              onChange={e => handleChange(setBrandproductForm, e.target)}
             />
             <TextBox
               required
-              type="number"
+              type="currency"
               name="price"
               error={errors.price}
               disabled={isBPFormDisabled}
               value={bpData.brandproduct.price}
               label="Preço"
+              onChange={value => handleChange(setBrandproductForm, { name: 'price', value })}
             />
           </>
         </div>
@@ -228,6 +231,7 @@ export default function CadastroProduto({ history }) {
           <TextBox
             required
             type="number"
+            min="0"
             error={errors.current_qty}
             name="current_qty"
             label="Quantidade Atual em Estoque"
@@ -235,6 +239,7 @@ export default function CadastroProduto({ history }) {
           <TextBox
             required
             type="number"
+            min="0"
             error={errors.min_qty}
             name="min_qty"
             label="Quantidade Mínima de Estoque"
@@ -242,6 +247,7 @@ export default function CadastroProduto({ history }) {
           <TextBox
             required
             type="number"
+            min="0"
             error={errors.initial_qty}
             name="initial_qty"
             label="Quantidade Inicial em Estoque"
