@@ -46,10 +46,10 @@ export default function Vendas(props) {
     setProducts(old => old.filter(item => item.id !== product.id));
   }
 
-  // function removeProductFromTable(product) {
-  //   setProducts(old => [...old, product]);
-  //   setTableData(old => old.filter(item => item.id !== product.id));
-  // }
+  function removeProductFromTable(product) {
+    setProducts(old => [product, ...old]);
+    setTableData(old => old.filter(item => item.id !== product.id));
+  }
 
   function ProductSearch() {
     return (
@@ -97,6 +97,18 @@ export default function Vendas(props) {
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
       { Header: 'Preço', accessor: 'price', Cell: PriceCell },
       { Header: 'Total', accessor: 'total', Cell: PriceCell },
+      {
+        Header: 'Remover',
+        id: 'remove',
+        Cell: data => (
+          <button
+            style={{ minWidth: 20 }}
+            onClick={() => removeProductFromTable(data.row.original)}
+          >
+            X
+          </button>
+        ),
+      },
     ],
     []
   );

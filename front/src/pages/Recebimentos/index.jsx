@@ -99,9 +99,25 @@ export default function Recebimentos(props) {
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
       { Header: 'Preço', accessor: 'price', Cell: EditablePriceCell },
       { Header: 'Total', accessor: 'total', Cell: PriceCell },
+      {
+        Header: 'Remover',
+        id: 'remove',
+        Cell: data => (
+          <button
+            style={{ minWidth: 20 }}
+            onClick={() => removeProductFromTable(data.row.original)}
+          >
+            X
+          </button>
+        ),
+      },
     ],
     []
   );
+
+  function removeProductFromTable(product) {
+    setTableData(old => old.filter(item => item.id !== product.id));
+  }
 
   function handleChange(newData) {
     setFormData(old => ({ ...old, ...newData }));
