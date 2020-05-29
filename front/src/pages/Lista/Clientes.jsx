@@ -19,7 +19,7 @@ export default function ListaClientes({ history }) {
   }, []);
 
   const headers = [
-    { Header: 'Código', accessor: 'id' },
+    { Header: 'Código', accessor: 'code' },
     { Header: 'Nome', accessor: 'name' },
     { Header: 'Endereço', accessor: 'address' },
     { Header: 'Telefone', accessor: 'phone' },
@@ -52,7 +52,7 @@ export default function ListaClientes({ history }) {
         {clients.length > 0 && (
           <Table
             columns={headers}
-            data={clients}
+            data={clients.map(item => ({...item, code: item.id}))}
             withFilter
             linkTo="clientes"
             searchText="Buscar clientes..."
