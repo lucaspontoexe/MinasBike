@@ -1,0 +1,23 @@
+.table-wrapper {
+    width: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table-wrapper .top-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    position: sticky;
+    top: 0px;
+
+    background: #fafafa;
+    padding: 10px;
+}
+
+.table-wrapper .top-header .text-box {
+    width: 480px;
+}

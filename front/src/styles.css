@@ -18,3 +18,15 @@ body {
     width: calc(100% - 280px);
     margin-left: 280px;
 }
+
+span.asterisco {
+    color: #dc2438;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.buttons {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}

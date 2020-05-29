@@ -1,0 +1,35 @@
+.cadastro-produtos {
+    height: 100%;
+    width: 100%;
+}
+
+.cadastro-produtos form {
+    margin: 40px;
+    display: flex;
+}
+
+.cadastro-produtos .page {
+    flex: 1;
+    margin: 0px 20px;
+}
+
+.cadastro-produtos .item {
+    display: inline-flex;
+    width: 95%;
+    justify-content: space-between;
+}
+
+.cadastro-produtos .item .text-box {
+    margin: 10px;
+}
+
+.cadastro-produtos input[type='number'] {
+    appearance: textfield;
+}
+
+.asterisco {
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #dc2438;
+}

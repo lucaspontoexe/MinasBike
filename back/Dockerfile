@@ -6,6 +6,8 @@ WORKDIR /usr/app/back
 
 COPY . .
 
-RUN yarn
+RUN npm i -g @adonisjs/cli
 
-CMD ["yarn", "dev"]
+RUN npm install
+
+CMD ["adonis", "serve", "--dev"]

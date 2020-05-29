@@ -1,0 +1,77 @@
+table {
+  width: 100%;
+  margin-top: 24px;
+  margin-bottom: 80px;
+  border-collapse: collapse;
+  border-radius: 5px 5px 0px 0px;
+  overflow: hidden;
+  font-size: 18px;
+
+  thead>tr {
+    background: #dc2438;
+    color: white;
+  }
+
+  tbody {
+
+    tr:nth-child(even) {
+      background: #fff;
+    }
+
+    tr:nth-child(odd) {
+      background: #f0f0f0;
+    }
+
+
+  }
+
+  tr {
+    height: 48px;
+  }
+
+  th,
+  td {
+    padding: 20px;
+  }
+
+  th .table-head-cell {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+  }
+
+  td {
+    border-bottom: 1px solid #aaa;
+  }
+
+  td a {
+    color: black;
+  }
+
+  input.editable-cell {
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 20px;
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url('../../assets/icons/edit.svg');
+    background-repeat: no-repeat;
+    background-position: 10px;
+    font-size: 18px;
+  }
+
+  input.editable-price-cell {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 20px;
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+    background-image:
+      url('../../assets/icons/edit.svg'),
+      url('../../assets/icons/R$.svg');
+    background-position: 10px, 40px;
+    background-repeat: no-repeat;
+    font-size: 18px;
+  }
+
+}

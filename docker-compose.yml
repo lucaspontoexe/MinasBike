@@ -6,7 +6,7 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_PASSWORD: minasbike
+      POSTGRES_PASSWORD: docker
     volumes:
       - .:/usr/app
 

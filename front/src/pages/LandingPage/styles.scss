@@ -1,0 +1,133 @@
+.login-screen {
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  background-color: black;
+  background-image: url('../../assets/images/photo-dark.jpg');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+
+  a {
+    color: #444444;
+  }
+}
+
+.login-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 360px;
+  width: 25%;
+  margin-left: 5%;
+  padding: 30px;
+
+  border-radius: 10px;
+
+  /* dark mode */
+  background: #131313;
+
+  a,
+  h1,
+  h2,
+  span,
+  div {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  }
+
+
+  .logo-container {
+    width: 50%;
+    height: 30%;
+    margin: 5% 0px;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* dark mode */
+  .text-box {
+    width: 90%;
+    margin: 10px 0px;
+
+    input {
+      background-color: #181818;
+      color: whitesmoke;
+      border: 2px #666 solid;
+    }
+
+    label {
+      color: #aaa;
+    }
+  }
+
+  button {
+    width: 90%;
+    height: 60px;
+    margin: 30px 0px;
+    font-size: 18px;
+  }
+
+  // Ainda não tem conta? / Já tem conta?
+  span {
+    color: #eeeeee;
+    font-weight: bold;
+  }
+
+  // Registre-se / Faça Login
+  a {
+    color: #dc2438;
+    text-decoration: none;
+  }
+
+  .success {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 10px;
+    background-color: #131313;
+    animation: fade-in 0.5s;
+
+    @keyframes fade-in {
+      from {opacity: 0%;}
+      to {opacity: 100%;}
+    }
+
+    img {
+      // height: 170px;
+      object-fit: contain;
+      margin: 60px auto;
+      flex: 3;
+    }
+
+    .text {
+      flex: 2;
+
+      h2 {
+        font-size: 30px;
+        color: white;
+        margin-bottom: 20px;
+        font-size: 24pt;
+      }
+
+      span {
+        font-size: 18pt;
+        text-align: center;
+      }
+    }
+
+    button {
+      margin: 25px auto;
+    }
+  }
+}
