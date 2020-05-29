@@ -5,6 +5,8 @@ import TextBox from 'components/TextBox';
 
 import searchIcon from 'assets/icons/search.svg';
 
+import './styles.scss';
+
 function GlobalFilter({ globalFilter, setGlobalFilter, searchText }) {
   return (
     <TextBox
@@ -65,10 +67,11 @@ export default function Table({
                 // Add the sorting props to control sorting. For this example
                 // we can add them into the header props
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                  {/* Add a sort direction indicator */}
-                  {/* TODO: format sort drection indicator using CSS classes */}
-                  <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+                  <div className="table-head-cell">
+                    <span>{column.render('Header')}</span>
+                    {/* Add a sort direction indicator */}
+                    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+                  </div>
                 </th>
               ))}
             </tr>

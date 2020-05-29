@@ -4,12 +4,15 @@ import formatSelectItem from 'utils/formatSelectItem';
 import formatAPIDateTime from 'utils/formatAPIDateTime';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import { queryObject } from 'utils/getProperty';
+import devlog from 'utils/devlog';
 
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import SelectWithLabel from 'components/SelectWithLabel';
 import ProviderSelector from 'pages/Cadastro/Produto/ProviderSelector';
+
+import './styles.scss';
 
 const initialState = {
   name: '',
@@ -35,6 +38,8 @@ function reducer(state, action) {
       return { ...state, [action.property.name]: action.property.value };
     case 'number-change':
       return { ...state, [action.property.name]: Number(action.property.value) };
+    case 'price-change':
+      return { ...state, price: Number(action.value) };
     case 'select-change':
       return { ...state, [action.name]: action.property };
     case 'provider-change':
@@ -55,7 +60,7 @@ function reducer(state, action) {
       return { ...state, errors: formatErrorsSingleObject(action.error.response.data) };
 
     default:
-      console.log(state, action);
+      devlog(state, action);
       return state;
   }
 }
@@ -116,9 +121,9 @@ export default function EditarProduto(props) {
     const brandproduct_id = apiData.brandproduct.id;
     const productNameChanged = state.name !== apiData.brandproduct?.product.name;
 
-    console.log('bp id: ', brandproduct_id);
-    console.log('product name changed: ', productNameChanged);
-    console.log('brand new name: ', state.brand_new_name);
+    devlog('bp id: ', brandproduct_id);
+    devlog('product name changed: ', productNameChanged);
+    devlog('brand new name: ', state.brand_new_name);
 
     const prprRequests = state.providerproducts.map(item =>
       isNaN(item.id)
@@ -157,13 +162,16 @@ export default function EditarProduto(props) {
   }
 
   return (
-    <div className="tela tela-cadastro">
-      <Header>Detalhes do Produto {code}</Header>
-      {!canEdit && (
-        <Button color="#dc2438" onClick={() => setCanEdit(true)}>
-          Editar
-        </Button>
-      )}
+    <div className="tela tela-editar">
+      <div className="extra-header">
+        <Header>Detalhes do Produto {code}</Header>
+        {!canEdit && (
+          <Button color="#dc2438" onClick={() => setCanEdit(true)}>
+            Editar
+          </Button>
+        )}
+      </div>
+
       <form onSubmit={handleSubmit}>
         {/* product stuff */}
         <TextBox
@@ -230,10 +238,11 @@ export default function EditarProduto(props) {
           required
           disabled={!canEdit}
           name="price"
+          type="currency"
           label="Preço"
           error={state.errors.description}
           value={state.price}
-          onChange={event => dispatch({ type: 'number-change', property: event.target })}
+          onChange={price => dispatch({ type: 'price-change', value: price })}
         />
 
         {/* stock */}
@@ -245,7 +254,6 @@ export default function EditarProduto(props) {
           value={state.current_qty}
         />
         {/* provider */}
-        <div className="pseudo-label">Fornecedores</div>
         {apiData.brandproduct.id && (
           <ProviderSelector
             brandproduct_id={apiData.brandproduct.id}

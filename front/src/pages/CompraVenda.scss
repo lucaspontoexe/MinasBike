@@ -1,0 +1,35 @@
+$baseSize: 280px;
+$margin: 24px;
+
+.tela-compra-venda {
+  width: calc(100% - #{$baseSize + $margin * 2}) !important;
+  margin-left: $baseSize + $margin !important;
+
+  header {
+    margin-left: 30px;
+  }
+
+  .text-box {
+    margin: 10px 0px;
+  }
+
+  .total {
+    background: rgb(48, 204, 87) !important;
+    cursor: default !important;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    color: white;
+    font-weight: bold;
+
+    /* positioning */
+
+    height: 48px;
+    width: 100%;
+    min-width: 160px;
+    padding: 0px 20px;
+    font-size: 18px;
+  }
+
+}

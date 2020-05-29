@@ -29,10 +29,7 @@ function useProvideAuth() {
     
     sessionStorage.setItem('token', token);
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    
-    console.log('[useAuth]: changed token to ', token);
-    console.log('[useAuth]: axios token is ', api.defaults.headers.common['Authorization']);
-    
+
     return () => {
       sessionStorage.removeItem('token');
     };

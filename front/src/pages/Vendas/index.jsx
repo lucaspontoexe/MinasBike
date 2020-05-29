@@ -7,17 +7,20 @@ import SelectWithLabel from 'components/SelectWithLabel';
 import EditableCell from 'components/Table/EditableCell';
 import PriceCell from 'components/Table/PriceCell';
 
+import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import formatSelectItem from 'utils/formatSelectItem';
 import formatPrice from 'utils/formatPrice';
-import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+import devlog from 'utils/devlog';
 import api from 'services/api';
+
+import '../CompraVenda.scss';
 
 export default function Vendas(props) {
   const updateData = (rowIndex, columnId, value) => {
     setTableData(old =>
       old.map((row, index) => {
         if (index === rowIndex) {
-          console.log(old, rowIndex, columnId, value);
+          devlog(old, rowIndex, columnId, value);
           let temp = {
             ...old[rowIndex],
             [columnId]: value,
@@ -128,7 +131,7 @@ export default function Vendas(props) {
     api
       .post('/serviceorders', obj)
       .then(response => {
-        console.log('deu bom', response);
+        devlog('deu bom', response);
         props.history.push('/produtos');
       })
       .catch(err => setErrors(formatErrorsSingleObject(err.response.data)));
@@ -144,7 +147,7 @@ export default function Vendas(props) {
   const totalWithDiscount = total * (1 - discount / 100);
 
   return (
-    <div className="tela tela-vendas">
+    <div className="tela tela-compra-venda">
       <Header>Vendas</Header>
       <Table
         data={tableData}
@@ -155,10 +158,13 @@ export default function Vendas(props) {
 
       {errors.serviceorderproducts && <div class="error">{errors.serviceorderproducts}</div>}
 
-      <div>total: {formatPrice(total)}</div>
-      <div>total com desconto: {formatPrice(totalWithDiscount)}</div>
-      <div>data da venda: {`${new Date().toLocaleDateString()}`}</div>
-      <div>vendedor: [Código]</div>
+      <div>Subtotal: {formatPrice(total)}</div>
+      <div className="text-box">
+        <label htmlFor="total">Total (com desconto)</label>
+        <input disabled readonly value={formatPrice(totalWithDiscount)} className="total" />
+      </div>
+      <div>Data da venda: {`${new Date().toLocaleDateString()}`}</div>
+      {/* <div>vendedor: [Código]</div> */}
 
       <TextBox
         label="Desconto (%)"

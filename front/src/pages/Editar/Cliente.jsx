@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
+import devlog from 'utils/devlog';
 import api from 'services/api';
 
 import Header from 'components/Header';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
+
+import './styles.scss';
 
 export default function EditarCliente(props) {
   const { id } = props.match.params;
@@ -24,7 +27,7 @@ export default function EditarCliente(props) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    console.log(formData);
+    devlog(formData);
 
     api
       .put(`/clients/${id}`, formData)
@@ -39,14 +42,16 @@ export default function EditarCliente(props) {
   }
 
   return (
-    <div className="tela tela-cadastro">
-      <Header>Editar Cliente</Header>
+    <div className="tela tela-editar">
+      <div className="extra-header">
+        <Header>Editar Cliente</Header>
 
-      {!canEdit && (
-        <Button color="#dc2438" onClick={() => setCanEdit(true)}>
-          Editar
-        </Button>
-      )}
+        {!canEdit && (
+          <Button color="#dc2438" onClick={() => setCanEdit(true)}>
+            Editar
+          </Button>
+        )}
+      </div>
 
       <form action="#" onSubmit={handleSubmit}>
         <TextBox

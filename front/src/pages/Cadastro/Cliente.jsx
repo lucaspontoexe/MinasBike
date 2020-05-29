@@ -5,23 +5,24 @@ import Button from 'components/Button';
 import Error from 'components/Error';
 import FormikInput from 'components/FormikInput';
 import formatFieldErrors from 'utils/formatFieldErrors';
+import devlog from 'utils/devlog';
 import api from 'services/api';
 
 export default function CadastroCliente({ history }) {
-
   const [serverError, setServerError] = useState('');
 
   function handleSubmit(values, { setSubmitting, setErrors }) {
     setSubmitting(true);
     setServerError('');
-    api.post('/clients', values)
+    api
+      .post('/clients', values)
 
       .then(() => {
         history.push('/clientes');
       })
 
       .catch(err => {
-        console.log(err);
+        devlog(err);
 
         const { data } = err.response;
         if (data.message) setErrors(formatFieldErrors(data));

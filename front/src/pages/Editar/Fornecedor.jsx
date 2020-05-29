@@ -7,6 +7,8 @@ import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import LocationSelector from 'components/LocationSelector';
 
+import './styles.scss';
+
 export default function EditarFornecedor(props) {
   const { id } = props.match.params;
   const [formData, setFormData] = useState({});
@@ -45,14 +47,16 @@ export default function EditarFornecedor(props) {
   }
 
   return (
-    <div className="tela tela-cadastro">
-      <Header>Editar Fornecedor</Header>
+    <div className="tela tela-editar">
+      <div className="extra-header">
+        <Header>Editar Fornecedor</Header>
 
-      {!canEdit && (
-        <Button color="#dc2438" onClick={() => setCanEdit(true)}>
-          Editar
-        </Button>
-      )}
+        {!canEdit && (
+          <Button color="#dc2438" onClick={() => setCanEdit(true)}>
+            Editar
+          </Button>
+        )}
+      </div>
 
       <form action="#" onSubmit={handleSubmit}>
         <TextBox

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from 'services/api';
+import devlog from 'utils/devlog';
 import stateNames from './states.json';
 import SelectWithLabel from 'components/SelectWithLabel';
 
@@ -44,7 +45,7 @@ export default function LocationSelector(props) {
   }, [currentBRState]);
 
   useEffect(() => {
-    console.log(currentCity);
+    devlog(currentCity);
   }, [currentCity]);
 
   return (

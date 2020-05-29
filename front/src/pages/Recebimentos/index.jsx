@@ -4,20 +4,24 @@ import Table from 'components/Table';
 import TextBox from 'components/TextBox';
 import Button from 'components/Button';
 import SelectWithLabel from 'components/SelectWithLabel';
+import EditablePriceCell from 'components/Table/EditablePriceCell';
 import EditableCell from 'components/Table/EditableCell';
 import PriceCell from 'components/Table/PriceCell';
 
 import formatPrice from 'utils/formatPrice';
 import { formatErrorsSingleObject } from 'utils/formatFieldErrors';
 import { queryObject } from 'utils/getProperty';
+import devlog from 'utils/devlog';
 import api from 'services/api';
+
+import '../CompraVenda.scss';
 
 export default function Recebimentos(props) {
   const updateData = (rowIndex, columnId, value) => {
     setTableData(old =>
       old.map((row, index) => {
         if (index === rowIndex) {
-          console.log(old, rowIndex, columnId, value);
+          devlog(old, rowIndex, columnId, value);
           let temp = {
             ...old[rowIndex],
             [columnId]: value,
@@ -93,7 +97,7 @@ export default function Recebimentos(props) {
       { Header: 'Código', accessor: 'id' },
       { Header: 'Produto', accessor: 'name' },
       { Header: 'Quantidade', accessor: 'quantity', Cell: EditableCell },
-      { Header: 'Preço', accessor: 'price', Cell: EditableCell },
+      { Header: 'Preço', accessor: 'price', Cell: EditablePriceCell },
       { Header: 'Total', accessor: 'total', Cell: PriceCell },
       {
         Header: 'Remover',
@@ -133,14 +137,14 @@ export default function Recebimentos(props) {
     api
       .post('/receivements', obj)
       .then(response => {
-        console.log('deu bom', response);
+        devlog('deu bom', response);
         props.history.push('/produtos');
       })
       .catch(err => setErrors(formatErrorsSingleObject(err.response.data)));
   }
 
   return (
-    <div className="tela tela-vendas">
+    <div className="tela tela-compra-venda">
       <Header>Recebimentos</Header>
 
       <SelectWithLabel
@@ -163,8 +167,12 @@ export default function Recebimentos(props) {
         <div class="error">{errors.receivedproviderproducts}</div>
       )}
 
-      <div>total: {formatPrice(total)}</div>
-      <div>data da compra: {`${new Date().toLocaleDateString()}`}</div>
+      <div className="text-box">
+        <label htmlFor="total">Total</label>
+        <input disabled readOnly value={formatPrice(total)} className="total" />
+      </div>
+
+      <div>Data da compra: {`${new Date().toLocaleDateString()}`}</div>
 
       <form onSubmit={handleSubmit}>
         <TextBox

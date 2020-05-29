@@ -1,0 +1,25 @@
+ .tela-editar {
+
+   margin-left: 340px !important;
+   margin-top: 5vh;
+   padding-right: 120px;
+
+   .extra-header {
+     display: flex;
+     justify-content: space-between;
+     margin-bottom: 20px;
+
+     header,
+     button {
+       margin: 0;
+     }
+
+     button {
+       height: 60px;
+     }
+   }
+
+   .text-box {
+     margin: 10px 0px;
+   }
+ }

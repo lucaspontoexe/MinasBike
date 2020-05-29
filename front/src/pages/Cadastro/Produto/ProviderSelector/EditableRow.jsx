@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import devlog from 'utils/devlog';
+import CurrencyInput from 'components/CurrencyInput';
 
 export default function EditableRow({
   id,
@@ -15,7 +17,7 @@ export default function EditableRow({
   });
 
   function handleChange({ name, value }) {
-    console.log(name, value);
+    devlog(name, value);
     setData({ ...data, [name]: value });
     onChange({ ...data, [name]: value });
   }
@@ -33,10 +35,19 @@ export default function EditableRow({
       </td>
 
       <td>
-        <input name="cost_price" value={data.cost_price} onChange={e => handleChange(e.target)} />
+        <CurrencyInput
+          className="editable-price-cell"
+          name="cost_price"
+          value={data.cost_price}
+          onChange={value => handleChange({name: 'cost_price', value})}
+        />
       </td>
 
-      <td onClick={() => onRemove(id)}>[X]</td>
+      <td>
+        <button className="remove" onClick={() => onRemove(id)}>
+          Remover
+        </button>
+      </td>
     </tr>
   );
 }

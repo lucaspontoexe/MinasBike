@@ -1,6 +1,7 @@
 import React from 'react';
+import CurrencyInput from 'components/CurrencyInput';
 
-const EditableCell = ({
+const EditablePriceCell = ({
   cell: { value: initialValue },
   row: { index },
   column: { id },
@@ -8,10 +9,6 @@ const EditableCell = ({
 }) => {
   // We need to keep and update the state of the cell normally
   const [value, setValue] = React.useState(initialValue);
-
-  const onChange = e => {
-    setValue(e.target.value);
-  };
 
   // We'll only update the external data when the input is blurred
   const onBlur = () => {
@@ -23,15 +20,6 @@ const EditableCell = ({
     setValue(initialValue);
   }, [initialValue]);
 
-  return (
-    <input
-      value={value}
-      type="number"
-      min="0"
-      onChange={onChange}
-      onBlur={onBlur}
-      className="editable-cell"
-    />
-  );
+  return <CurrencyInput value={value} onChange={setValue} onBlur={onBlur} className="editable-price-cell" />;
 };
-export default EditableCell;
+export default EditablePriceCell;

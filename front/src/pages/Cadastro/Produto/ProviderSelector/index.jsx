@@ -4,6 +4,7 @@ import isArrayUnique from 'utils/isArrayUnique';
 import EditableRow from './EditableRow';
 import AddRow from './AddRow';
 import Row from './Row';
+import './styles.scss';
 
 export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo = true }) {
   const [providers, setProviders] = useState([]);
@@ -44,22 +45,20 @@ export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo
     setNewitems(old => old.map(item => (item.id === obj.id ? obj : item)));
 
   return (
-    <div>
-      <table>
+    <div className="prpr-selector">
+      <div className="pseudo-label">Fornecedores</div>
+      <table className="prpr-table">
         <thead>
           <tr>
             <th>Nome</th>
             <th>Preço de Custo</th>
-            {newitems.length > 0 && <th>Remover</th>}
+            <th>Ação</th>
           </tr>
         </thead>
         <tbody>
           {newitems.length === 0 && prpr.length === 0 && (
             <tr>
-              <td
-                colSpan={newitems.length > 0 ? 3 : 2}
-                style={{ textAlign: 'center ', height: 96 }}
-              >
+              <td colSpan={3} style={{ textAlign: 'center ', height: 96 }}>
                 Nenhum item
               </td>
             </tr>
@@ -70,7 +69,7 @@ export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo
               {...item}
               providers={providers}
               key={`provider_${item.id}`}
-              displayExtraCell={newitems.length > 0}
+              displayExtraCell
             />
           ))}
 
@@ -84,9 +83,8 @@ export default function ProviderSelector({ brandproduct_id, onChange, useRuleTwo
             />
           ))}
         </tbody>
+        <AddRow providers={providers} onCreate={obj => handleCreate(obj)} />
       </table>
-
-      <AddRow providers={providers} onCreate={obj => handleCreate(obj)} />
     </div>
   );
 }

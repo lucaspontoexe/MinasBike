@@ -96,9 +96,9 @@ export function BPSelector({ onChange, shouldReset }) {
           {brandproduct.id === TO_BE_CREATED
             ? '(to be created)'
             : JSON.stringify(brandproduct, null, 4)}
+          <br />
         </pre>
       )}
-      <br />
     </Fragment>
   );
 }
